@@ -12,7 +12,7 @@
 Equation::Equation(std::vector<People>& population,  Parameters& par,const int& N,std::vector<std::array<int,4>>& counting): population_{population},par_{par},N_{N},counting_{counting}
 {
 }
-Equation::Equation(): gen(std::random_device{}()), dis(0.0, 1.0),par_({0.5, 0.0},{0.6, 0.0} ,{0.4, 0.0} , 0.0 ),N_{2000000}{
+Equation::Equation(): gen(std::random_device{}()), dis(0.0, 1.0),population_{},par_({0.5, 0.0},{0.6, 0.0} ,{0.4, 0.0} , 0.0 ),N_{2000000},counting_{}{
       // Inizializziamo i parametri con valori predefiniti
       // Inizialmente nessuno vaccinato
       // Inizializziamo una popolazione con un unico individuo infetto
@@ -41,20 +41,27 @@ Equation::Equation(): gen(std::random_device{}()), dis(0.0, 1.0),par_({0.5, 0.0}
     } 
 //recupera i dati registrati nel conteggio fornendogli il giorno  
    std::array<int,4> Equation::get_counting(const int& n){
-    return this->counting_[n-1];
+    return this->counting_[n];
    }
    //aggiunge
-   void Equation::add(const std::array<int,4>& add){
+   void Equation::add_count(const std::array<int,4>& add){
      this->counting_.push_back(add);
    }
    //riceve il foglio bianco, ci calcola dentro e lo restituisce scritto
    std::array<int,4>& Equation::calculate(const int& n, std::array<int,4>& calc ){
-        calc[0] = this->get_condition_day(n-1).S_[0] + this->get_condition_day(n-1).S_[1];
-        calc[1] =this->get_condition_day(n-1).I_[0] + this->get_condition_day(n-1).I_[1];
-        calc[2] = this->get_condition_day(n-1).H_;
-        calc[3]= this->get_condition_day(n-1).D_;
+
+     if (n < 1 || static_cast<std::vector<People>::size_type>(n) > this->counting_.size()) {
+              throw std::out_of_range("Invalid day number!"); // controllo che il gionro entri nell'inyervallo di population
+         }
+         else {
+        calc[0] = this->get_condition_day(n).S_[0] + this->get_condition_day(n).S_[1];
+        calc[1] =this->get_condition_day(n).I_[0] + this->get_condition_day(n).I_[1];
+        calc[2] = this->get_condition_day(n).H_;
+        calc[3]= this->get_condition_day(n).D_;
         return calc;
    }
+          }
+       
 
    void Equation::update_situation(int index, People& next){
       People& last = (this->population_.back());//qua ritorna l'ultimo elemento del vettore population_

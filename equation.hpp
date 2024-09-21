@@ -1,9 +1,9 @@
 
 
-#include "pandemic.hpp"
+
 #ifndef EQUATION_HPP
 #define EQUATION_HPP
-
+#include "pandemic.hpp"
 class Equation : public Pandemic
 {
 private:
@@ -13,7 +13,7 @@ private:
     Parameters par_;
     int N_;  //N
     static std::array<double,2> intersec_; 
-    std::vector<std::array<int,4>> counting_; //mezzo di visualizzazione dell'andamento
+     std::vector<std::array<int,4>> counting_; //mezzo di visualizzazione dell'andamento
     //sarebbe utile usare l'alias per std::vector<std::array<int,4>> 
 
 public:
@@ -21,7 +21,7 @@ public:
     Equation( std::vector<People>& population,  Parameters& par, const int& N, std::vector<std::array<int,4>>& counting);
     Equation();
     std::array<int,4> get_counting(const int& n);
-    void add(const std::array<int,4>& add);
+    void add_count(const std::array<int,4>& add);
     std::array<int,4>& calculate(const int& n,std::array<int,4>& calc );
     void update_situation(int index,People& next);
     void evolve(People& follow ) override;

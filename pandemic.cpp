@@ -133,7 +133,7 @@ bool operator==( const Parameters& left, const Parameters& right){
     }
 
     //Costruttore default
-     Pandemic::Pandemic(): gen(std::random_device{}()), dis(0.0, 1.0),par_({0.5, 0.0},{0.6, 0.0} ,{0.4, 0.0} , 0.0 ),N_{2000000}{
+     Pandemic::Pandemic(): gen(std::random_device{}()), dis(0.0, 1.0),population_{},par_({0.5, 0.0},{0.6, 0.0} ,{0.4, 0.0} , 0.0 ),N_{2000000}{
       // Inizializziamo i parametri con valori predefiniti
       // Inizialmente nessuno vaccinato
       // Inizializziamo una popolazione con un unico individuo infetto
@@ -294,4 +294,4 @@ void  Pandemic::add_data(const People& add){
       return R_0;   
        }
     // Distruttore
-    Pandemic::~Pandemic() = default;
+    Pandemic::~Pandemic() {};
