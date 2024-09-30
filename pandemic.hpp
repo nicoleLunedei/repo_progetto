@@ -11,8 +11,61 @@
 #include <stdexcept>
 #include <random>
 #include <array>
+#include <cassert>
+
+
+//template<typename T, std::size_t N> T sum(std::array<T,N>& a);
+//template<typename T, std::size_t N> T& maximum_dec(std::array<T,N> a);
+
 #ifndef PANDEMIC_HPP
 #define PANDEMIC_HPP
+
+template<typename T, std::size_t N> T sum(const std::array<T,N>& a){
+  T tot = T();
+  for(const T& t: a ){
+    tot+=t;
+  }
+
+  return tot;
+}
+/*template<typename T> T sum(std::vector<T>& v){
+  T tot = 0;
+  for(T& t: v ){
+    tot+=t;
+  }
+
+  return tot;
+}*/
+template<typename T, std::size_t N> int maximum_dec(std::array<T,N>& a){
+    T max = 0;
+    int t = 0;//lui rappresenta l'iteratore uscente 
+   for (auto it = 0; it < 6; ++it)
+          {
+             if ((a[it] - std::floor(a[it])) > max)//per guadagnarsi il titolo di maximum deve essere maggiore non uguale 
+             {
+                max = a[it] - std::floor(a[it]);
+                t = it;
+             }
+          }
+    return  t;
+ }
+
+  
+ template<typename T,typename C, std::size_t N> const std::array<T,N> convert(const std::array<C,N>& c){
+
+  std::array<T,N> t;
+ 
+  for (std::size_t i = 0; i < N; i++)
+  {
+    //t[i] = std::floor(c[i]);
+    t[i] = static_cast<T>(c[i]);
+  }
+    return t;
+ }
+
+
+
+
 struct People
 {
  std::array<int, 2> S_; // Array per le persone suscettibili
@@ -40,6 +93,23 @@ People(const People& other);
  ~People();
 
 };
+
+template<typename T, std::size_t N>  const std::array<T,N> transform_arr( const People& p){
+     
+       return {static_cast<T>(p.S_[0]),static_cast<T>(p.S_[1]),static_cast<T> (p.I_[0]), static_cast<T>(p.I_[1]), static_cast<T>(p.H_), static_cast<T>(p.D_)} ;
+ }
+template<typename T, std::size_t N>   const People transform_people(const std::array<T,N>& t){
+
+     return {{t[0],t[1]},{t[2],t[3]},t[4],t[5]} ;//non hai potuto metterlo T& perchè stai restituendo una variabile lovale che muore nelle scope e il riferimento perde di significato
+     //mi raccomando ricorda il legame T&->const& non va bene perchè T& è modificabile  e const T& no perciò viene messa in pericolo la protezione di const T&
+     //invce const T& || T-> T& si può fare e non mette in pericolo nulla 
+ }
+
+
+
+
+
+
 struct Parameters
 { // considera se metterli const 
     std::array<double,2> beta;//d'infezione ; anche beta e gamma potrei metterle come vettori bidimensionali 
@@ -72,7 +142,7 @@ Parameters(const Parameters& other ) ; //costruttore di copia che è diverso dal
 
 class Pandemic {
     private:
-    std::mt19937 gen;  // Generatore di numeri casuali
+    std::mt19937 gen;  // Generatore di numeri casuali, chiedi se è opportuno metterli pubblici
     std::uniform_real_distribution<> dis; 
     std::vector<People> population_;//questa è la griglia primordiale; che protrebbe essere utile per tenere traccia delle giornate;
     //cioè vuole essere una raccolta dati della diffusione 
@@ -92,27 +162,27 @@ class Pandemic {
  
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    // Struct Parameters
-   void change_after_vacc();//test-> 16/09
-   void check_complementarity();//test->16/09
-   void check_complementarity( Parameters& p);//test ->16/09
-   void set_Parameters( Parameters& p);
    void introduce_vacc(const double& v);
-   const Parameters& get_Parameters() const ;
+   void change_after_vacc();
+   void check_normalization();
+   void check_normalization( Parameters& p);
+   void set_Parameters( Parameters& p);
+   Parameters& get_Parameters();
      // Struct People 
    void set_initial_condition(People& start);
     
    People& get_condition_day( const int& i);
      //in generale ho più mandemie in corso con popolazioni diverse e voglio sapere in particolare 
   
-  const People& get_data(int& d) const;//test
+  const People& get_data(int& d);//test
   void add_data(const People& add);//  test
   //dovresti vare un remove per simmetria
   bool is_vaccinated();//test
     //smistamento
   void sorting();//test
   int get_days();
-  int get_number_population();
-  std::vector<People>& get_evolution();//questo mi restituisce tuttatta l'evoluzione 
+  int get_number_population() const;
+  std::vector<People>& get_evolution();//questo mi restituisce tutta l'evoluzione 
   double calculate_R0() ;
 virtual void evolve(People& );
 virtual void evolve_vaccine (People& );

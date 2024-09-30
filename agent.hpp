@@ -1,10 +1,41 @@
 //costruzione della classe agent per automa cellulare della diffusione pandemica 
 //concetto di ereditarietà o polimorfismo, questo è da definire prima capire cosa è più adatto, 
 //struttura toroidale: definizione dell'operatore == (ricorda: la funzione mod )
+#include <iostream>
+#include <vector>
+#include <cmath>
 #include "pandemic.hpp"
-#ifndef EQUATION_HPP
-#define EQUATION_HPP
-enum Person {Susceptible = 0, Infected, Recovered, Dead};
+#ifndef AGENT_HPP
+#define AGENT_HPP
+
+
+/*template<typename T> void push_back(std::vector<T>& v, std::vector<std::vector<T>>& V );//il primo argomento è l'elemento nuovo, il secondo il contenitore a cui viene aggiunto
+template<typename T> void push_back(std::vector<T>& v, std::vector<std::vector<T>>& V ){
+            //allora io potrei accede a V finchè non finisce il vettore elemento v
+      if (v.empty())
+      throw std::runtime_error {"The vector you want to add is empty"};
+    
+      if (V.empty()){
+        V.push_back(v);// qua non dovrebbe darmi problemi perchè il vettore è vuoto, perchè 
+      }
+      else {
+        for(T& w: v){
+          V.push_back(w);
+        }
+        
+      }
+
+    }*/
+bool is_perfect_square(int num){
+  int root = static_cast<int> (std::sqrt(num));
+  return (root * root == num);
+}
+
+
+
+
+enum Person {Susceptible = 0, Infected, Healed, Dead};
+using Matrix_P = std::vector<std::vector<Person>>  ;
 class Agent : public Pandemic
 {
 private:
@@ -15,46 +46,105 @@ private:
     int N_;  //N
     static std::array<double,2> intersec_; 
     //oggetto griglia bidimensionale di oggetti person
-    
+    Matrix_P M_;
 
 public:
    
-    Agent(std::vector<People>& population,  Parameters& par,const int& N): gen(std::random_device{}()), dis(0.0, 1.0), population_{population}, par_{par}, N_{N}{}
-    void update_situation(int index,People& next);
-    void evolve(People& follow) override;
-   
+    Agent(std::vector<People>& population,  Parameters& par,const int& N, const Matrix_P& M);///
+    Agent();///
+    Matrix_P& get_matrix();//
+    void draw_matrix(People& begin);//
+    int get_side();///
+    Person& show_cell(int r, int c);///
+    int infected_neighbours( int r, int c);///
+    void change_state(int r, int c, int i,Matrix_P& next);
+    void evolve(People& follow) override; 
     void evolve_with_vax(People& follow)override;
+    void Print();//deve restituire tutta la matrice
     ~Agent();
 };
+Agent::Agent(std::vector<People>& population,  Parameters& par,const int& N, const Matrix_P& M): Pandemic(population,par,N), M_{M}{
+      if (!M.empty()){
+        throw std::runtime_error{"The Matrix must be empty"};
+      }
 
-//Creating toroidal structure 
-Person const& Pandemic::Reading_cell(int r, int c) {
+      if (!is_perfect_square(this->get_number_population())) 
+      throw std::runtime_error{"The number of the population must a perfect square "};
+    }
+Agent::Agent(): Pandemic(),M_{}{
+  //ricavo il lato che deve avere la griglia 
+  int l = sqrt(this->get_number_population());//devi cambiare L'N_ in pandemic
+  //creo un oggetto vettore 
+  std::vector<Person> row;
+  //inizio a costruire le righe 
+      for (int r= 0; r < l ; r++ )
+  {
+    //inizio a costruire le colonne 
+    for (int c = 0; c < l ; c++ )
+     {
+      Person s ;
+         if (r == (l/2) && c == (l/2) ){
+           s = Person::Infected;
+         } else {
+           s = Person::Susceptible;
+         }
+       row.push_back(s);
+        
+     }
+    M_.push_back(row);
 
-  int rr = (r + Side_) % Side_;
-  int cc= (c + Side_ ) % Side_;
-  int index = (rr* Side_) + cc;
+  }
+}
 
-  return Grid_[index];
+void Agent::draw_matrix(People& begin){
+  //prende gli infetti da pandemic e riempie la matrice fincheè non è stata settata la situzione iniziale 
+  this->set_initial_condition(begin);
+  for(int r = 0 ; r < this->get_side(); r++){// Infetti
+       int i=0;
+        for(int c = 0; c < this->get_side(); c++){
+           while (i <= this->get_condition_day(1).I_[0])
+         {
+           
+         }
+        }
+          
+        
+  }
+  for(){//suscettibili
+    
+  }
+}
+Matrix_P& Agent::get_matrix() {
+  return this->M_;
+}
+int Agent::get_side(){
+  return std::sqrt(this->get_number_population());
+}
+// toroidal structure viewing
+Person& Agent::show_cell(int r, int c) {
+  //controllo che la matrice sia vuota oppure no 
+  if(this->get_matrix().empty())
+   throw std::runtime_error{"The Matrix is empty!"};
+
+  if ((r < 0 || r > this->get_side()) || (c < 0 || c > this->get_side()) )
+  throw std::runtime_error{"Out of range!"};
+
+
+  int rr = (r + this->get_side()) % this->get_side();
+  int cc= (c + this->get_side() ) % this->get_side();
+
+   this->get_matrix()[rr][cc];
 } 
 
-
-Person& Pandemic::Writing_cell(int r, int c){
-
-  int rr = (r + Side_ ) % Side_;
-  int cc= (c + Side_ ) % Side_;
-  int index = (rr* Side_) + cc;
-
-  return Grid_[index];   
-}
 //Check infected number next to the cell
-int Pandemic::infected_neighbours(Pandemic& pandemic, int r, int c) {
+int Agent::infected_neighbours( int r, int c) {
 
   int contacts = 0;
   for (int i : {-1, 0, 1})
   {
     for (int j : {-1, 0, 1})
     {
-      if (pandemic.Reading_cell(r+i, c+j) == Person::Infected) {
+      if (this->Agent::show_cell(r+i, c+j) == Person::Infected) {
         contacts++;
       }
     }
@@ -62,50 +152,31 @@ int Pandemic::infected_neighbours(Pandemic& pandemic, int r, int c) {
 
   return contacts;
 }
-
+void Agent::change_state(int r, int c, int i, Matrix_P& next){
+  switch (this->show_cell(r,c))
+  { 
+    case Person::Susceptible:
+  /* genera il numero casualmente e confrontalo con la probabilià che d'infezione  */
+   double prob = this->get_Parameters().beta[i] * ; // devicapire come aumenta la probabilità d'infezione considerando anche il numero degli infetti 
+  if (this->dis(this->gen) <= )
+  case Person::Infected:
+    /* genera il  */
+    break;
+ 
+  case Person::Healed :
+  case Person::Dead :
+  default:
+    break;
+  }
+}
+void
 
 #endif
-/*Pandemic::Pandemic():
-Side_ {50},
-Grid_(50*50)
-{
-  S_= 2450;
-  I_= 50;
-  R_= 0;
-  D_= 0;
+/*
 
-} 
 
-Pandemic::Pandemic(int lengh, int infected)
-{
-  set_Side(lengh); 
-  set_I(infected);
-  S_= Side_*Side_ - I_;
-  R_= 0;
-  D_= 0;
-}
 
-void Pandemic::set_Side(int s){
-  if ( s>10 && s<50) {
-    Side_=s;
-    std::vector<Person> temp(Side_*Side_);
-    Grid_ = temp;
-  }
-}
 
-void Pandemic::set_I(int i){
-  if (i>0 && i<=Side_*Side_) {
-    I_=i;}
-}
-
-void Pandemic::set_SIRD(int i){
-  if (i>0 && i<=Side_*Side_) {
-    I_=i;
-    S_= Side_*Side_ - I_;
-    R_= 0;
-    D_= 0;
-  }
-}
 
 
 //Setting initial infected
@@ -133,18 +204,10 @@ Pandemic Pandemic::start(Pandemic& clear, int infected) {
   return set;
 }
 
-//Getter
-int Pandemic::get_Side (){
-  return  Side_;
-}
 
-std::vector<Person> Pandemic::get_Grid(){
-  return Grid_;
-}
 
-int Pandemic::get_I() {
-  return I_;
-}
+
+
 
 //Creating toroidal structure 
 Person const& Pandemic::Reading_cell(int r, int c) {

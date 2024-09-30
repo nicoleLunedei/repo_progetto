@@ -4,30 +4,23 @@
 #include <stdexcept>
 #include <random>
 #include <array>
+
 #include "pandemic.hpp"
 #include "equation.hpp"
-
-
-
-Equation::Equation(std::vector<People>& population,  Parameters& par,const int& N,std::vector<std::array<int,4>>& counting): population_{population},par_{par},N_{N},counting_{counting}
-{
+ 
+ 
+Equation::Equation(std::vector<People>& population,  Parameters& par,const int& N,std::vector<std::array<int,4>>& counting):  Pandemic(population,par,N),counting_{counting}
+{     
 }
-Equation::Equation(): gen(std::random_device{}()), dis(0.0, 1.0),population_{},par_({0.5, 0.0},{0.6, 0.0} ,{0.4, 0.0} , 0.0 ),N_{2000000},counting_{}{
+Equation::Equation(): Pandemic(),counting_{}{
       // Inizializziamo i parametri con valori predefiniti
       // Inizialmente nessuno vaccinato
       // Inizializziamo una popolazione con un unico individuo infetto
-        People initial_data;
-        initial_data.S_[0] = N_ - 1; // Tutti suscettibili
-        initial_data.S_[1] = 0;
-        initial_data.I_[0] = 1; // Un unico infetto
-        initial_data.I_[1] = 0;
-        initial_data.H_ = 0;         // Nessun guarito
-        initial_data.D_ = 0;         // Nessun morto
+       
 
-        population_.push_back( initial_data);
         
         std::array<int,4> initial_count;
-        initial_count[0] = N_ - 1; 
+        initial_count[0] = (this->get_number_population()) - 1; //non potevi mettere direttamente N_ perchè è un attributo provato di Pandemic
         initial_count[1] = 1 ; 
         initial_count[2] = 0 ; 
         initial_count[3] = 0 ; 
@@ -41,7 +34,10 @@ Equation::Equation(): gen(std::random_device{}()), dis(0.0, 1.0),population_{},p
     } 
 //recupera i dati registrati nel conteggio fornendogli il giorno  
    std::array<int,4> Equation::get_counting(const int& n){
-    return this->counting_[n];
+    return this->counting_[n-1];
+   }
+   std::vector<std::array<int,4>> Equation::get_countdays(){
+    return this->counting_;
    }
    //aggiunge
    void Equation::add_count(const std::array<int,4>& add){
@@ -50,62 +46,85 @@ Equation::Equation(): gen(std::random_device{}()), dis(0.0, 1.0),population_{},p
    //riceve il foglio bianco, ci calcola dentro e lo restituisce scritto
    std::array<int,4>& Equation::calculate(const int& n, std::array<int,4>& calc ){
 
-     if (n < 1 || static_cast<std::vector<People>::size_type>(n) > this->counting_.size()) {
-              throw std::out_of_range("Invalid day number!"); // controllo che il gionro entri nell'inyervallo di population
-         }
-         else {
-        calc[0] = this->get_condition_day(n).S_[0] + this->get_condition_day(n).S_[1];
-        calc[1] =this->get_condition_day(n).I_[0] + this->get_condition_day(n).I_[1];
+        calc[0] = sum(this->get_condition_day(n).S_);
+        calc[1] = sum (this->get_condition_day(n).I_);
         calc[2] = this->get_condition_day(n).H_;
         calc[3]= this->get_condition_day(n).D_;
         return calc;
    }
-          }
+        
        
 
-   void Equation::update_situation(int index, People& next){
-      People& last = (this->population_.back());//qua ritorna l'ultimo elemento del vettore population_
-      //People* next = new People() ;stai usando il puntatore e l'allocazione dinamica puoi usaro nella simulazione
-
-      next.S_[index] = last.S_[index] - (this->par_.beta[index])*(last.S_[index]/N_)*last.I_[index]; // Sarà divertente poi vedere come risolvere questo problema
-      next.I_[index] = last.I_[index] + (this->par_.beta[index])*(last.S_[index]/N_)*last.I_[index] - (this->par_.gamma[index])*(last.I_[index])- (this->par_.omega[index]);
-      next.H_ = last.H_ + (this->par_.gamma[index])*last.I_[index];
-      next.D_ = last.D_ + (this->par_.omega[index])*last.I_[index];
-
+    std::array<float,6> Equation::update_situation(int index, const People& next){
+    assert(index == 1 || index == 0 );
+        
+     const People& last = (this->get_evolution().back());//qua ritorna l'ultimo elemento del vettore population_
+     
+      std::array<float,6> next_a{transform_arr<float,6>(next)};
+      
+      next_a[0 + index] = last.S_[index] - ((((this->get_Parameters().beta[index])*((last.S_[index])))/this->get_number_population())* (last.I_[0] +last.I_[1])); //qua devo considerare tutti gli infetti perchè si tratta di una pobabilità d'interazione che l'individuo ha con tutti gli infetti quindi, perciò beta[1] tiene in considerazione la protezione personale ma non smette d'interagire con chi non è vaccinato e la tendenza dell'infetto ad infettare 
+      next_a[2 + index]= last.I_[index] + ((((this->get_Parameters().beta[index])*(last.S_[index])) / (this->get_number_population())) * (last.I_[0] +last.I_[1]) ) - ((this->get_Parameters().gamma[index]) * last.I_[index] ) -((this->get_Parameters().omega[index]) * last.I_[index]);
+      //il problema della perdita di dati 
+      if (index == 1) {
+          next_a[4] += last.H_ + (this->get_Parameters().gamma[index])*last.I_[index];
+          next_a[5] += last.D_ + (this->get_Parameters().omega[index])*last.I_[index];
+      } else {
+          next_a[4]= last.H_ + (this->get_Parameters().gamma[index])*last.I_[index];
+          next_a[5] = last.D_ + (this->get_Parameters().omega[index])*last.I_[index];
+      }
+      
+       assert( this->get_number_population() == sum(next_a));
+       return next_a ;//questi sono i dati People in formato array
       
    }
+   const People Equation::fix(std::array<float,6> next){
+     
+     const float diff = this->get_number_population() - sum(convert<int>(next));//qua mi sto calcolando lo scarto dei decimali, dati dai contributi degli elementi del vettore
+     
+     if (0 < diff && diff < 2)
+      {
+      next[maximum_dec(next)] += 1;//nel caso ce ne siano due con uguale parte decimale va bene uno dei due a a caso 
+      }
+       else 
+      {
+        if (diff >= 2){
+           
+      //next[maximum_dec(next)] += std::floor(diff); è con l'iteratore
+      next[maximum_dec(next)] += std::floor(diff);//qua maximum mi restituisce direttamente next[t], bisogna vedere se funziona bene +=
+      }
+      }
+
+      assert(this->get_number_population() == sum(convert<int>(next)));
+      return transform_people(convert<int>(next));
+     }
+   
    void Equation::evolve(People& follow ) {
       if (this->Pandemic::calculate_R0() > 1){
           //prendi l'ultimo elemento del vettore 
-      this->update_situation(0,follow);//aggiorna 
+      ;//aggiorna 
       // qui dovrebbero essere stati modificati i valori di S_, I_ e H_
-      this->add_data( follow);// viene aggiunto il giorno successivo 
+      this->add_data(this->fix(this->update_situation(0,follow)));// viene aggiunto il giorno successivo 
       } 
-      else std::runtime_error{"The simulation can't start if the critical threshold is minor than one! "};
-      
-     
-      
+      else {
+        throw std::runtime_error{"The simulation can't start if the critical threshold is minor than one! "};}
 
       }
+     
+     
    void Equation::evolve_vaccine(People& follow) {
         if (this->Pandemic::calculate_R0() > 1){
-            //i No vax
-      this->update_situation(0,follow);//evoluzione tra i no vax 
+            //i No vax, evoluzione al naturale
+      const People& natural = this->fix(this->update_situation(0,follow));//evoluzione tra i no vax 
       //i vax
-      this->update_situation(1,follow);//evoluzione tra i vax
-
-      // qui dovrebbero essere stati modificati i valori di S_, I_ ,H_ e D_
-      this->population_.push_back(follow);// viene aggiunto il giorno successivo 
-        } else std::runtime_error{"The simulation with the vaccine can't start if the critical threshold is minor than one! "};
+      this->add_data(this->fix(this->update_situation(1,natural)));// viene aggiunto il giorno successivo 
+        } else 
+        throw std::runtime_error{"The simulation with the vaccine can't start if the critical threshold is minor than one! "};
       
     }
     //questo metodo restituisce tutta l'evoluzione della popolazione 
     std::array<int,4>& Equation::Print(int& d){//d è il numero del giorno
-        this->counting_[d][0] = this->population_[d].S_[0] + this->population_[0].S_[1];
-        this->counting_[d][1] =this->population_[d].I_[0] + this->population_[0].I_[1];
-        this->counting_[d][2] = this->population_[d].H_;
-        this->counting_[d][3]= this->population_[d].D_;
-        return this->counting_[d];
+        //this->calculate(d);
+        return this->counting_[d -1];
     }
 Equation::~Equation() = default;
 
