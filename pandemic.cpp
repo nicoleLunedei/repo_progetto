@@ -218,13 +218,19 @@ bool operator==( const Parameters& left, const Parameters& right){
         throw std::runtime_error {"This simulation has already an initial condition, please start another simulation"};
       }
    ///////////Controllo dei dati iniziali/////////////////////////////////////
-      if (start.S_.empty() || start.I_.empty() || start.S_[1] != 0 || start.I_[1] != 0)  
-       throw std::runtime_error{"At the begining the number of vaccinated people must be null! "};
+      if (start.S_.empty() || start.I_.empty() || start.S_[1] != 0 || start.I_[1] != 0) {
+        
+        throw std::runtime_error{"At the begining the number of vaccinated people must be null! "};
       
       if (start.I_[0] < 1 || start.S_[0] < 1) // almeno devono essere entrambi uguali a 1
        { 
         throw std::runtime_error{"It can't start the evolution without any suscettible or any infected ! "}; 
        }
+      if (start.H_ != 0 || start.D_ != 0){
+        throw std::runtime_error{"It doesn't make sense start with some healed or dead people"};
+      }
+      } 
+      
       else {
          int tot = sum(transform_arr<int,6>(start));
         if ( tot <= this->get_number_population()) //coerenza tra N_ e l'oggetto People

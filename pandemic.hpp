@@ -28,14 +28,14 @@ template<typename T, std::size_t N> T sum(const std::array<T,N>& a){
 
   return tot;
 }
-/*template<typename T> T sum(std::vector<T>& v){
+template<typename T> T sum(std::vector<T>& v){
   T tot = 0;
   for(T& t: v ){
     tot+=t;
   }
 
   return tot;
-}*/
+}
 template<typename T, std::size_t N> int maximum_dec(std::array<T,N>& a){
     T max = 0;
     int t = 0;//lui rappresenta l'iteratore uscente 
