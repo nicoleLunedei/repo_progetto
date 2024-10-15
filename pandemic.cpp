@@ -198,6 +198,10 @@ bool operator==( const Parameters& left, const Parameters& right){
       
       
     }
+    const double& Pandemic::generate(){
+      const double& extr = dis(gen);
+      return extr;
+    }
    void Pandemic::introduce_vacc(const double& v){
     
     if (this->get_Parameters().vax != 0.)
@@ -214,25 +218,31 @@ bool operator==( const Parameters& left, const Parameters& right){
      //Hai deciso e non cambiare più: set_initial_condition ti fa impostare la situazione iniziale, te la conrolla e te la sistema, population col costruttore parametrico parte vuoto, con quello di default con un elemento
    void  Pandemic::set_initial_condition(People& start)
     {
-       if (!this->get_evolution().empty() && this->get_evolution().back().I_[0] != 0){//può capitare che per errore si voglia cambiare la condizione iniziale di una simulazione già iniziata 
-        throw std::runtime_error {"This simulation has already an initial condition, please start another simulation"};
-      }
-   ///////////Controllo dei dati iniziali/////////////////////////////////////
-      if (start.S_.empty() || start.I_.empty() || start.S_[1] != 0 || start.I_[1] != 0) {
+       if (!this->get_evolution().empty()){
         
-        throw std::runtime_error{"At the begining the number of vaccinated people must be null! "};
-      
-      if (start.I_[0] < 1 || start.S_[0] < 1) // almeno devono essere entrambi uguali a 1
-       { 
-        throw std::runtime_error{"It can't start the evolution without any suscettible or any infected ! "}; 
-       }
-      if (start.H_ != 0 || start.D_ != 0){
-        throw std::runtime_error{"It doesn't make sense start with some healed or dead people"};
-      }
-      } 
-      
-      else {
-         int tot = sum(transform_arr<int,6>(start));
+        throw std::runtime_error{"This simulation has already an initial condition, please start another simulation"};
+       } else 
+       {
+         //se i vettori dei suscettibili e degli infetti non sono vuoti ha senso controllare i valori
+          ///////////////////////Controll on initial data/////////////////////////////////////
+        //////////////Controll on Susceptible and Infected not vaccinated////////////////////
+                if ( start.I_[0] <= 0 || start.S_[0] <= 0) {
+        
+                   throw std::runtime_error{"It can't start the evolution without any susceptible or any infected ! "};
+                } 
+      //////////////Controll on Susceptible and Infected vaccinated////////////////////
+                if (start.S_[1] != 0 || start.I_[1] != 0){
+          
+                  throw std::runtime_error{"At the begining the number of vaccinated people must be null! "};
+                }
+      ////////////Controll on Healed and Dead////////////
+                if (start.H_ != 0 || start.D_ != 0){
+        
+                  throw std::runtime_error{"It doesn't make sense start with some healed or dead people"};
+                }
+
+      ///////////////////Everything is fine, so it can be set the initial condition: it's left the final check///////////////
+      int tot = sum(transform_arr<int,6>(start));
         if ( tot <= this->get_number_population()) //coerenza tra N_ e l'oggetto People
         {
         start.S_[0]+= (this->get_number_population()-tot);
@@ -242,12 +252,10 @@ bool operator==( const Parameters& left, const Parameters& right){
           throw std::runtime_error{"The inserted values must be coherent with the number of the population !"};
          }
      
-        
-      }
-     //se mette un un vettore con più di un elemento 
-     //controllo 
-     //per come è strutturato il progetto non ha molto senso mettere più rimossi che suciettibili, non si osserverebbe nulla d'interessante, dal momento che un guarito non si può reinfettare
-    }
+          } 
+       }  
+   
+    
    People&  Pandemic::get_condition_day( const int& i){
       
       if ( i <= 0 || static_cast<std::vector<People>::size_type>(i) > this->population_.size()) {
@@ -277,7 +285,7 @@ void  Pandemic::add_data(const People& add){
       // Will be used to obtain a seed for the random number engine; questo mi serve per avere sempre una una generazione di numeri diversa
       // Standard mersenne_twister_engine seeded with rd(); è in generatore di numeri casuali interi che dovranno essere convertiti
       //generazione di un numero casuale che poi verrà confrontato nell'if con la probabilità di vaccinazione; il numero casuale sarà tra 0 e 1  
-      if (dis(gen) < this->get_Parameters().vax)
+      if ((this->generate()) <= this->get_Parameters().vax)
       {
        return true;
       }
@@ -307,7 +315,7 @@ void  Pandemic::add_data(const People& add){
       // ciclo for=> immagina di parlare con tutti gli suscettibilie e di fargli la domanda "sei vaccinato?"
         for (int i = 0; i <=  t ; i++)
            {
-             if (this->is_vaccinated() == true)
+             if (this->is_vaccinated())
                 {
                     this->population_.back().S_[1]++;
                     this->population_.back().S_[0]--;   

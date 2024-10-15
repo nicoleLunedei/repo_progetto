@@ -123,8 +123,11 @@ Equation::Equation(): Pandemic(),counting_{}{
     }
     //questo metodo restituisce tutta l'evoluzione della popolazione 
     std::array<int,4>& Equation::Print(int& d){//d è il numero del giorno
-        //this->calculate(d);
-        return this->counting_[d -1];
+        std::cout<< "S = " << this->get_counting(d)[0] << " || ";
+        std::cout<< "I = " << this->get_counting(d)[1] << " || ";
+        std::cout<< "H = " << this->get_counting(d)[2] << " || ";
+        std::cout<< "D = " << this->get_counting(d)[3] << '\n';
+        return this->counting_[d - 1];
     }
 Equation::~Equation() = default;
 

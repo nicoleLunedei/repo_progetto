@@ -1,10 +1,11 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "equation.hpp"
+
 
 #include <memory>
 
 #include "doctest.h"
 #include "pandemic.hpp"
+#include "equation.hpp"
 TEST_CASE("Equation Class") {
   SUBCASE("Contructors") {
     Parameters p{{0.5, 0.0}, {0.6, 0.0}, {0.4, 0.0}, 0.0};
@@ -260,12 +261,12 @@ TEST_CASE("Equation Class") {
        pan2->change_after_vacc();
        pan2->sorting();
 
-       CHECK(eq2->get_condition_day(5).S_[0] == 488);
-       CHECK(eq2->get_condition_day(5).S_[1] == 488);
-       CHECK(eq2->get_condition_day(5).I_[0] == 488);
-       CHECK(eq2->get_condition_day(5).I_[1] == 488);
-       CHECK(eq2->get_condition_day(5).H_ == 488);
-       CHECK(eq2->get_condition_day(5).D_ == 488);
+       CHECK((eq2->get_condition_day(5).S_[0])/(eq2->get_number_population()) == doctest::Approx(0.76).epsilon(0.001));
+       CHECK((eq2->get_condition_day(5).S_[1])/(eq2->get_number_population())  == doctest::Approx(0.24).epsilon(0.001));
+       CHECK(eq2->get_condition_day(5).I_[0] == 8);
+       CHECK(eq2->get_condition_day(5).I_[1] == 0);
+       CHECK(eq2->get_condition_day(5).H_ == 46);
+       CHECK(eq2->get_condition_day(5).D_ == 58);
 
        CHECK(eq2->get_Parameters().beta[1] == doctest::Approx(0.0833).epsilon(0.001));
        CHECK(eq2->get_Parameters().omega[1] == doctest::Approx(0.2916).epsilon(0.001));
@@ -274,7 +275,7 @@ TEST_CASE("Equation Class") {
         
        //eq2->evolve_vaccine(c); è lui che da problemi !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-       CHECK(eq2->get_days() == 6);
+       CHECK(eq2->get_days() == 5);
        CHECK((eq2->get_condition_day(5).S_[0])/(eq2->get_number_population()) == doctest::Approx(0.75392).epsilon(0.000001));
        CHECK(eq2->get_condition_day(5).S_[1]/(eq2->get_number_population()) == doctest::Approx(0.23808).epsilon(0.000001) );
        //CHECK(eq2->get_condition_day(5).I_[0]/(eq2->get_number_population()) == doctest::Approx().epsilon(0.000001));

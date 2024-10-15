@@ -3,7 +3,7 @@
 
 #include "doctest.h"
 
-TEST_CASE("People type") {//13
+TEST_CASE("People type") {
   std::array<int, 2> s{57, 6};
   std::array<int, 2> i{64, 93};
   int h = 39;
@@ -29,7 +29,7 @@ TEST_CASE("People type") {//13
   SUBCASE("Copy Construttor: People") {}
   People three(two);
   CHECK(three == two);
-}
+}//13
 TEST_CASE("Parameters type") {//15
   std::array<double, 2> b{0.6, 0.};
   std::array<double, 2> g{0.4, 0.};
@@ -45,7 +45,7 @@ TEST_CASE("Parameters type") {//15
     CHECK(one.omega[0] == 0.5);
     CHECK(one.omega[1] == 0.);
     CHECK(one.vax == 0.3);
-  }
+  }//20
   SUBCASE("Default Constructor: Parameters") {
     CHECK(two.beta[0] == 0.5);
     CHECK(two.beta[1] == 0.);
@@ -95,15 +95,16 @@ TEST_CASE("Mother Class") {
     CHECK(global.get_condition_day(2).D_ == 1);
 
     CHECK(global.get_days() == 2);
-  }
-  SUBCASE("Testing th Parametric Constructor ") {//28
+  }//49
+  SUBCASE("Parametric Constructor ") {//28
     Parameters p_r({0.1, 0.}, {0.7, 0.}, {0.3, 0.}, 0.);  // giusto
     Parameters p_w1({3., 0.}, {0.1, 0.}, {4., 0.},0.);  // sbaglaiato ha valori delle probabilità che eccedono
     Parameters p_w2({0., 0.6}, {0., 0.5}, {0., 0.},0.4);  // ha le probabilità condizionate diverse da 0
-    People sub_r({3000000, 0}, {500000, 0}, 300000, 200000);
+    People sub_r({3000000, 0}, {500000, 0}, 0, 0);
     People sub_w1({5000000, 0}, {1, 0}, 0,0);  // non c'è coerenza con con l'altro parametro della classe
-    People sub_w2({0, 3}, {0, 5}, 0, 0);  // i valori dei vaccinati non sono nulli
-    People sub_w3({4, 0}, {0, 0}, 10, 89);
+    People sub_w2({23, 3}, {87, 5}, 0, 0);  // i valori dei vaccinati non sono nulli
+    People sub_w3({3, 0 }, {0, 0}, 0, 0);
+    People sub_w4({3, 0 }, {6, 0}, 10, 89);//i morti e i guariti devono essere nulli 
     std::vector<People> days;
     int N = 4000000;
     Pandemic global_p(days, p_r, N);
@@ -120,15 +121,15 @@ TEST_CASE("Mother Class") {
 
     global_p.set_initial_condition(sub_r);
     CHECK(global_p.get_days() == 1);
-
+    //N_ = 4000000
     CHECK(global_p.get_number_population() == 4000000);
     // CHECK(global_p.get_condition_day(1) == sub_r );
-    CHECK(global_p.get_condition_day(1).S_[0] == 3000000);
+    CHECK(global_p.get_condition_day(1).S_[0] == 3500000);
     CHECK(global_p.get_condition_day(1).S_[1] == 0);
     CHECK(global_p.get_condition_day(1).I_[0] == 500000);
     CHECK(global_p.get_condition_day(1).I_[1] == 0);
-    CHECK(global_p.get_condition_day(1).H_ == 300000);
-    CHECK(global_p.get_condition_day(1).D_ == 200000);
+    CHECK(global_p.get_condition_day(1).H_ == 0);
+    CHECK(global_p.get_condition_day(1).D_ == 0);
 
            SUBCASE("Checking errors by throw"){
       // Checking the values of the  parameters objects
@@ -140,7 +141,7 @@ TEST_CASE("Mother Class") {
                CHECK_THROWS_WITH(Pandemic(days, p_w2, N),"The value of the parameters in case of vaccination must be 0 !");
 
     // Checking the values of the people objects
-               Pandemic global_w1(days,p_r,N);
+              Pandemic global_w1(days,p_r,N);
                CHECK_THROWS_AS(global_w1.set_initial_condition(sub_w1), std::runtime_error);
                CHECK_THROWS_WITH(global_w1.set_initial_condition(sub_w1),"The inserted values must be coherent with the number of the population !");
     
@@ -151,8 +152,11 @@ TEST_CASE("Mother Class") {
     
                Pandemic global_w3(days,p_r,N);
                CHECK_THROWS_AS(global_w3.set_initial_condition(sub_w3), std::runtime_error);
-               CHECK_THROWS_WITH(global_w3.set_initial_condition(sub_w3),"It can't start the evolution without any suscettible or any infected ! ");
-
+               CHECK_THROWS_WITH(global_w3.set_initial_condition(sub_w3),"It can't start the evolution without any susceptible or any infected ! ");
+               
+               Pandemic global_w4(days,p_r,N);
+               CHECK_THROWS_AS(global_w4.set_initial_condition(sub_w4), std::runtime_error);
+               CHECK_THROWS_WITH(global_w4.set_initial_condition(sub_w4),"It doesn't make sense start with some healed or dead people");
 
     // Check that the initial condition is absent
               People sub{{300,0},{20,0},0,0};
@@ -160,8 +164,6 @@ TEST_CASE("Mother Class") {
               CHECK_THROWS_AS(global_p.set_initial_condition(sub), std::runtime_error);
               CHECK_THROWS_WITH(global_p.set_initial_condition(sub),"This simulation has already an initial condition, please start another simulation");
               
-              CHECK_THROWS_AS(global.set_initial_condition(sub), std::runtime_error);
-              CHECK_THROWS_WITH(global.set_initial_condition(sub),"This simulation has already an initial condition, please start another simulation");
     // Check the start from day one 
               CHECK_THROWS_AS(global_p.get_condition_day(0), std::runtime_error);
               CHECK_THROWS_WITH(global_p.get_condition_day(0),"The simulation starts from day one!");

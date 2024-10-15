@@ -1,83 +1,20 @@
-
+#include "matrix.hpp"
 #include "agent.hpp"
 
-/////////////////////////STRUCT MATRIX////////////////////////////////
-template<typename T> 
-Matrix<T>::Matrix(int l): side{l}{//Null Matrix dinamica
-   for (int r = 0; r < l ; r++){
-    for (int c = 0; c < l ; c++){
-       
-       M_[r].push_back(0);
-    }
-   }
-  }
-  /// Default: Null Matrix
-  Matrix(): side{80}{
-    for (int r = 0; r < 80 ; r++){
-    for (int c = 0; c < 80 ; c++){
-       
-       M_[r].push_back(0);//ricorda M_[r] è un vettore
-    }
-   }
-  }
-  
-  /// Copy
-  Matrix(const Matrix& M_other){
-  if (this->side != M_other.side) {
-    throw std::runtime_error{"The two matrices don't have the same dimension (n x n) or they aren't squared"}
-  }
-  for (int r = 0; r < this->side ; r++){
-    for (int c = 0; c < this->side ; c++){
-       
-       this->M_[r][c] = M_other.M_[r][c];
-    }
-   }
-  }
-  template<typename Func>
-  void inside_matrix(Func action){//questa è una funzione che mi permette di fare un'azione e sa già di e come dover entrare nella matrice
-    for (int r = 0; r < this->side ; r++){
-    for (int c = 0; c < this->side ; c++){
-       
-        action(M_[r][c],r,c);
-    }
-   }
-  }
+bool is_perfect_square(int num){  
+  int root = static_cast<int> (std::sqrt(num));
+  return (root * root == num);
+}
 
-  //pensa ad una funzione che permatte adi navigare attarverso le righe 
-
-  int& sum(){
-    int tot = 0;
-    this->inside_matrix([this, tot](int& cell, int r, int c){
-    tot+= cell;
-    });
-     return tot;
-  }
-  ///////////////////overloading dell'operator==///////////////////////////////////
-  friend bool oparator==(Matrix<T>& left, Matrix<T> right)[
-
-    return left.inside_matrix([](T& cell, int r,int c){ cell == right.M[r][c];});
-  ]
-  
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-/////////////////////CLASS AGENT///////////////////////////////////////////
-const int fatt_( int& n){
-   if (n < 0)
+////////////////////Binomial Distribution////////////////////////
+int fatt_( int& n){
+   if (n < 0){ 
     throw std::runtime_error{"The integer number can't be negative "};
-    int n_fatt = 0;
-    for(n; n > 0;n--){
+}
+   
+    int n_fatt = 1;
+
+    for(; n > 0;n--){
         n_fatt *= n;
     }
     return n_fatt;
@@ -91,23 +28,26 @@ double prob_binomial( int& n, int& k, double& p){
       double p_bin =(fatt_(n))/(fatt_(k)* fatt_(diff))*(std::pow(p,k)*(std::pow((1-p),diff)));
       return p_bin;
 }
-
-Agent::Agent(std::vector<People>& population,  Parameters& par,const int& N, const Matrix<Person>& M): Pandemic(population,par,N), M_{M}{
-      if (!M.M.empty()){
-        throw std::runtime_error{"The Matrix must be empty"};
-      }
-     //crea una matrice nulla 
+/////////////////////////sum in Person contest/////////////////////////////
+int sum_person(std::vector<Person>& pers){
+  std::vector<int> pers_n;
+ for(Person& el: pers){
+    pers_n.push_back(static_cast<int>(el));
+ }
+ return sum(pers_n);
+}
+/////////////////////CLASS AGENT///////////////////////////////////////////
+Agent::Agent(std::vector<People>& population,  Parameters& par,const int& N): Pandemic(population,par,N), M_(sqrt(N)){
+  
       if (!is_perfect_square(this->get_number_population())) 
-      throw std::runtime_error{"The number of the population must a perfect square "};
+      throw std::runtime_error{"The number of the population must a perfect square"};
     }
 Agent::Agent(): Pandemic(),M_(){
-
-  //ricavo il lato che deve avere la griglia 
-  M_.side = sqrt(this->get_number_population());
+   //utilizzo i costruttori di default di Pandemic e Matrix che sono entrambi consistenti con il lato=80
   //inizio a costruire le righe 
    M_.inside_matrix([this](Person& cell, int r, int c){//[] roba che serve soltanto alla lambada function, ()argomenti che ho messo nell'action() in inside_matrix
 
-         if (r == ((M_.side)/2) && c == (M_.side/2) ){
+         if (r == (static_cast<int>(M_.M.size())/2) && c == static_cast<int>(M_.M.size()/2) ){
            cell= Person::Infected;
          } else {
           cell = Person::Susceptible;
@@ -127,12 +67,12 @@ void Agent::draw_matrix(People& begin){
   int i = 0;
   while (i < sum(this->get_condition_day(1).I_)){//ciclo che mi assicura di mettere tutti gli infetti richiesti
     //estrazione delle coordinate nella matrice 
-    int rr = std::floor(dis(gen) * this->get_side());
-    int cc = std::floor(dis(gen) * this->get_side());
+    int rr = std::floor(this->generate() * this->get_side());
+    int cc = std::floor(this->generate() * this->get_side());
      
       if (this->show_cell(rr,cc) == Person::Infected)
          {
-           while (sum(this->get_matrix().M[rr]) == this->get_side()){//fisso la riga 
+           while (sum_person(this->get_matrix().M[rr]) == this->get_side()){//fisso la riga, perchè controllo quale riga ha la somma diversa dal lato della griglia
                rr++;
            }
            while(this->show_cell(rr,cc) == Person::Infected ){//fisso la colonna 
@@ -156,7 +96,7 @@ void Agent::draw_matrix(People& begin){
 Matrix<Person>& Agent::get_matrix() {
   return this->M_;
 }
-int Agent::get_side(){
+int Agent::get_side() const{
   return std::sqrt(this->get_number_population());
 }
 // toroidal structure viewing
@@ -172,7 +112,7 @@ Person& Agent::show_cell(int r, int c) {
   int rr = (r + this->get_side()) % this->get_side();
   int cc= (c + this->get_side() ) % this->get_side();
 
-   this->get_matrix().M[rr][cc];
+   return this->get_matrix().M[rr][cc];
 } 
 
 //Check infected number next to the cell
@@ -194,10 +134,10 @@ int Agent::infected_neighbours( int r, int c) {
 //Smistamento 
 void Agent::sorting(){
     int check = this->get_evolution().back().S_[0];
-    this->get_matrix().inside_matrix([this](Person& cell, int r, int c ){
+    this->get_matrix().each_cell([this](Person& cell ){
         if (cell == Person::Susceptible){
            if (this->is_vaccinated()){
-             cell == Person::Susceptible_v;
+             cell = Person::Susceptible_v;
              (this->get_evolution().back().S_[1])++;
              (this->get_evolution().back().S_[0])--;
            } 
@@ -208,17 +148,22 @@ void Agent::sorting(){
 
 void Agent::change_state(){ //l'indice i mi permetterà di distinguere l'evoluzione da evolve e evolve vaccine
   this->get_matrix().inside_matrix([this](Person& cell, int r, int c ){{//per ogni elemento viene fatto un controllo della cella 
+
+int inf = 0;
+int k = 1;
+double p_ = 0.0; 
+const double& extra1 = this->generate();
+const double& extra2 = this->generate();
      
      switch (cell)
   { 
     case Person::Susceptible:
   /* genera il numero casualmente e confrontalo con la probabilià che d'infezione  */
-  int  inf = this->infected_neighbours(r,c);
-  int k = 1;
+  inf = this->infected_neighbours(r,c);
   //calcolo della probabilità con un numero specifico di contatti infetti, con utilizzo della distribuzione di probabilità binomiale
-  const double& p_ = prob_binomial(inf, k , this->get_Parameters().beta[0]);
+   p_ = prob_binomial(inf, k , this->get_Parameters().beta[0]);
 
-  const double& extra1 = dis(gen);
+  
   if (extra1 < p_){
     cell = Person::Infected;
    
@@ -226,12 +171,10 @@ void Agent::change_state(){ //l'indice i mi permetterà di distinguere l'evoluzi
    break;
      case Person::Susceptible_v:
   /* genera il numero casualmente e confrontalo con la probabilià che d'infezione  */
-  int  inf = this->infected_neighbours(r,c);
-  int k = 1;
+   inf = this->infected_neighbours(r,c);
   //calcolo della probabilità con un numero specifico di contatti infetti, con utilizzo della distribuzione di probabilità binomiale
-  const double& p_ = prob_binomial(inf, k , this->get_Parameters().beta[1]);
+   p_ = prob_binomial(inf, k , this->get_Parameters().beta[1]);
 
-  const double& extra1 = dis(gen);
   if (extra1 < p_){
     cell = Person::Infected_v;
  
@@ -239,7 +182,7 @@ void Agent::change_state(){ //l'indice i mi permetterà di distinguere l'evoluzi
    break;
   case Person::Infected:
 
-  const double& extra2 = dis(gen);
+ 
 
   if (extra2 < (this->get_Parameters().gamma[0])+(this->get_Parameters().omega[0])){
     if (extra2 < this->get_Parameters().gamma[0]){
@@ -257,7 +200,7 @@ void Agent::change_state(){ //l'indice i mi permetterà di distinguere l'evoluzi
     break;
  case Person::Infected_v:
 
-  const double& extra2 = dis(gen);
+
 
   if (extra2 < (this->get_Parameters().gamma[1])+(this->get_Parameters().omega[1])){
     if (extra2 < this->get_Parameters().gamma[1]){
@@ -277,7 +220,6 @@ void Agent::change_state(){ //l'indice i mi permetterà di distinguere l'evoluzi
   case Person::Dead :
   //Non c'è un cambio di stato della cella 
     //La cella rimane Morta
-  default:
     break;
   }
 }});
@@ -286,13 +228,13 @@ void Agent::change_state(){ //l'indice i mi permetterà di distinguere l'evoluzi
 }
 
 void Agent::data_collection(People& collection){
-this-> get_matrix().inside_matrix([this, &collection](Person& cell, int r, int c){
+this-> get_matrix().each_cell([this, &collection](Person& cell){
     switch (cell)
     {
     case Person::Susceptible:
        
        collection.S_[0]++;        
-break;
+        break;
     case Person::Susceptible_v:
      collection.S_[1]++; 
         break;
@@ -325,4 +267,4 @@ void Agent::evolve(People& follow){//qua ci sarebbe d verificare che la dimensio
 }
 
 
-
+ Agent::~Agent() = default;

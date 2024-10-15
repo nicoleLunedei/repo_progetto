@@ -10,35 +10,6 @@
 #define AGENT_HPP
 
 
- 
-
-
-
-
-/*template<typename T> void push_back(std::vector<T>& v, std::vector<std::vector<T>>& V );//il primo argomento è l'elemento nuovo, il secondo il contenitore a cui viene aggiunto
-template<typename T> void push_back(std::vector<T>& v, std::vector<std::vector<T>>& V ){
-            //allora io potrei accede a V finchè non finisce il vettore elemento v
-      if (v.empty())
-      throw std::runtime_error {"The vector you want to add is empty"};
-    
-      if (V.empty()){
-        V.push_back(v);// qua non dovrebbe darmi problemi perchè il vettore è vuoto, perchè 
-      }
-      else {
-        for(T& w: v){
-          V.push_back(w);
-        }
-        
-      }
-
-    }*/
-bool is_perfect_square(int num){
-  int root = static_cast<int> (std::sqrt(num));
-  return (root * root == num);
-}
-
-
-
 
 enum Person {Susceptible = 0, Infected, Healed, Dead, Susceptible_v, Infected_v};
 
@@ -56,11 +27,11 @@ private:
 
 public:
    
-    Agent(std::vector<People>& population,  Parameters& par,const int& N, const Matrix<Person>& M);///
+    Agent(std::vector<People>& population,  Parameters& par,const int& N);///
     Agent();///
     Matrix<Person>& get_matrix();//
     void draw_matrix(People& begin);//
-    int get_side();///
+    int get_side()const ;///
     Person& show_cell(int r, int c);///
     int infected_neighbours( int r, int c);///
     void sorting();

@@ -168,6 +168,7 @@ class Pandemic {
    void check_normalization( Parameters& p);
    void set_Parameters( Parameters& p);
    Parameters& get_Parameters();
+   const double& generate();
      // Struct People 
    void set_initial_condition(People& start);
     
