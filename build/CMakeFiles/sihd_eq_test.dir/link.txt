@@ -1,0 +1,1 @@
+/usr/bin/c++ -fsanitize=address CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o CMakeFiles/sihd_eq_test.dir/pandemic.cpp.o CMakeFiles/sihd_eq_test.dir/equation.cpp.o -o sihd_eq_test 
