@@ -57,8 +57,18 @@ template<typename T, std::size_t N> int maximum_dec(std::array<T,N>& a){
  
   for (std::size_t i = 0; i < N; i++)
   {
-    //t[i] = std::floor(c[i]);
-    t[i] = static_cast<T>(c[i]);
+    t[i] = std::floor(c[i]);
+    //t[i] = static_cast<T>(c[i]);
+  }
+    return t;
+ }
+  template<typename C, std::size_t N> const std::array<int,N> integer_part(const std::array<C,N>& c){
+
+  std::array<int,N> t;
+ 
+  for (std::size_t i = 0; i < N; i++)
+  {
+    t[i] = std::floor(c[i]);
   }
     return t;
  }
@@ -148,7 +158,7 @@ class Pandemic {
     //cioè vuole essere una raccolta dati della diffusione 
     Parameters par_;
     int N_;  //Numero della popolazione 
-    static std::array<double,2> intersec_; 
+    static std::array<double,2> efficacy_; 
     
     
     public:
@@ -164,13 +174,13 @@ class Pandemic {
    // Struct Parameters
    void introduce_vacc(const double& v);
    void change_after_vacc();
-   void check_normalization();
    void check_normalization( Parameters& p);
+   bool check_R0(Parameters& p);
    void set_Parameters( Parameters& p);
    Parameters& get_Parameters();
    const double& generate();
      // Struct People 
-   void set_initial_condition(People& start);
+   void set_initial_condition(const People& start);
     
    People& get_condition_day( const int& i);
      //in generale ho più mandemie in corso con popolazioni diverse e voglio sapere in particolare 
@@ -180,14 +190,15 @@ class Pandemic {
   //dovresti vare un remove per simmetria
   bool is_vaccinated();//test
     //smistamento
-  void sorting();//test
+ 
   int get_days();
   int get_number_population() const;
   std::vector<People>& get_evolution();//questo mi restituisce tutta l'evoluzione 
-  double calculate_R0() ;
-virtual void evolve(People& );
-virtual void evolve_vaccine (People& );
-//virtual std::array<int,4>& Print(int& );
+  double calculate_R0( Parameters& p) ;
+void evolve();
+void evolve_vaccine ();
+bool terminate();
+     
 
     
     // Distruttore

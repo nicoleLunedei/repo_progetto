@@ -1,23 +1,23 @@
 #include "matrix.hpp"
 #include "agent.hpp"
 
+
 bool is_perfect_square(int num){  
   int root = static_cast<int> (std::sqrt(num));
   return (root * root == num);
 }
 
 ////////////////////Binomial Distribution////////////////////////
-int fatt_( int& n){
-   if (n < 0){ 
-    throw std::runtime_error{"The integer number can't be negative "};
-}
-   
-    int n_fatt = 1;
-
-    for(; n > 0;n--){
-        n_fatt *= n;
+int comb(int n, int k) {
+    if (k > n - k){
+      k = n - k;
+    }   // ottimizza scegliendo il numero di iterazioni minore
+    int result = 1;
+    for (int i = 0; i < k; ++i) {
+        result *= (n - i);
+        result /= (i + 1);
     }
-    return n_fatt;
+    return result;
 }
 
 double prob_binomial( int& n, int& k, double& p){
@@ -25,7 +25,7 @@ double prob_binomial( int& n, int& k, double& p){
     throw std::runtime_error{"Error!k can't be higher the n"};
 
       int diff = n-k;
-      double p_bin =(fatt_(n))/(fatt_(k)* fatt_(diff))*(std::pow(p,k)*(std::pow((1-p),diff)));
+      double p_bin = comb(n,k)*(std::pow(p,k)*(std::pow((1-p),diff)));
       return p_bin;
 }
 /////////////////////////sum in Person contest/////////////////////////////
@@ -36,15 +36,21 @@ int sum_person(std::vector<Person>& pers){
  }
  return sum(pers_n);
 }
+
+
 /////////////////////CLASS AGENT///////////////////////////////////////////
-Agent::Agent(std::vector<People>& population,  Parameters& par,const int& N): Pandemic(population,par,N), M_(sqrt(N)){
-  
+Agent::Agent(std::vector<People>& population,  Parameters& par,const int& N): Pandemic(population,par,N),M_(static_cast<int>(std::sqrt(N)), Susceptible) {
+   
       if (!is_perfect_square(this->get_number_population())) 
       throw std::runtime_error{"The number of the population must a perfect square"};
+      
     }
+    
 Agent::Agent(): Pandemic(),M_(){
    //utilizzo i costruttori di default di Pandemic e Matrix che sono entrambi consistenti con il lato=80
   //inizio a costruire le righe 
+     People initial_data;
+            this->set_initial_condition(initial_data);
    M_.inside_matrix([this](Person& cell, int r, int c){//[] roba che serve soltanto alla lambada function, ()argomenti che ho messo nell'action() in inside_matrix
 
          if (r == (static_cast<int>(M_.M.size())/2) && c == static_cast<int>(M_.M.size()/2) ){
@@ -105,21 +111,31 @@ Person& Agent::show_cell(int r, int c) {
   if(this->get_matrix().M.empty())
    throw std::runtime_error{"The Matrix is empty!"};
 
-  if ((r < 0 || r > this->get_side()) || (c < 0 || c > this->get_side()) )
-  throw std::runtime_error{"Out of range!"};
-
-
   int rr = (r + this->get_side()) % this->get_side();
   int cc= (c + this->get_side() ) % this->get_side();
+    
+  if ((rr < 0 || rr > this->get_side() ) || (cc < 0 || cc > this->get_side()  ) ){
+    throw std::runtime_error{"Out of range!!!!!!!!!!!!!!!!!"};
+  }
 
    return this->get_matrix().M[rr][cc];
 } 
+
+bool Agent::throwing_dices(double& dice){
+  if (this->generate()<= dice){
+    //changing state
+    return true;
+  } else {
+    //remaining state
+    return false;
+  }
+}
 
 //Check infected number next to the cell
 int Agent::infected_neighbours( int r, int c) {
 
   int contacts = 0;
-  for (int i : {-1, 0, 1})
+  for (int i : {- 1, 0, 1})
   {
     for (int j : {-1, 0, 1})
     {
@@ -128,7 +144,7 @@ int Agent::infected_neighbours( int r, int c) {
       }
     }
   }
-
+ assert(contacts <= 8);
   return contacts;
 }
 //Smistamento 
@@ -151,69 +167,61 @@ void Agent::change_state(){ //l'indice i mi permetterà di distinguere l'evoluzi
 
 int inf = 0;
 int k = 1;
-double p_ = 0.0; 
-const double& extra1 = this->generate();
-const double& extra2 = this->generate();
+
      
      switch (cell)
   { 
     case Person::Susceptible:
   /* genera il numero casualmente e confrontalo con la probabilià che d'infezione  */
-  inf = this->infected_neighbours(r,c);
+  inf = this->infected_neighbours(r ,c);
   //calcolo della probabilità con un numero specifico di contatti infetti, con utilizzo della distribuzione di probabilità binomiale
-   p_ = prob_binomial(inf, k , this->get_Parameters().beta[0]);
-
-  
-  if (extra1 < p_){
-    cell = Person::Infected;
-   
-  }
+   for(; k <= inf; k++){
+    if(this->throwing_dices(this->get_Parameters().beta[0])){
+              cell = Person::Infected;
+              break;
+    }
+   }
    break;
      case Person::Susceptible_v:
   /* genera il numero casualmente e confrontalo con la probabilià che d'infezione  */
-   inf = this->infected_neighbours(r,c);
+   inf = this->infected_neighbours(r ,c );
   //calcolo della probabilità con un numero specifico di contatti infetti, con utilizzo della distribuzione di probabilità binomiale
-   p_ = prob_binomial(inf, k , this->get_Parameters().beta[1]);
+  for(; k <= inf; k++){
+    if(this->throwing_dices(this->get_Parameters().beta[0])){
+              cell = Person::Infected_v;
+              break;
+    }
+   }
 
-  if (extra1 < p_){
-    cell = Person::Infected_v;
- 
-  }  
+
    break;
   case Person::Infected:
-
- 
-
-  if (extra2 < (this->get_Parameters().gamma[0])+(this->get_Parameters().omega[0])){
-    if (extra2 < this->get_Parameters().gamma[0]){
-        cell = Person::Healed;
-        //Aggiornamento di population_
-    (this->get_evolution().back().I_[0])--;
-    (this->get_evolution().back().H_)++;
-    } else {
-        cell = Person::Dead;
      
-    }
-  } else {
-    //Rimane infected
-  }
+     if(this->throwing_dices(this->get_Parameters().gamma[0])){
+        cell = Person::Healed;
+     } else {
+      if(this->throwing_dices(this->get_Parameters().omega[0])){
+        cell = Person::Dead;
+      } else { 
+        //rimane infettato
+      }
+     }
+  
     break;
  case Person::Infected_v:
 
 
-
-  if (extra2 < (this->get_Parameters().gamma[1])+(this->get_Parameters().omega[1])){
-    if (extra2 < this->get_Parameters().gamma[1]){
+ if(this->throwing_dices(this->get_Parameters().gamma[1])){
         cell = Person::Healed;
-       
-    } else {
+     } else {
+      if(this->throwing_dices(this->get_Parameters().omega[1])){
         cell = Person::Dead;
-   
-    }
-  } else {
-    //Rimane infected
-  }
-    break;
+      } else { 
+        //rimane infettato
+      }
+      
+     }
+  break;
   case Person::Healed :
     //Non c'è un cambio di stato della cella 
     //La cella rimane Healed
@@ -228,7 +236,7 @@ const double& extra2 = this->generate();
 }
 
 void Agent::data_collection(People& collection){
-this-> get_matrix().each_cell([this, &collection](Person& cell){
+this->get_matrix().each_cell([this, &collection](Person& cell){
     switch (cell)
     {
     case Person::Susceptible:
@@ -255,7 +263,7 @@ this-> get_matrix().each_cell([this, &collection](Person& cell){
 
 assert(sum(transform_arr<int,6>(collection)) == this->get_number_population());
 
-this->get_evolution().push_back(collection);
+this->add_data(collection);
 }
 
  

@@ -32,12 +32,13 @@ public:
     std::array<int,4> get_counting(const int& n);
     std::vector<std::array<int,4>> get_countdays();
     void add_count(const std::array<int,4>& add);
-    std::array<int,4>& calculate(const int& n,std::array<int,4>& calc );
-    std::array<float,6> update_situation(int index,const People& next);
-    const People fix(std::array<float,6> next);
-    void evolve(People& follow ) override;
-    void evolve_vaccine(People& follow) override;
-    std::array<int,4>& Print(int& d);
+    std::array<int,4> calculate();
+    std::array<double,6> update_situation(int index, People const& next);
+    const People fix(std::array<double,6> next);
+    void sorting();//test
+    void evolve();
+    void evolve_vaccine();
+    void Print(const int& d);
     //double& calculate_R0(); te devi andare in pandemic
     ~Equation() override;
 };

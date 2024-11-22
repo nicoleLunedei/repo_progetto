@@ -9,16 +9,22 @@ template <typename T> struct  Matrix{//è una matrice dinamica con gli elementi 
   
   std::vector<std::vector<T>> M;
 
-Matrix(int l);
+Matrix(int l, const T& value);
 Matrix(std::vector<std::vector<T>>& m);
 Matrix();
 Matrix(const Matrix<T>& M_other);
 
 Matrix<T>& operator=( const Matrix<T>& other );
+std::vector<T>& operator[](const std::size_t index_r);
+
 template<typename U>
 friend bool operator==(const Matrix<U>& left, const Matrix<U>& right);
+
 template<typename U>
 friend bool operator!=(const Matrix<U>& left, const Matrix<U>& right);
+
+template<typename U>
+friend std::ostream& operator<<(std::ostream& os, const Matrix<U>& matrix);
 
 template<typename Func>
 void inside_matrix(Func action);
@@ -26,6 +32,7 @@ void inside_matrix(Func action);
 template<typename F>
 void each_cell(F operation);
 
+void add(T& plus);
 int sum();
 void modify(const T& value, int r, int c );
 const T& read(int r, int c) const;
@@ -35,7 +42,7 @@ const T& read(int r, int c) const;
 };
   /// Parametric
   template<typename T>
-  Matrix<T>::Matrix(int l): M(l,std::vector<T>(l,static_cast<T>(0))){//Null Matrix dinamica
+  Matrix<T>::Matrix(int l, const T& value): M(l,std::vector<T>(l,value)){//Null Matrix dinamica
   if(l <= 0) {
     throw std::runtime_error{"The dimension must be positive "};
   }
@@ -57,25 +64,29 @@ const T& read(int r, int c) const;
   }
   /// Default: Null Matrix
   template<typename T>
-  Matrix<T>::Matrix(): M(80,std::vector<T>(80,static_cast<T>(0))){}
+  Matrix<T>::Matrix(): M(50,std::vector<T>(50,static_cast<T>(0))){}
   
-  /// Copy
-  template<typename T>
-  Matrix<T>::Matrix(const Matrix<T>& M_other) {
-   this->M = M_other.M;
-  
-  }
-
 
   template<typename T>
   template<typename Func>
   void Matrix<T>::inside_matrix(Func action){//questa è una funzione che mi permette di fare un'azione e sa già di e come dover entrare nella matrice
     for (int r = 0; r < static_cast<int>(this->M.size()); r++){
-    for (int c = 0; c < static_cast<int>(this->M[r].size()); c++){
+    for (int c = 0; c < static_cast<int>(this->M[r].size()); c++){//VERIFCA BENE I TEST PERCHè HAIU CAMBIATO L'INIZIALIZZAZIONE DI R E C
        
         action(this->M[r][c],r,c);
     }
    }
+  }
+    /// Copy
+  template<typename T>
+  Matrix<T>::Matrix(const Matrix<T>& M_other) {
+   this->M = M_other.M;
+   /*for (int r = 0; r < static_cast<int>(M_other.size()); r++){
+    for (int c = 0; c < static_cast<int>(M_other[r].size()); c++){
+     M_other[r][c]);
+    }
+    }*/
+   
   }
     template<typename T>
   template<typename F>
@@ -87,7 +98,11 @@ const T& read(int r, int c) const;
     }
    }
   }
-
+ 
+template<typename T>
+void Matrix<T>::add( T& plus){
+   this->M.back().push_back(plus);
+}
   //pensa ad una funzione che permatte adi navigare attarverso le righe 
   template<typename T>
   int Matrix<T>::sum(){
@@ -112,10 +127,7 @@ const T& read(int r, int c) const;
  
      if (this != &other) {  // Prevenire l'auto-assegnazione
       
-        if (other.M.empty() || other.M[0].empty()){
-          
-          throw std::runtime_error{"Cannot assign a matrix with an undefined dimension !"};
-        } else {
+    
             // Verifica che le dimensioni delle due matrici siano uguali
           
           if (other.M.size() != this->M.size())  {
@@ -123,16 +135,12 @@ const T& read(int r, int c) const;
           throw std::runtime_error{"They don't have the same number of lines"};
           }
 
-          if (other.M[0].size() != this->M[0].size()) {
-         
-          throw std::runtime_error{"They don't have the same number of columns"};
-          }
         
           this->inside_matrix([&other](T& cell, int r,int c){
                 cell = other.M[r][c];
           });
           return *this;
-        } 
+        
       
       
     } else {
@@ -159,9 +167,28 @@ const T& read(int r, int c) const;
    }
 
   return true;
+  }
   /////////////////considera la possibilità di implementare qua l'operatore<< di cout///////////////
+  template<typename T>
+  std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix)
+     {
+    // write obj to stream
+    for (int r = 0; r < static_cast<int>(matrix.M.size()); r++){
+      for (int c = 0; c < static_cast<int>(matrix.M[r].size()); c++){
+       os << matrix.M[r][c] << " ";
+      }
+       os << std::string("\n");
+    }
+
+       return os; 
     
-}
+   
+     }
+  template<typename T>
+  std::vector<T>& Matrix<T>::operator[](const std::size_t index_r){
+     return this->M[index_r];
+  }
+    
 template<typename T>
 bool operator!=(const Matrix<T>& left, const Matrix<T>& right){
      return !(left == right);

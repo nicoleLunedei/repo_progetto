@@ -9,14 +9,14 @@
 #include "pandemic.hpp"
 
 
-//l'attributi static va definito nel file d'implementazione 
-std::array<double,2> Pandemic::intersec_{0.02, 0.07};// [0]= con infezione, [1] = con morte tendo conto anche di conseguenze mediche che il visru potrebbe aver innescato
+//l'attributi static vanno definiti nel file d'implementazione 
+std::array<double,2> Pandemic::efficacy_{0.71,0.65};// [0]= con infezione, [1] = con morte tendo conto anche di conseguenze mediche che il visru potrebbe aver innescato
 //Struct People
     //Parametric Constructor
 People::People( const std::array<int,2>& s,const std::array<int,2>& i , const int  h, const int& d  ): S_{s},I_{i},H_{h}, D_{d}{}
     //Default Constructor
 People::People(){
-  S_[0] = 6399;
+  S_[0] = 2499;
   S_[1] = 0;
   I_[0] = 1;
   I_[1] = 0;
@@ -50,10 +50,10 @@ People::People(const People& other): S_{other.S_}, I_{other.I_}, H_{other.H_}, D
  std::ostream& operator<<(std::ostream& os, const People& p_out)
      {
     // write obj to stream
-    os << "Suscepttible : " << p_out.S_[0] + p_out.S_[1] << '\n';
-    os << "Infected : " << p_out.I_[0] + p_out.I_[1] << '\n';
-    os << " Healed : " << p_out.H_ << '\n';
-    os << "Dead : " << p_out.D_ << '\n';
+    os << "Suscepttible not vaccinated : " << p_out.S_[0] << "||  Suscepttible vaccinated : " <<p_out.S_[1] << "\n\n";
+    os << "Infected not vaccinated: " << p_out.I_[0] <<"|| Infected not vaccinated: "<< p_out.I_[1] << "\n\n";
+    os << " Healed : " << p_out.H_ << "\n\n";
+    os << "Dead : " << p_out.D_ << "\n\n";
    
                return os;
      }
@@ -78,7 +78,7 @@ People::People(const People& other): S_{other.S_}, I_{other.I_}, H_{other.H_}, D
 
 Parameters::Parameters(const std::array<double,2>& b, const std::array<double,2>& g, const std::array<double,2>& o, const double& v) : beta{b},gamma{g},omega{o},vax{v} {}// l'assegnazione degli array non li puoi mettere nella lista d'inizializzazione perchè non è supportata la loro assegnazione in blocco
 //Default Constructor   
-Parameters::Parameters(): beta{0.5,0.},gamma{0.6,0.},omega{0.4,0.}, vax{0.}{}
+Parameters::Parameters(): beta{0.6,0.},gamma{0.2,0.},omega{0.35,0.}, vax{0.}{}
 //Copy Constructor
 Parameters::Parameters(const Parameters& other ) {// costruttore di copia che è diverso dal costruttore parametrico; questo è propio per costruire un oggetto a partire da un altro oggetto dello stesso tispo 
         beta[0] = other.beta[0];
@@ -110,9 +110,17 @@ bool operator==( const Parameters& left, const Parameters& right){
       return (left.beta[0] == right.beta[0] && left.beta[1] == right.beta[1] && left.gamma[0] == right.gamma[0] && left.gamma[1] == right.gamma[1] && left.omega[0] == right.omega[0] &&left.omega[1] == right.omega[1] && left.vax == right.vax );
     } 
         //Operator<<
-    /*std::ostream& operator<<(std::ostream& os, const Parameters& p_out){}
+    std::ostream& operator<<(std::ostream& os, const Parameters& p_out){
+      os<< p_out.beta[0] <<"||"<<p_out.beta[1]<<'\n';
+      os<< p_out.gamma[0] <<"||"<<p_out.gamma[1]<<'\n';
+      os<< p_out.omega[0] <<"||"<<p_out.omega[1]<<'\n';
+      os<< p_out.vax<<'\n';
+      
+      return os;
+
+    }
         //Operator>>
-     std::istream& operator>>(std::istream& is, Parameters& p_in ){}*/
+     /*std::istream& operator>>(std::istream& is, Parameters& p_in ){}*/
    Parameters::~Parameters() = default ; 
 
 
@@ -124,7 +132,7 @@ bool operator==( const Parameters& left, const Parameters& right){
 //Class pandemic
  //Costruttore Parametrico
 
-    Pandemic::Pandemic( std::vector<People>& population,  Parameters& par,const int& N) :  gen(std::random_device{}()), dis(0.0, 1.0), population_{population}, par_{par}, N_{N} {
+    Pandemic::Pandemic( std::vector<People>& population,  Parameters& par,const int& N) :  gen(std::random_device{}()), dis(0.0, 1.0), population_{population}, par_(par), N_{N} {
     
       /////////////////////Controllo delle probabilità////////////////////////////////
      if ((par.beta[0] < 0. || par.beta[0] > 1. ) || (par.gamma[0] < 0. || par.gamma[0] > 1. ) ||  (par.omega[0]< 0. || par.omega[0] > 1.) || (  par.vax<0 || par.vax > 1. )  ) 
@@ -133,47 +141,34 @@ bool operator==( const Parameters& left, const Parameters& right){
      if (par.beta[1] != 0 || par.gamma[1] != 0 || par.omega[1] != 0  || par.vax != 0 ) // all'inizione le probabilità modificate devono esssere 0
        throw  std::runtime_error{"The value of the parameters in case of vaccination must be 0 !"};
 
-     this-> check_normalization();
+     this->check_normalization(par);
+
+     this->check_R0(par);
 
       ////////////////////////////Controlli sugli elementi di population////////////////////////////////////// 
-     if ( !population.empty() ){
-       
-       throw std::runtime_error{"The tracking vector of the evolution of pandemic must be empty! "};
-
-     }
-    
+     assert(population.empty());
     }
 
     //Costruttore default
-     Pandemic::Pandemic(): gen(std::random_device{}()), dis(0.0, 1.0),population_{},par_(),N_{6400}{
+     Pandemic::Pandemic(): gen(std::random_device{}()), dis(0.0, 1.0),population_{},par_(),N_{2500}{
       // Inizializziamo i parametri con valori predefiniti
       // Inizialmente nessuno vaccinato
       // Inizializziamo una popolazione con un unico individuo infetto
-        People initial_data;
-
-        population_.push_back(initial_data);
       
     } 
       
  
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    // Struct Parameters
-   // check dei parametri?
-   void  Pandemic::check_normalization()
-   {
-    double com = this->par_.gamma[0] + this->par_.omega[0];
-    if (com > 1){
-      this->par_.omega[0] = 1 - (this->par_.gamma[0]);
-      std::cout<< "The probablities of healing and dying must be minor than or equal to one, don't worry it has been fixed"<< '\n';
-     }
-   }
+   // check dei parametri
     void Pandemic::check_normalization( Parameters& p)
     {
     double com = p.gamma[0] + p.omega[0];
 
-    if (com != 1){
-      p.omega[0] = 1 - (p.gamma[0]);
-      std::cout<< "The probablities of healing and dying must be minor than or equal to one, don't worry it has been fixed"<< '\n';
+    if (com > 1){
+      p.omega[0] = p.beta[0] - p.gamma[0] - 0.1;
+
+      std::cout<< "The probablities of healing and dying must respect the normalization property, don't worry it has been fixed"<< "\n\n";
      }
     }
    
@@ -184,17 +179,20 @@ bool operator==( const Parameters& left, const Parameters& right){
      
      if (p.beta[1] != 0 || p.gamma[1] != 0 || p.omega[1] != 0  || p.vax != 0 ) // all'inizione le probabilità modificate devono esssere 0
        throw  std::runtime_error{"The value of the parameters in case of vaccination must be 0 !"};
-      
+     
       this->check_normalization(p);
+      this->check_R0(p);
+      
       this->par_= p; 
      }
      void Pandemic::change_after_vacc(){
      
-      this->get_Parameters().beta[1]=(intersec_[0])/(this->get_Parameters().vax);
-      this->get_Parameters().omega[1]=(intersec_[1])/(this->get_Parameters().vax);
+      this->get_Parameters().beta[1] = this->get_Parameters().beta[0]*(1 - efficacy_[0] );
+      this->get_Parameters().omega[1] = this->get_Parameters().omega[0]*(1 - efficacy_[1] );
+      /////////////////eventuale scarto/////////////////
       double x_0 = 1 - this->get_Parameters().gamma[0] - this->get_Parameters().omega[0];
         //mantengo in prporzione lo scarto delle due probabilità
-      this->get_Parameters().gamma[1] = 1 - this->get_Parameters().omega[1] -((this->get_Parameters().omega[0])/(this->get_Parameters().omega[1])) * x_0;
+      this->get_Parameters().gamma[1] = 1 - x_0 - this->get_Parameters().omega[1];
       
       
     }
@@ -207,7 +205,7 @@ bool operator==( const Parameters& left, const Parameters& right){
     if (this->get_Parameters().vax != 0.)
      throw std::runtime_error{ "You can't introduce the vaccine more than once"};//si può introdurre il vaccino solo una volta
   
-    if((v < 0. ||v > 1. ) )
+    if(( v < 0. || v > 1. ) )
        throw  std::runtime_error{"The values of the parameters must be inside the interval [0,1] !"};
     this->get_Parameters().vax = v;
    }
@@ -216,13 +214,18 @@ bool operator==( const Parameters& left, const Parameters& right){
      }
      // Struct People 
      //Hai deciso e non cambiare più: set_initial_condition ti fa impostare la situazione iniziale, te la conrolla e te la sistema, population col costruttore parametrico parte vuoto, con quello di default con un elemento
-   void  Pandemic::set_initial_condition(People& start)
+    bool Pandemic::check_R0(Parameters& p){
+      if (this->calculate_R0(p) >1){
+         return true;
+      } else {
+        //return false;
+        throw std::runtime_error{"The simulation with the vaccine can't start if the critical threshold is minor than or equal to one! "};
+      }
+    }
+   void  Pandemic::set_initial_condition(const People& start)
     {
-       if (!this->get_evolution().empty()){
-        
-        throw std::runtime_error{"This simulation has already an initial condition, please start another simulation"};
-       } else 
-       {
+        //io devo controllare che population sia vuoto, per aggiungere start
+       if (this->get_evolution().empty()){
          //se i vettori dei suscettibili e degli infetti non sono vuoti ha senso controllare i valori
           ///////////////////////Controll on initial data/////////////////////////////////////
         //////////////Controll on Susceptible and Infected not vaccinated////////////////////
@@ -245,14 +248,20 @@ bool operator==( const Parameters& left, const Parameters& right){
       int tot = sum(transform_arr<int,6>(start));
         if ( tot <= this->get_number_population()) //coerenza tra N_ e l'oggetto People
         {
-        start.S_[0]+= (this->get_number_population()-tot);
         this->add_data(start);
+        this->get_evolution().back().S_[0]+= (this->get_number_population()-tot);
+       
         } else
          {
           throw std::runtime_error{"The inserted values must be coherent with the number of the population !"};
          }
-     
-          } 
+        
+       
+       
+       } else 
+        {
+         throw std::runtime_error{"This simulation has already an initial condition, please start another simulation"};
+        } 
        }  
    
     
@@ -275,7 +284,7 @@ bool operator==( const Parameters& left, const Parameters& right){
      //in generale ho più mandemie in corso con popolazioni diverse e voglio sapere in particolare 
   
 void  Pandemic::add_data(const People& add){
-    assert((sum(transform_arr<int,6>(add))) == (this->get_number_population()));
+   // assert((sum(transform_arr<int,6>(add))) == (this->get_number_population()));
     this->get_evolution().push_back(add);
   }
 
@@ -294,37 +303,8 @@ void  Pandemic::add_data(const People& add){
         return false ; 
        }
   }
-    //smistamento
-  /*void  Pandemic::sorting(){
-      int t = this->population_[0].S_[0];// copio il numero di persone a cui chiedere così posso poi modificare i no vax susciettibili
-      // ciclo for=> immagina di parlare con tutti gli suscettibilie e di fargli la domanda "sei vaccinato?"
-        for (int i = 0; i <=  t ; i++)
-           {
-             if (this->is_vaccinated() == true)
-                {
-                    this->population_[0].S_[1]++;
-                    this->population_[0].S_[0]--;   
-    
-                }
-    
-           }
-    
-  }*/
-  void  Pandemic::sorting(){
-      int t = this->population_.back().S_[0];// copio il numero di persone a cui chiedere così posso poi modificare i no vax susciettibili
-      // ciclo for=> immagina di parlare con tutti gli suscettibilie e di fargli la domanda "sei vaccinato?"
-        for (int i = 0; i <=  t ; i++)
-           {
-             if (this->is_vaccinated())
-                {
-                    this->population_.back().S_[1]++;
-                    this->population_.back().S_[0]--;   
-    
-                }
-    
-           }
-    
-  }
+ 
+
   int  Pandemic::get_days(){
       return this->population_.size();
     }
@@ -336,12 +316,23 @@ void  Pandemic::add_data(const People& add){
     {
         return this->population_;
     }
- void Pandemic::evolve(People& ){}
- void Pandemic::evolve_vaccine(People& ){}
+ void Pandemic::evolve(){}
+ void Pandemic::evolve_vaccine(){}
  //std::array<int,4>& Pandemic::Print(int& ){};//ricorda che devi printare la seomma degli infetti 
- double Pandemic::calculate_R0() {//test
-      double R_0 = (this->par_.gamma[0] +this->par_.omega[0]) /(this->par_.beta[0]);
-      return R_0;   
+ double Pandemic::calculate_R0(Parameters& p) {
+     
+      return  (p.beta[0])/(p.gamma[0] + p.omega[0]);   
        }
+ bool Pandemic::terminate(){
+      if (sum(this->get_evolution().back().I_) >= 0)
+       {
+         //if the infected are finished 
+           return false;
+
+       } else{
+           return true;
+    }
+  
+    }
     // Distruttore
     Pandemic::~Pandemic() {};

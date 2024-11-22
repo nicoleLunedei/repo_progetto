@@ -9,9 +9,18 @@
 #ifndef AGENT_HPP
 #define AGENT_HPP
 
-
-
 enum Person {Susceptible = 0, Infected, Healed, Dead, Susceptible_v, Infected_v};
+
+
+bool is_perfect_square(int num);
+
+////////////////////Binomial Distribution////////////////////////
+int comb(int n, int k);
+double prob_binomial( int& n, int& k, double& p);
+/////////////////////////sum in Person contest/////////////////////////////
+int sum_person(std::vector<Person>& pers);
+
+
 
 class Agent : public Pandemic
 {
@@ -33,13 +42,15 @@ public:
     void draw_matrix(People& begin);//
     int get_side()const ;///
     Person& show_cell(int r, int c);///
+    bool throwing_dices(double& dice);
     int infected_neighbours( int r, int c);///
     void sorting();
     void change_state();
     void data_collection(People& collection);
-    void evolve(People& follow) override; 
+    void evolve(People& follow) ; 
+    
     //void evolve_with_vax(People& follow)override;
-    void Print();//deve restituire tutta la matrice
+    //void Print();//deve restituire tutta la matrice
     ~Agent();
 };
 #endif
