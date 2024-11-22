@@ -8,7 +8,7 @@ Spostamento nella directory build :
 
          cd build
 Per l'esecuzione dei file:
-->Equation
+
 
   >Simulazione con evoluzione con logica basata sulle  equazioni differenziali
 
