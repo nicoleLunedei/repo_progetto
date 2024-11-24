@@ -195,17 +195,12 @@ class Pandemic {
   int get_number_population() const;
   std::vector<People>& get_evolution();//questo mi restituisce tutta l'evoluzione 
   double calculate_R0( Parameters& p) ;
-void evolve();
-void evolve_vaccine ();
-bool terminate();
+  bool terminate();
      
 
     
     // Distruttore
-virtual ~Pandemic();
-//std::function<Pandemic()> ;// mi serve per la funzione di stampa; Rifletti se metterlo nella madre o nella figlia Equation
-// è importante che capisci come sfruttare bene gli oggetti funzione perchè, tu non solo vuoi stampare i numeri tu vuoi stampare l'evoluzione della pandemia e perciò ti serve il numero del gioRno che si vuole vedere; 
-//siccome population è un vettore dinamico noi non sappiamo a priori la sua effettiva lunghezza perciò sarà necessaria una verifica della sua dimensione e che il giorno richiesto sia avvenuto 
+  ~Pandemic();
 };
 
 #endif

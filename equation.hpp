@@ -40,7 +40,7 @@ public:
     void evolve_vaccine();
     void Print(const int& d);
     //double& calculate_R0(); te devi andare in pandemic
-    ~Equation() override;
+    ~Equation();
 };
 
 #endif

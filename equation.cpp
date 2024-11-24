@@ -83,6 +83,8 @@ Equation::Equation(): Pandemic(),counting_{}{
       } else {
         next_a[4]+= (this->get_Parameters().gamma[1])*this->get_evolution().back().I_[1];
         next_a[5]+= (this->get_Parameters().omega[1])*this->get_evolution().back().I_[1];
+        
+     
       }
 
      
@@ -114,11 +116,10 @@ Equation::Equation(): Pandemic(),counting_{}{
        else 
       {
           
-      //next[maximum_dec(next)] += std::floor(diff); è con l'iteratore
       next[maximum_dec(next)] += diff;//qua maximum mi restituisce direttamente next[t], bisogna vedere se funziona bene +=
       
       }
- //std::cout<< diff <<" & "<< next[maximum_dec(next)]<<'\n';
+
      
       return transform_people(integer_part(next));
      }

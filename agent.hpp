@@ -14,9 +14,7 @@ enum Person {Susceptible = 0, Infected, Healed, Dead, Susceptible_v, Infected_v}
 
 bool is_perfect_square(int num);
 
-////////////////////Binomial Distribution////////////////////////
-int comb(int n, int k);
-double prob_binomial( int& n, int& k, double& p);
+
 /////////////////////////sum in Person contest/////////////////////////////
 int sum_person(std::vector<Person>& pers);
 
@@ -48,9 +46,7 @@ public:
     void change_state();
     void data_collection(People& collection);
     void evolve(People& follow) ; 
-    
-    //void evolve_with_vax(People& follow)override;
-    //void Print();//deve restituire tutta la matrice
+
     ~Agent();
 };
 #endif

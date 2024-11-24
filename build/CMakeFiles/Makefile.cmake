@@ -49,8 +49,10 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/sihd_pan_test.dir/DependInfo.cmake"
   "CMakeFiles/sihd_eq.dir/DependInfo.cmake"
   "CMakeFiles/sihd_eq_test.dir/DependInfo.cmake"
+  "CMakeFiles/sihd_mat_test.dir/DependInfo.cmake"
   "CMakeFiles/sihd_ag.dir/DependInfo.cmake"
   "CMakeFiles/sihd_ag_test.dir/DependInfo.cmake"
   )

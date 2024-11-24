@@ -5,6 +5,7 @@
 #include <memory>
 #include <chrono>      
 #include <thread> 
+
 //sf::CircleShape circle;
             //circle.setRadius(10.f); 
             //circle.setPosition( 100.f + c * 20.f, 150.f + r * 20.f);
@@ -207,5 +208,32 @@ int main() {
 
     return 0;
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <cmath>
+////////////////////per non perdere binomial distribution///////////////////
+////////////////////Binomial Distribution////////////////////////
+int comb(int n, int k);
+double prob_binomial( int& n, int& k, double& p);
 
+////////////////////Binomial Distribution////////////////////////
+int comb(int n, int k) {
+    if (k > n - k){
+      k = n - k;
+    }   // ottimizza scegliendo il numero di iterazioni minore
+    int result = 1;
+    for (int i = 0; i < k; ++i) {
+        result *= (n - i);
+        result /= (i + 1);
+    }
+    return result;
+}
+
+double prob_binomial( int& n, int& k, double& p){
+    if (n < k)
+    throw std::runtime_error{"Error!k can't be higher the n"};
+
+      int diff = n-k;
+      double p_bin = comb(n,k)*(std::pow(p,k)*(std::pow((1-p),diff)));
+      return p_bin;
+}
 

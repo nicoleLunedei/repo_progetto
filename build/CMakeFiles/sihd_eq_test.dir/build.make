@@ -69,24 +69,10 @@ include CMakeFiles/sihd_eq_test.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/sihd_eq_test.dir/flags.make
 
-CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o: CMakeFiles/sihd_eq_test.dir/flags.make
-CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o: /home/lunemonday/repo_progetto/equation_test.cpp
-CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o: CMakeFiles/sihd_eq_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lunemonday/repo_progetto/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o -MF CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o.d -o CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o -c /home/lunemonday/repo_progetto/equation_test.cpp
-
-CMakeFiles/sihd_eq_test.dir/equation_test.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sihd_eq_test.dir/equation_test.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lunemonday/repo_progetto/equation_test.cpp > CMakeFiles/sihd_eq_test.dir/equation_test.cpp.i
-
-CMakeFiles/sihd_eq_test.dir/equation_test.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sihd_eq_test.dir/equation_test.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lunemonday/repo_progetto/equation_test.cpp -o CMakeFiles/sihd_eq_test.dir/equation_test.cpp.s
-
 CMakeFiles/sihd_eq_test.dir/pandemic.cpp.o: CMakeFiles/sihd_eq_test.dir/flags.make
 CMakeFiles/sihd_eq_test.dir/pandemic.cpp.o: /home/lunemonday/repo_progetto/pandemic.cpp
 CMakeFiles/sihd_eq_test.dir/pandemic.cpp.o: CMakeFiles/sihd_eq_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lunemonday/repo_progetto/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/sihd_eq_test.dir/pandemic.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lunemonday/repo_progetto/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sihd_eq_test.dir/pandemic.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sihd_eq_test.dir/pandemic.cpp.o -MF CMakeFiles/sihd_eq_test.dir/pandemic.cpp.o.d -o CMakeFiles/sihd_eq_test.dir/pandemic.cpp.o -c /home/lunemonday/repo_progetto/pandemic.cpp
 
 CMakeFiles/sihd_eq_test.dir/pandemic.cpp.i: cmake_force
@@ -100,7 +86,7 @@ CMakeFiles/sihd_eq_test.dir/pandemic.cpp.s: cmake_force
 CMakeFiles/sihd_eq_test.dir/equation.cpp.o: CMakeFiles/sihd_eq_test.dir/flags.make
 CMakeFiles/sihd_eq_test.dir/equation.cpp.o: /home/lunemonday/repo_progetto/equation.cpp
 CMakeFiles/sihd_eq_test.dir/equation.cpp.o: CMakeFiles/sihd_eq_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lunemonday/repo_progetto/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/sihd_eq_test.dir/equation.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lunemonday/repo_progetto/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/sihd_eq_test.dir/equation.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sihd_eq_test.dir/equation.cpp.o -MF CMakeFiles/sihd_eq_test.dir/equation.cpp.o.d -o CMakeFiles/sihd_eq_test.dir/equation.cpp.o -c /home/lunemonday/repo_progetto/equation.cpp
 
 CMakeFiles/sihd_eq_test.dir/equation.cpp.i: cmake_force
@@ -111,18 +97,32 @@ CMakeFiles/sihd_eq_test.dir/equation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sihd_eq_test.dir/equation.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lunemonday/repo_progetto/equation.cpp -o CMakeFiles/sihd_eq_test.dir/equation.cpp.s
 
+CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o: CMakeFiles/sihd_eq_test.dir/flags.make
+CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o: /home/lunemonday/repo_progetto/equation_test.cpp
+CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o: CMakeFiles/sihd_eq_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lunemonday/repo_progetto/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o -MF CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o.d -o CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o -c /home/lunemonday/repo_progetto/equation_test.cpp
+
+CMakeFiles/sihd_eq_test.dir/equation_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sihd_eq_test.dir/equation_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lunemonday/repo_progetto/equation_test.cpp > CMakeFiles/sihd_eq_test.dir/equation_test.cpp.i
+
+CMakeFiles/sihd_eq_test.dir/equation_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sihd_eq_test.dir/equation_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lunemonday/repo_progetto/equation_test.cpp -o CMakeFiles/sihd_eq_test.dir/equation_test.cpp.s
+
 # Object files for target sihd_eq_test
 sihd_eq_test_OBJECTS = \
-"CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o" \
 "CMakeFiles/sihd_eq_test.dir/pandemic.cpp.o" \
-"CMakeFiles/sihd_eq_test.dir/equation.cpp.o"
+"CMakeFiles/sihd_eq_test.dir/equation.cpp.o" \
+"CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o"
 
 # External object files for target sihd_eq_test
 sihd_eq_test_EXTERNAL_OBJECTS =
 
-sihd_eq_test: CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o
 sihd_eq_test: CMakeFiles/sihd_eq_test.dir/pandemic.cpp.o
 sihd_eq_test: CMakeFiles/sihd_eq_test.dir/equation.cpp.o
+sihd_eq_test: CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o
 sihd_eq_test: CMakeFiles/sihd_eq_test.dir/build.make
 sihd_eq_test: CMakeFiles/sihd_eq_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/lunemonday/repo_progetto/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable sihd_eq_test"

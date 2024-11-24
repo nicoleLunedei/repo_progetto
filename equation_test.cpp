@@ -83,16 +83,13 @@ TEST_CASE("Equation Class") {
       sub = {{500000, 0}, {100000, 0}, 0, 0};
       p = {{0.75, 0.}, {0.3, 0.}, {0.35, 0.}, 0.};
  
-      
+     ////////////Creating an Equation object with the parametric Constructor//////////////// 
       Equation eq1(days, p, 600000, count);
 
-      
-        // a questo pun to io l'oggetto creato con parametri che voglio
-        // controllare
+     ///////////Checking the Ereditary dynamic with Pandemic/////////////////
         CHECK(eq1.get_countdays().size() == 0);
         CHECK(eq1.get_days() == 0);
-        /// perchè rifaccio i check dei metodi di pandemic?perchè mi voglio
-        /// assicurae che la struttura ad ereditarietà funzioni bene
+     
         CHECK(eq1.get_Parameters().beta[0] == 0.75);
         CHECK(eq1.get_Parameters().beta[1] == 0.);
         CHECK(eq1.get_Parameters().gamma[0] == 0.3);
@@ -102,7 +99,7 @@ TEST_CASE("Equation Class") {
         CHECK(eq1.get_Parameters().vax == 0.);
 
         CHECK(eq1.get_number_population() == 600000);
-
+ //////////////Adding data/////////////////
         eq1.add_data(sub);
 
         CHECK(eq1.get_days() == 1);
@@ -127,7 +124,7 @@ TEST_CASE("Equation Class") {
       
 
         
-        SUBCASE(" Equation Members") 
+        SUBCASE(" Specilized Members of Equation") 
         {
           //////////update situation//////////////////
 
@@ -164,7 +161,7 @@ TEST_CASE("Equation Class") {
     
 
     ///////////////////update_situation() & fix()/////////////////////
-    Parameters pp{{0.6,0.},{0.20,0.},{0.35,0.},0.};
+    Parameters pp{{0.6,0.},{0.2,0.},{0.35,0.},0.};
     Equation eq2(days, pp, 600, count);
   
     
@@ -248,113 +245,119 @@ TEST_CASE("Equation Class") {
        CHECK(eq2.get_condition_day(5).I_[1] == 0);
        CHECK(eq2.get_condition_day(5).H_ == 38);
        CHECK(eq2.get_condition_day(5).D_ == 69);
-
+     ////////////////////Introducing the option of the vaccine//////////////////
        eq2.introduce_vacc(0.24);
        eq2.change_after_vacc();
+              
+       CHECK(eq2.get_Parameters().beta[1] == doctest::Approx(0.174).epsilon(0.001));
+       CHECK(eq2.get_Parameters().omega[1] == doctest::Approx(0.1225).epsilon(0.001));
+       CHECK(eq2.get_Parameters().gamma[1]== doctest::Approx(0.4275).epsilon(0.001));
+      /////////sorting => is _vaccinated///////////
        eq2.sorting();
        
-      std::cout<<"Somma delle persone aggiornate "<< eq2.get_evolution().back().S_[0]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.get_evolution().back().S_[1]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.get_evolution().back().I_[0]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.get_evolution().back().I_[1]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.get_evolution().back().H_<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.get_evolution().back().D_<<'\n';
-      std::cout<<"Somma :"<< sum(transform_arr<int,6>((eq2.get_evolution()).back())) <<'\n';
-
-       CHECK(static_cast<double>(eq2.get_condition_day(5).S_[0])/(sum(eq2.get_condition_day(5).S_)) == doctest::Approx(0.76).epsilon(0.1));//0.76
+       CHECK(eq2.get_days() == 5);
+       CHECK(static_cast<double>(eq2.get_condition_day(5).S_[0])/(sum(eq2.get_condition_day(5).S_)) == doctest::Approx(0.76).epsilon(0.1));
        CHECK(static_cast<double>(eq2.get_condition_day(5).S_[1])/(sum(eq2.get_condition_day(5).S_))  == doctest::Approx(0.24).epsilon(0.1));
        CHECK(eq2.get_condition_day(5).I_[0] == 41);
        CHECK(eq2.get_condition_day(5).I_[1] == 0);
        CHECK(eq2.get_condition_day(5).H_ == 38);
        CHECK(eq2.get_condition_day(5).D_ == 69);
 
-       CHECK(eq2.get_Parameters().beta[1] == doctest::Approx(0.174).epsilon(0.001));
-       CHECK(eq2.get_Parameters().omega[1] == doctest::Approx(0.1225).epsilon(0.001));
-       CHECK(eq2.get_Parameters().gamma[1]== doctest::Approx(0.4275).epsilon(0.001));
-      /////////is_vaccinated & sorting///////////
-      Parameters p_r({0.75, 0.}, {0.3, 0.}, {0.4, 0.}, 0.);
-      Equation members(days, p_r, 3000000,count);
-        People sort{{2999500, 0}, {500, 0}, 0, 0};
-        members.add_data(sort);
-        members.sorting();
-        CHECK(members.get_days() == 1);
-        CHECK(members.get_number_population() == 3000000);
+       CHECK(sum(transform_arr<int,6>((eq2.get_evolution()).back())) == eq2.get_number_population());
 
-        CHECK((members.get_evolution().back().S_[1]) /
-                  (members.get_number_population()) ==
-              doctest::Approx(0.15).epsilon(1));
-        CHECK((members.get_evolution().back().S_[0]) /
-                  (members.get_number_population()) ==
-              doctest::Approx(0.85).epsilon(1));
+    /////////////////////////update_situation with vaccine //////////////////////////
+    People sorted{{344,108},{41,0},38,69};
+    eq2.add_data(sorted);
+    People last0 = eq2.get_evolution().back();
+     
+      CHECK(last0.S_[0] == 344 );
+      CHECK(last0.S_[1] == 108 );
+      CHECK(last0.I_[0] == 41 );
+      CHECK(last0.I_[1] == 0 );
+      CHECK(last0.H_ == 38);
+      CHECK(last0.D_ == 69);
 
-        CHECK((members.get_evolution().back().S_[1]) /
-                  (members.get_number_population()) ==
-              doctest::Approx(0.15).epsilon(0.8));
-        CHECK((members.get_evolution().back().S_[0]) /
-                  (members.get_number_population()) ==
-              doctest::Approx(0.85).epsilon(0.8));
-
-        CHECK((members.get_evolution().back().S_[1]) /
-                  (members.get_number_population()) ==
-              doctest::Approx(0.15).epsilon(0.5));
-        CHECK((members.get_evolution().back().S_[0]) /
-                  (members.get_number_population()) ==
-              doctest::Approx(0.85).epsilon(0.5));
-      //////////////////////////evolve_vaccine()///////////////////////////////
+               ////////////////#1////////////////
       People e{{0,0},{0,0},0,0};
-      std::cout<<"Somma delle persone aggiornate "<< (eq2.update_situation(0,e))[0]+ eq2.update_situation(1,e)[0]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< (eq2.update_situation(0,e))[1]+ eq2.update_situation(1,e)[1]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< (eq2.update_situation(0,e))[2]+ eq2.update_situation(1,e)[2]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< (eq2.update_situation(0,e))[3]+ eq2.update_situation(1,e)[3]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< (eq2.update_situation(0,e))[4]+ eq2.update_situation(1,e)[4]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< (eq2.update_situation(0,e))[5]+ eq2.update_situation(1,e)[5]<<'\n';
-      std::cout<<"Somma :"<< sum(transform_arr<int,6>((eq2.get_evolution()).back())) <<'\n';
-           std::cout<<"aggiornamento con vaccino"<<'\n';
-      People e_caccia{{0,0},{0,0},0,0};
-      std::cout<<"Somma delle persone aggiornate "<< eq2.update_situation(1,e_caccia)[0]<< "->"<< eq2.fix(eq2.update_situation(1,e_caccia)).S_[0]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.update_situation(1,e_caccia)[1]<< "->"<< eq2.fix(eq2.update_situation(1,e_caccia)).S_[1]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.update_situation(1,e_caccia)[2]<< "->"<< eq2.fix(eq2.update_situation(1,e_caccia)).I_[0]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.update_situation(1,e_caccia)[3]<< "->"<< eq2.fix(eq2.update_situation(1,e_caccia)).I_[1]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.update_situation(1,e_caccia)[4]<< "->"<< eq2.fix(eq2.update_situation(1,e_caccia)).H_<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.update_situation(1,e_caccia)[5]<< "->"<< eq2.fix(eq2.update_situation(1,e_caccia)).D_<<'\n';
-      std::cout<<"Somma :"<< sum(transform_arr<int,6>((eq2.get_evolution()).back())) <<'\n';
-       std::cout<<"differenza:"<<eq2.get_number_population()-sum(integer_part(eq2.update_situation(1,e_caccia)))<<'\n'; 
-      std::cout<<"Somma delle parti intere"<<sum(integer_part(eq2.update_situation(1,e_caccia)))<<'\n'; 
-      std::cout<<"aggiornamento senza vaccino"<<'\n';
-        People e_caccia2{{0,0},{0,0},0,0};
-      std::cout<<"Somma delle persone aggiornate "<< eq2.update_situation(0,e_caccia2)[0]<< "->"<< eq2.fix(eq2.update_situation(0,e_caccia2)).S_[0]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.update_situation(0,e_caccia2)[1]<< "->"<< eq2.fix(eq2.update_situation(0,e_caccia2)).S_[1]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.update_situation(0,e_caccia2)[2]<< "->"<< eq2.fix(eq2.update_situation(0,e_caccia2)).I_[0]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.update_situation(0,e_caccia2)[3]<< "->"<< eq2.fix(eq2.update_situation(0,e_caccia2)).I_[1]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.update_situation(0,e_caccia2)[4]<< "->"<< eq2.fix(eq2.update_situation(0,e_caccia2)).H_<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.update_situation(0,e_caccia2)[5]<< "->"<< eq2.fix(eq2.update_situation(0,e_caccia2)).D_<<'\n';
-      std::cout<<"Somma :"<< sum(transform_arr<int,6>((eq2.get_evolution()).back())) <<'\n';
-      std::cout<<"differenza:"<<eq2.get_number_population()-sum(integer_part(eq2.update_situation(0,e_caccia2)))<<'\n'; 
-          std::cout<<"Somma delle parti intere"<<sum(integer_part(eq2.update_situation(0,e_caccia2)))<<'\n'; 
-     std::cout<<"SUSCETTIBILI PRIMA DI EVOLVERE CON IL VACCINO "<<'\n';
-     std::cout<<"Somma delle persone aggiornate "<< eq2.get_evolution().back().S_[0]<<"\n\n";
-     std::cout<<"Somma delle persone aggiornate "<< eq2.get_evolution().back().S_[1]<<"\n\n";
-      eq2.evolve_vaccine(); 
-      std::cout<<"Somma delle persone aggiornate "<< eq2.get_evolution().back().S_[0]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.get_evolution().back().S_[1]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.get_evolution().back().I_[0]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.get_evolution().back().I_[1]<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.get_evolution().back().H_<<'\n';
-      std::cout<<"Somma delle persone aggiornate "<< eq2.get_evolution().back().D_<<'\n';
-      std::cout<<'\n';
-      
-       CHECK(eq2.get_days() == 6);
-       //CHECK((eq2.get_condition_day(5).S_[0])!= 0);
-      // std::cout<< "Suscettibili non vaccinati :"<< eq2.get_condition_day(6).S_[0] <<'\n';
-       //CHECK(eq2.get_condition_day(5).S_[1]!= 0);
-       //std::cout<< "Suscettibili vaccinati : "<< eq2.get_condition_day(6).S_[1]<<'\n' ;
-       CHECK(static_cast<double>(eq2.get_condition_day(6).S_[0])/(sum(eq2.get_condition_day(6).S_)) == doctest::Approx(0.75392).epsilon(0.04));
-       CHECK(static_cast<double>(eq2.get_condition_day(6).S_[1])/(sum(eq2.get_condition_day(6).S_)) == doctest::Approx(0.23808).epsilon(0.04) );
-       //CHECK(eq2.get_condition_day(5).I_[0]/(eq2.get_number_population()) == doctest::Approx().epsilon(0.000001));*/
-       //CHECK(eq2.get_condition_day(5).I_[1]/(eq2.get_number_population()) == doctest::Approx(0.23808).epsilon(0.000001));
-       //CHECK(eq2.get_condition_day(5).H_/(eq2.get_number_population()) == doctest::Approx(0.23808).epsilon(0.000001));
-       //CHECK(eq2.get_condition_day(5).D_/(eq2.get_number_population()) == doctest::Approx(0.23808).epsilon(0.000001)); 
+      People natural1 = eq2.fix(eq2.update_situation(0,e));
+      People total1 = eq2.fix(eq2.update_situation(1,natural1));
+    
 
+      CHECK(natural1.S_[0] == 331 );
+      CHECK(natural1.S_[1] == 0 );
+      CHECK(natural1.I_[0] == 32 );
+      CHECK(natural1.I_[1] == 0 );
+      CHECK(natural1.H_ == 46);
+      CHECK(natural1.D_ == 83);
+      ////////////////////////////////////
+      CHECK(total1.S_[0] == 331 );
+      CHECK(total1.S_[1] == 107);
+      CHECK(total1.I_[0] == 32 );
+      CHECK(total1.I_[1] == 1 );
+      CHECK(total1.H_ == 46);
+      CHECK(total1.D_ == 83 );
+
+       eq2.add_data(total1);
+       People last1 = eq2.get_evolution().back();
+     
+      CHECK(last1.S_[0] == 331 );
+      CHECK(last1.S_[1] == 107 );
+      CHECK(last1.I_[0] == 32 );
+      CHECK(last1.I_[1] == 1 );
+      CHECK(last1.H_ == 46);
+      CHECK(last1.D_ == 83);
+
+      ///////////////////////////////////////////////////////////////////////////
+      CHECK(sum(transform_arr<int,6>((eq2.get_evolution()).back())) == eq2.get_number_population());
+                ////////////////#2////////////////
+      People e2{{0,0},{0,0},0,0};
+      People natural2 = eq2.fix(eq2.update_situation(0,e2));
+      People total2 = eq2.fix(eq2.update_situation(1,natural2));
+
+      CHECK(natural2.S_[0] == 320 );
+      CHECK(natural2.S_[1] == 0 );
+      CHECK(natural2.I_[0] == 25);
+      CHECK(natural2.I_[1] == 0);
+      CHECK(natural2.H_ == 53);
+      CHECK(natural2.D_ == 94 );
+      ////////////////////////////////////
+      CHECK(total2.S_[0] == 320);
+      CHECK(total2.S_[1] == 107);
+      CHECK(total2.I_[0] == 25 );
+      CHECK(total2.I_[1] == 1 );
+      CHECK(total2.H_ == 53 );
+      CHECK(total2.D_ == 94);
+      
+      eq2.add_data(total2);
+      People last2 = eq2.get_evolution().back();
+     
+      CHECK(last2.S_[0] == 320 );
+      CHECK(last2.S_[1] == 107 );
+      CHECK(last2.I_[0] == 25 );
+      CHECK(last2.I_[1] == 1 );
+      CHECK(last2.H_ == 53);
+      CHECK(last2.D_ == 94);
+      ///////////////////////////////////////////////////////////////////////////////////
+      CHECK(sum(transform_arr<int,6>((eq2.get_evolution()).back())) == eq2.get_number_population());
+     
+
+      CHECK(eq2.get_days() == 8);
+       //////////////////////////evolve_vaccine()///////////////////////////////
+      eq2.evolve_vaccine(); 
+
+      CHECK(eq2.get_days() == 9);
+
+      People evolved = eq2.get_evolution().back();
+
+      CHECK(evolved.S_[0] == 311);
+      CHECK(evolved.S_[1] == 106);
+      CHECK(evolved.I_[0] == 19 );
+      CHECK(evolved.I_[1] == 1 );
+      CHECK(evolved.H_ == 59);
+      CHECK(evolved.D_ == 104 );
+      
+      CHECK(sum(transform_arr<int,6>((eq2.get_evolution()).back())) == eq2.get_number_population());
+     
 
       
     }
@@ -365,56 +368,6 @@ TEST_CASE("Equation Class") {
 
 
 
-       /////////evolve//////////////////////////
-       
-       /////////////////////////////////evolve_vaccine//////////////////////////////////////////
-     
-
-     /*
-       CHECK((eq1.get_evolution().back().S_[1])/(eq1.get_number_population())
-   == doctest::Approx(0.25).epsilon(1));
-       CHECK((eq1.get_evolution().back().S_[0])/(eq1.get_number_population())
-   == doctest::Approx(0.65).epsilon(1));
-
-
-       CHECK((eq1.get_evolution().back().I_[1])/(eq1.get_number_population())
-   == doctest::Approx(0.).epsilon(0.8));
-       CHECK((eq1.get_evolution().back().I_[0])/(eq1.get_number_population())
-   == doctest::Approx(0.65).epsilon(0.8));
-
-       CHECK((eq1.get_evolution().back().S_[1])/(eq1.get_number_population())
-   == doctest::Approx(0.35).epsilon(0.5));
-       CHECK((eq1.get_evolution().back().S_[0])/(eq1.get_number_population())
-   == doctest::Approx(0.65).epsilon(0.5));
-
-       eq1.evolve_vaccine(ff);
-
-       CHECK((eq1.get_evolution().back().S_[0])/ (eq1.get_number_population()
-   ) == doctest::Approx(0.4).epsilon(0.02));
-
-       CHECK((eq1.get_evolution().back().S_[1])/(eq1.get_number_population())
-   == doctest::Approx(0.35).epsilon(0.5));
-       CHECK((eq1.get_evolution().back().S_[0])/(eq1.get_number_population())
-   == doctest::Approx(0.65).epsilon(0.5));
-       CHECK((eq1.get_evolution().back().I_[1])/(eq1.get_number_population())
-   == doctest::Approx(0.35).epsilon(1));
-       CHECK((eq1.get_evolution().back().I_[0])/(eq1.get_number_population())
-   == doctest::Approx(0.65).epsilon(1));
-
-       CHECK((eq1.get_evolution().back().H_)/(eq1.get_number_population())
-   == doctest::Approx(0.35).epsilon(1));
-
-       CHECK((eq1.get_evolution().back().D_)/(eq1.get_number_population())
-   == doctest::Approx(0.65).epsilon(1));
-
-
-       CHECK(eq1.get_evolution().back().S_[1] == );
-       CHECK(eq1.get_evolution().back().I_[0] == );
-       CHECK(eq1.get_condi);
-       CHECK(eq1.get_evolution().back().H_ == );
-       CHECK(eq1.get_evolution().back().D_ == );
-      CHECK(eq1.get_days() == 4);*/
-////////Print//////////////////////
 
 /*SUBCASE(){}
     SUBCASE(){}

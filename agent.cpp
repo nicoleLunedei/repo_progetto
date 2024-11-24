@@ -7,27 +7,6 @@ bool is_perfect_square(int num){
   return (root * root == num);
 }
 
-////////////////////Binomial Distribution////////////////////////
-int comb(int n, int k) {
-    if (k > n - k){
-      k = n - k;
-    }   // ottimizza scegliendo il numero di iterazioni minore
-    int result = 1;
-    for (int i = 0; i < k; ++i) {
-        result *= (n - i);
-        result /= (i + 1);
-    }
-    return result;
-}
-
-double prob_binomial( int& n, int& k, double& p){
-    if (n < k)
-    throw std::runtime_error{"Error!k can't be higher the n"};
-
-      int diff = n-k;
-      double p_bin = comb(n,k)*(std::pow(p,k)*(std::pow((1-p),diff)));
-      return p_bin;
-}
 /////////////////////////sum in Person contest/////////////////////////////
 int sum_person(std::vector<Person>& pers){
   std::vector<int> pers_n;

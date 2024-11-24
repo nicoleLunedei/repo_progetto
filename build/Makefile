@@ -117,6 +117,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named sihd_pan_test
+
+# Build rule for target.
+sihd_pan_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sihd_pan_test
+.PHONY : sihd_pan_test
+
+# fast build rule for target.
+sihd_pan_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/build
+.PHONY : sihd_pan_test/fast
+
+#=============================================================================
 # Target rules for targets named sihd_eq
 
 # Build rule for target.
@@ -141,6 +154,19 @@ sihd_eq_test: cmake_check_build_system
 sihd_eq_test/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/build
 .PHONY : sihd_eq_test/fast
+
+#=============================================================================
+# Target rules for targets named sihd_mat_test
+
+# Build rule for target.
+sihd_mat_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sihd_mat_test
+.PHONY : sihd_mat_test
+
+# fast build rule for target.
+sihd_mat_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_mat_test.dir/build.make CMakeFiles/sihd_mat_test.dir/build
+.PHONY : sihd_mat_test/fast
 
 #=============================================================================
 # Target rules for targets named sihd_ag
@@ -318,11 +344,36 @@ main_eq_simulation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/main_eq_simulation.cpp.s
 .PHONY : main_eq_simulation.cpp.s
 
+matrix_test.o: matrix_test.cpp.o
+.PHONY : matrix_test.o
+
+# target to build an object file
+matrix_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_mat_test.dir/build.make CMakeFiles/sihd_mat_test.dir/matrix_test.cpp.o
+.PHONY : matrix_test.cpp.o
+
+matrix_test.i: matrix_test.cpp.i
+.PHONY : matrix_test.i
+
+# target to preprocess a source file
+matrix_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_mat_test.dir/build.make CMakeFiles/sihd_mat_test.dir/matrix_test.cpp.i
+.PHONY : matrix_test.cpp.i
+
+matrix_test.s: matrix_test.cpp.s
+.PHONY : matrix_test.s
+
+# target to generate assembly for a file
+matrix_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_mat_test.dir/build.make CMakeFiles/sihd_mat_test.dir/matrix_test.cpp.s
+.PHONY : matrix_test.cpp.s
+
 pandemic.o: pandemic.cpp.o
 .PHONY : pandemic.o
 
 # target to build an object file
 pandemic.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/pandemic.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/pandemic.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/pandemic.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/pandemic.cpp.o
@@ -334,6 +385,7 @@ pandemic.i: pandemic.cpp.i
 
 # target to preprocess a source file
 pandemic.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/pandemic.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/pandemic.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/pandemic.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/pandemic.cpp.i
@@ -345,11 +397,36 @@ pandemic.s: pandemic.cpp.s
 
 # target to generate assembly for a file
 pandemic.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/pandemic.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/pandemic.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/pandemic.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/pandemic.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/pandemic.cpp.s
 .PHONY : pandemic.cpp.s
+
+pandemic_test.o: pandemic_test.cpp.o
+.PHONY : pandemic_test.o
+
+# target to build an object file
+pandemic_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/pandemic_test.cpp.o
+.PHONY : pandemic_test.cpp.o
+
+pandemic_test.i: pandemic_test.cpp.i
+.PHONY : pandemic_test.i
+
+# target to preprocess a source file
+pandemic_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/pandemic_test.cpp.i
+.PHONY : pandemic_test.cpp.i
+
+pandemic_test.s: pandemic_test.cpp.s
+.PHONY : pandemic_test.s
+
+# target to generate assembly for a file
+pandemic_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/pandemic_test.cpp.s
+.PHONY : pandemic_test.cpp.s
 
 # Help Target
 help:
@@ -363,6 +440,8 @@ help:
 	@echo "... sihd_ag_test"
 	@echo "... sihd_eq"
 	@echo "... sihd_eq_test"
+	@echo "... sihd_mat_test"
+	@echo "... sihd_pan_test"
 	@echo "... agent.o"
 	@echo "... agent.i"
 	@echo "... agent.s"
@@ -381,9 +460,15 @@ help:
 	@echo "... main_eq_simulation.o"
 	@echo "... main_eq_simulation.i"
 	@echo "... main_eq_simulation.s"
+	@echo "... matrix_test.o"
+	@echo "... matrix_test.i"
+	@echo "... matrix_test.s"
 	@echo "... pandemic.o"
 	@echo "... pandemic.i"
 	@echo "... pandemic.s"
+	@echo "... pandemic_test.o"
+	@echo "... pandemic_test.i"
+	@echo "... pandemic_test.s"
 .PHONY : help
 
 

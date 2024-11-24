@@ -284,7 +284,7 @@ bool operator==( const Parameters& left, const Parameters& right){
      //in generale ho più mandemie in corso con popolazioni diverse e voglio sapere in particolare 
   
 void  Pandemic::add_data(const People& add){
-   // assert((sum(transform_arr<int,6>(add))) == (this->get_number_population()));
+    assert((sum(transform_arr<int,6>(add))) == (this->get_number_population()));
     this->get_evolution().push_back(add);
   }
 
@@ -316,9 +316,7 @@ void  Pandemic::add_data(const People& add){
     {
         return this->population_;
     }
- void Pandemic::evolve(){}
- void Pandemic::evolve_vaccine(){}
- //std::array<int,4>& Pandemic::Print(int& ){};//ricorda che devi printare la seomma degli infetti 
+
  double Pandemic::calculate_R0(Parameters& p) {
      
       return  (p.beta[0])/(p.gamma[0] + p.omega[0]);   
@@ -335,4 +333,4 @@ void  Pandemic::add_data(const People& add){
   
     }
     // Distruttore
-    Pandemic::~Pandemic() {};
+    Pandemic::~Pandemic() = default;
