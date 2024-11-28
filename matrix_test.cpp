@@ -75,7 +75,7 @@ SUBCASE("Constructor"){
  SUBCASE("Default"){
   Matrix<int> base;
 
-  CHECK(base.M.size() == 50);//36
+  CHECK(base.M.size() == 50);
 
   CHECK(base.M[0].size() == 50);
   CHECK(base.M[1].size() == 50);
@@ -93,7 +93,7 @@ SUBCASE("Constructor"){
   CHECK(base.M[10][1] == 0);
   CHECK(base.M[4][2] == 0);
   CHECK(base.M[2][3] == 0);
-  CHECK(base.M[6][4] == 0);//51
+  CHECK(base.M[6][4] == 0);
 
  }
 
@@ -106,7 +106,7 @@ SUBCASE("Constructor"){
 
 SUBCASE("Members functions"){
    Matrix<int> member(10,8);
-   ////////////modify() & read()/////////////////////
+   ////////////modify & read/////////////////////
    for(int r = 0 ; r < 10 ; r++ ){
       for(int c = 0 ; c < 10 ; c++ ){
        const int& v = r * c;
@@ -114,7 +114,7 @@ SUBCASE("Members functions"){
       }
    }
    CHECK(member.read(9,5) == 45);
-   /////////////each_cell()////////////////
+   /////////////each_cell////////////////
     int max = 0;
    member.each_cell([&max](int& cell){
         
@@ -139,7 +139,7 @@ SUBCASE("Members functions"){
     return max;
    });
    CHECK(max == 9);
-   /////////////operator==()////////////////
+   /////////////operator==////////////////
    CHECK((m == member) == false);
 
     Matrix<int> w(mat);
@@ -169,7 +169,7 @@ SUBCASE("Members functions"){
    CHECK((v_ == v) == true);
    //Copy constructor
    Matrix<int> vv(v);
-   CHECK((vv == v) == true);//65
+   CHECK((vv == v) == true);
 
    std::vector<std::vector<int>> empty1;
    CHECK_THROWS_AS(Matrix<int> assign1(empty1), std::runtime_error); 
@@ -187,8 +187,7 @@ SUBCASE("Members functions"){
    CHECK_THROWS_AS( assign2 = line, std::runtime_error); 
    CHECK_THROWS_WITH( assign2 = line, "They don't have the same number of lines");
 
-  //i controlli commentati sono prevenuti dai costruttori parametrici e quello di default 
-   /////////////sum()////////////////
+   /////////////sum////////////////
    CHECK(m.sum() == 450);
    
    

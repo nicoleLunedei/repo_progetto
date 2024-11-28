@@ -152,54 +152,65 @@ Parameters(const Parameters& other ) ; //costruttore di copia che è diverso dal
 
 class Pandemic {
     private:
-    std::mt19937 gen;  // Generatore di numeri casuali, chiedi se è opportuno metterli pubblici
-    std::uniform_real_distribution<> dis; 
-    std::vector<People> population_;//questa è la griglia primordiale; che protrebbe essere utile per tenere traccia delle giornate;
-    //cioè vuole essere una raccolta dati della diffusione 
+   ///////////A tracking vector that registrates data of each day of the simulation////////////
+    std::vector<People> population_; 
+    /////////////Probabilistic parameters //////////////////////////
     Parameters par_;
-    int N_;  //Numero della popolazione 
+    //////////////Number of the population///////////////
+    int N_; 
+    /////////////Efficacy of the vaccine //////////////////
     static std::array<double,2> efficacy_; 
+    /////////////Pseudo Random Number Generator//////////
+    static std::mt19937 gen; 
+    static std::uniform_real_distribution<> dis; 
     
     
     public:
 
-    //Costruttore Parametrico
+    ///////////////////Parametric Constructor//////////////////// 
 
     Pandemic( std::vector<People>& population,  Parameters& par, const int& N) ;
     
-    //Costruttore default
+    /////////////Default Constructor///////////
     Pandemic(); 
  
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-   // Struct Parameters
-   void introduce_vacc(const double& v);
-   void change_after_vacc();
-   void check_normalization( Parameters& p);
-   bool check_R0(Parameters& p);
+   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   /////////////Setters///////////////////
    void set_Parameters( Parameters& p);
-   Parameters& get_Parameters();
-   const double& generate();
-     // Struct People 
+   void introduce_vacc(const double& v);
    void set_initial_condition(const People& start);
+   ////////////Getters//////////////////
+    std::vector<People>& get_evolution();//questo mi restituisce tutta l'evoluzione 
+    Parameters& get_Parameters();
+    int get_number_population() const;
     
-   People& get_condition_day( const int& i);
-     //in generale ho più mandemie in corso con popolazioni diverse e voglio sapere in particolare 
+    int get_days();
+    People& get_situation_day( const int& i);
+   
+   ////////////Checking///////////////
+   bool check_R0(Parameters& p);
+   void check_normalization( Parameters& p);
+   
+   ////////////General functionalities///////////////
+
+   /////////Updates the probabilities for the vaccinated people
+   void change_after_vacc();
+
+  /////////////Generates a casual number
+   const double& generate();
   
-  const People& get_data(int& d);//test
+  /////////////Adds data by adding a new element People to the vector population_
   void add_data(const People& add);//  test
-  //dovresti vare un remove per simmetria
-  bool is_vaccinated();//test
-    //smistamento
  
-  int get_days();
-  int get_number_population() const;
-  std::vector<People>& get_evolution();//questo mi restituisce tutta l'evoluzione 
+ /////////////Does a data collection about who decides to get vaccinated, according the probability to get vaccinated
+  bool is_vaccinated();
+
+ /////////////Calculates the critical threshold
   double calculate_R0( Parameters& p) ;
+  //////////////////Informs when the evolution has finished because there aren't infected people left
   bool terminate();
      
-
-    
-    // Distruttore
+ ///////////Distructor//////////////////////////////////////
   ~Pandemic();
 };
 

@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <cassert>
 
-template <typename T> struct  Matrix{//è una matrice dinamica con gli elementi già creati
+template <typename T> struct  Matrix{
   
   std::vector<std::vector<T>> M;
 
@@ -13,7 +13,7 @@ Matrix(int l, const T& value);
 Matrix(std::vector<std::vector<T>>& m);
 Matrix();
 Matrix(const Matrix<T>& M_other);
-
+///////////////////////Operators Overloading////////////////////////
 Matrix<T>& operator=( const Matrix<T>& other );
 std::vector<T>& operator[](const std::size_t index_r);
 
@@ -25,16 +25,20 @@ friend bool operator!=(const Matrix<U>& left, const Matrix<U>& right);
 
 template<typename U>
 friend std::ostream& operator<<(std::ostream& os, const Matrix<U>& matrix);
-
+////////////////////////////Interaction with each element///////////////
 template<typename Func>
 void inside_matrix(Func action);
 
 template<typename F>
 void each_cell(F operation);
-
+/////////General functionalities//////////////
+////////////Adding an element at the end of current the last line ////////////
 void add(T& plus);
+//////////Sum of all the elements/////////
 int sum();
+/////////////////Modify a specific element of the matrix////
 void modify(const T& value, int r, int c );
+/////////////////Reading a specific element of the matrix/////////
 const T& read(int r, int c) const;
 
   
@@ -42,7 +46,7 @@ const T& read(int r, int c) const;
 };
   /// Parametric
   template<typename T>
-  Matrix<T>::Matrix(int l, const T& value): M(l,std::vector<T>(l,value)){//Null Matrix dinamica
+  Matrix<T>::Matrix(int l, const T& value): M(l,std::vector<T>(l,value)){
   if(l <= 0) {
     throw std::runtime_error{"The dimension must be positive "};
   }
@@ -69,9 +73,9 @@ const T& read(int r, int c) const;
 
   template<typename T>
   template<typename Func>
-  void Matrix<T>::inside_matrix(Func action){//questa è una funzione che mi permette di fare un'azione e sa già di e come dover entrare nella matrice
+  void Matrix<T>::inside_matrix(Func action){
     for (int r = 0; r < static_cast<int>(this->M.size()); r++){
-    for (int c = 0; c < static_cast<int>(this->M[r].size()); c++){//VERIFCA BENE I TEST PERCHè HAIU CAMBIATO L'INIZIALIZZAZIONE DI R E C
+    for (int c = 0; c < static_cast<int>(this->M[r].size()); c++){/
        
         action(this->M[r][c],r,c);
     }
@@ -81,16 +85,12 @@ const T& read(int r, int c) const;
   template<typename T>
   Matrix<T>::Matrix(const Matrix<T>& M_other) {
    this->M = M_other.M;
-   /*for (int r = 0; r < static_cast<int>(M_other.size()); r++){
-    for (int c = 0; c < static_cast<int>(M_other[r].size()); c++){
-     M_other[r][c]);
-    }
-    }*/
+  
    
   }
     template<typename T>
   template<typename F>
-  void Matrix<T>::each_cell(F operation){//questa è una funzione che mi permette di fare un'azione e sa già di e come dover entrare nella matrice
+  void Matrix<T>::each_cell(F operation){
     for (int r = 0; r < static_cast<int>(this->M.size()); r++){
     for (int c = 0; c < static_cast<int>(this->M[r].size()); c++){
        
@@ -103,7 +103,6 @@ template<typename T>
 void Matrix<T>::add( T& plus){
    this->M.back().push_back(plus);
 }
-  //pensa ad una funzione che permatte adi navigare attarverso le righe 
   template<typename T>
   int Matrix<T>::sum(){
     int tot = 0;
@@ -124,11 +123,9 @@ void Matrix<T>::add( T& plus){
   }
   template<typename T>
   Matrix<T>& Matrix<T>::operator=( const  Matrix<T>& other ) {
- 
-     if (this != &other) {  // Prevenire l'auto-assegnazione
-      
-    
-            // Verifica che le dimensioni delle due matrici siano uguali
+ ////////////////Not auto-assigning//////////////
+     if (this != &other) {
+    ////////////////Checking dimension of the two Matrices///////////////////////
           
           if (other.M.size() != this->M.size())  {
           
@@ -159,7 +156,7 @@ void Matrix<T>::add( T& plus){
     for (int r = 0; r < static_cast<int>(left.M.size()); r++){
     for (int c = 0; c < static_cast<int>(left.M.size()) ; c++){
       
-       if(left.read(r,c) != right.read(r,c)){//read ha il qualifier const così mi assicuro che non modifichi left e right che li ho dichiarati const 
+       if(left.read(r,c) != right.read(r,c)){
           return false;
         
        } 

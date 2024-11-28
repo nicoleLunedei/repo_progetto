@@ -5,9 +5,7 @@
 #include <memory>
 #include <chrono>      
 #include <thread> 
-//sf::CircleShape circle;
-            //circle.setRadius(10.f); 
-            //circle.setPosition( 100.f + c * 20.f, 150.f + r * 20.f);
+////////////Creating new colors////////////
  sf::Color Orange(255, 165, 0);
  sf::Color   Aquamarine(127, 255, 212);
 
@@ -46,103 +44,94 @@ sf::Color paint(Person& element){
  
 
 int main(){
-    //stuttura di richiesta simile a equation
-    // vedere contemporaneamente le simulazioni con il vaccino e senza vaccino 
-    char sim;
     int T;
+    char sim;
     std::cout<< "Hi! Do you want to run a default[D] or a personalized[P] simulation?[D/P]"<< '\n';
     std::cin>> sim;
 
     while (sim != 'D' && sim != 'P' )
      {
+      ///////////////////////Cleaning the in stream///////////////////
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout << "Please insert D, for default, or P , for personalized "<< '\n';
         std::cin>> sim;
      }
    
     
     if (sim == 'D'){
-       //simulazione by default
-     
+   /////////////////////Default simulation/////////////////////
+  //////////////////Default Agent object///////////////
        Agent ag ;
 
-      std::cout<< " Great! You've chosen the default simulation, here below some data :" << '\n';
+       std::cout<< " Great! You've chosen the default simulation, here below some data :" << '\n';
        std::cout<< " The population corrisponds to " << ag.get_number_population() << " people"<< '\n';
-       //std::cout<< " Susceptible =  " << ag.get_condition_day(1).S_[0] << " || "<< " Infected = " <<  ag.get_condition_day(1).I_[0] ;
-       //std::cout<< " Healed = 0 || Dead = 0 " << '\n';
-       //std::cout<< ag.get_condition_day(1);
-       std::cout<< " Probability to infect is " << ag.get_Parameters().beta[0] * 100 << "%";
-       std::cout<< ", probability of healing is  " << ag.get_Parameters().gamma[0] * 100 << "%";
-       std::cout<< ", probability of dying is " << ag.get_Parameters().omega[0] * 100 << "%";
-       std::cout<< " and to get vaccination, initially is null, later you'll have the chance to introduce it." << "\n\n";
+       std::cout<< " Probability to infect : " << ag.get_Parameters().beta[0] * 100 << "%";
+       std::cout<< " Probability of healing :  " << ag.get_Parameters().gamma[0] * 100 << "%";
+       std::cout<< " Probability of dying :" << ag.get_Parameters().omega[0] * 100 << "%";
+       std::cout<< " Probability of getting vaccinated , initially is null, later you'll have the chance to introduce it." << "\n\n";
        std::cout<< "Ok ! Let's get started ! "<<"\n\n";
-       std::cout<< "After the apperence of the graphic window, when you're ready you can press the 'Enter key' to start the simulation "<<'\n';
        ///////////////////////////////////////////////////////////////////////////
-       //std::cout<< ag.get_matrix()<<'\n';
-       //std::cout<< ag.get_condition_day(1)<<'\n'; 
-       
-
-
-        
-       std::cout<< "Per quanti giorni vuoi far durare la simulatione ?"<<'\n';
-       std::cin>> T;
-       char si ;
-       std::cout<< " sei pronto ?  " << '\n';
-       std::cin>> si;
       
-
-    ///////////////Creo la finestra sfml/////////////////
+   
+       std::cout<< " For how many days do you want your simulation to last?"<< '\n';
+       std::cin>> T;
+       std::cout<< "After the apperence of the graphic window, when you're ready you can press the 'Enter key' to start the simulation "<<'\n';
+       
+    ///////////////SFML WINDOW/////////////////
     
        sf::RenderWindow window1;
-       //sf::RenderWindow window2(sf::VideoMode(800, 600), "SIHD: with vaccine");
-         window1.setPosition(sf::Vector2i(100, 50)); 
-         ////////Creazione della matrice di pallini, coerente all'oggetto agent///////////
+        window1.setPosition(sf::Vector2i(100, 50)); 
+         ////////Creation of the Matrix of circles corrisponding to the Matrix of Person of the Agent object ///////////
           sf::CircleShape circle1;
          Matrix<sf::CircleShape> circles(ag.get_side(),circle1);
 
-         //////Stampa su terminale della matrice e de le conteggio
-        std::cout <<"Ecco la matrice-> Giorno N° 1 " <<'\n';
+         //////Showing tha Matrix on the terminal//////////
+        std::cout <<"Day N° 1 " <<'\n';
         std::cout << ag.get_matrix()<<'\n';
-        std::cout << ag.get_condition_day(1)<<'\n';
+        std::cout << ag.get_situation_day(1)<<'\n';
+    
       bool running = true;
       bool simulationOn = false;
       int t = 2;
-
+/////////////////////////////////Running state On//////////////////
       while(running){
 
         window1.create(sf::VideoMode(800, 600), "SIHD: without vaccine");
                
-               /////////////inizio del ciclo di vita della finestra/////////////
+               /////////////Opening of the window/////////////
         while (window1.isOpen()) {
         
      
        sf::Event event1;
        
-        ///////////////interrogatorio degli eventi/////////////////
+        ///////////////Polling events/////////////////
         while (window1.pollEvent(event1)) {
-            // Se viene premuto il bottone di chiusura della finestra
+            // Closing
             if (event1.type == sf::Event::Closed) {
-                window1.close();  // Chiude la finestra
+                window1.close();  
                  
             }
+            //Launching
             if(event1.type == sf::Event::KeyPressed && event1.key.code == sf::Keyboard::Space) {
-                simulationOn = true;  // Avvia la simulazione
+                simulationOn = true;
             }
             
         }
-        // Pulisce la finestra per prepararla al nuovo disegno
-         window1.clear(sf::Color::Black);  // Sfondo nero 
+       ////////Cleaning window and preparing it for new drawings/////////////////77
+         window1.clear(sf::Color::Black);  
 
 
 
   
-        //////////////verifica dell'avvio volontario della simulazione/////////////////
+        //////////////Intentional launch by Space bar/////////////////
+        /////////////Simulation state On/////////////////
         if (simulationOn){
 
-        //////////Nuovo giorno d'evoluzione //////////////
+        //////////New Day //////////////
         People next {{0,0},{0,0},0,0};
         ag.evolve(next);
 
-        ///////////////Modifica dei colori dei pallini//////
+        ///////////////Drawing circles//////
         ag.get_matrix().inside_matrix([&window1,&circles](Person& cell, int r, int c){ 
          circles[r][c].setFillColor(paint(cell));
          circles[r][c].setRadius(4.f); 
@@ -150,20 +139,18 @@ int main(){
          window1.draw(circles[r][c]);
         });
 
-        ////////////////////Stampa su terminale della matrice e dei numeri////////////
-            std::cout <<"Ecco la matrice-> Giorno N° "<< t <<'\n';
+        ////////////////////Printing Matrix and data on the terminal////////////
+            std::cout <<"Day N°"<< t <<'\n';
             std::cout<< ag.get_matrix();
-            std::cout<< "Ecco i numeri : " << '\n' ;
-            std::cout << ag.get_condition_day(t)<<"\n\n";
-            std::cout<< "La somma : " << "\n\n" ;
-            std::cout<< sum(transform_arr<int,6>(ag.get_evolution().back()))<< "\n\n" ;
+            std::cout<< "Situation data: " << '\n' ;
+            std::cout << ag.get_situation_day(t)<<"\n\n";
       
-        ///////incremento delle giornate////////////
+        ///////Increasing day counter////////////
         t++;
-         ////////////ritardo dell'evoluzione //////////////
+         ////////////Imposing a delay//////////////
        std::this_thread::sleep_for(std::chrono::milliseconds(2000)); 
        } else {
-        ////////////////mostra l'ultima matrice a pallini/////////
+        ////////////////Shows the last Matrix registered/////////
         ag.get_matrix().inside_matrix([&window1,&circles](Person& cell,int r, int c){
           
           circles[r][c].setPosition(120.f + (c * 8.f)+ 0.1f , 100.f + (r * 8.f )+ 0.1f);
@@ -173,54 +160,57 @@ int main(){
         });
        }
 
-      ////////////Primo Stop///////////
+      ////////////First Stop///////////
        if(t == (T+1)){
          simulationOn = false;
        }
-       ///////////////Secondo stop//////////////////
+       ///////////////Second Stop//////////////////
        if(sum(ag.get_evolution().back().I_) == 0){
 
         simulationOn = false;
        }
      
-    //////////aggiornamento della finestra 
+    //////////Updating window/////////////////
      window1.display();
-    ////////////////////chiusura della finestra///////////////////////
+    ////////////////////Closing window///////////////////////
     }
-       //////////////////quando concludono i giorni si chiede se si vuole continuare ////////////////////
+       //////////////////"Still Infected" people scope////////////////////
        if(sum(ag.get_evolution().back().I_)>0){
             char finish;
              std::cout<<" There are still infected people, do you want to finish the simulation?[y/n]"<<'\n';
              std::cin>> finish;
              while (finish!= 'y' && finish != 'n')
              {
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                std::cout<< "Please, insert 'y' or 'n' "<<'\n';
                std::cin>> finish;
              }
-             ////////////if statement che gestisce l'input dell'utente
+    /////////////////"Yes" scope /////////////////////
               if(finish == 'y'){
                 
                 std::cout<<"Great! Press again the Space bar when the window is opened, please"<<"\n\n";
-                ///////////////////riapertura della stessa finestra //////////////////
-              } else {
+                ///////////////////Opening again the window //////////////////
+              } ////////////////"Yes" scope closed/////////////
+               else {
                  running = false;
                  std::cout<<"Alright! Thanks for your time!"<<"\n\n";
-             }  
-        }else {
+             }  ////////////////"No" scope closed/////////////
+        } //////////////////"Still Infected" people scope////////////////////
+        else {
+               ///////////////////Running state Off//////////////
                 running = false;
                 std::cout<<"That's all! Thanks for your time!"<<"\n\n";
               }
     
-       }
+       }///////////////////Running state//////////////
       
       std::cout<<"Data of your simulation :"<<"\n\n";
       std::cout<<"Number of days : " << ag.get_days()<<"\n\n";
       std::cout<<"Situation of the last day : " << ag.get_evolution().back()<< "\n\n";
-    
+      std::cout<<"Critical threshold : "<< ag.calculate_R0(ag.get_Parameters())<<"\n\n";
     }
-     else {//sim == 'P'
-       //simulazione personalizzata
-       //sarebbe figo farlo controllare a lui la prossima evoluzione ad ogni click del tasto del mouse
+     else {
+     /////////////////////////Personalized simulation
        //////////////////////Limits////////////
        int MAX_IT = 5;
        int it = 0;
@@ -236,12 +226,14 @@ int main(){
        std::cout<< " Number population (please at least 100 )" << '\n';
        std::cin>> N;
        
-       if (N<50){
+       if (N < 100){
          char change;
          std::cout<<"You're number population is quite small, do you want to change ?[y/n]"<<'\n';
          std::cin>>change;
        
          while(change != 'y' && change != 'n'){
+            
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout<< "Please, insert 'y', for yes, or 'n', for no"<<'\n';
             std::cin>> change;
          }
@@ -261,23 +253,23 @@ int main(){
        std::cout<< " and the probability of getting vaccination, initially must be null, later you'll have the chance to introduce it." << "\n\n";
        std::cout<< "Ok ! Let's get started ! "<<"\n\n";
 
-      ////////////////////Creating the agent object//////////////////////////
+      ////////////////////Creating the agent object by smart pointer//////////////////////////
        std::unique_ptr<Agent> ag_;
        bool input0 = false;
        while(!input0){
 
        try{
-       
-        ag_ = std::make_unique<Agent>(days,prob,N);
-       //se il valori input vanno bene l'eccezione non viene lanciata e non viene il ricercato il primo handler disponibile 
-       input0 = true;//quindi se c'è un'eccezione non viene non viene cambiato il valore di input 
+      //////////////Assigning the input data//////////
+      ag_ = std::make_unique<Agent>(days,prob,N);
+    
+       input0 = true;
     
     } catch (std::runtime_error& e){
       //////////////////////////Handling ecceptions/////////////////////////
        std::cout<<"Error :"<<e.what()<<"\n\n";
-        //getting in the good state the input stream 
-        std::cin.clear();  // Rimuove lo stato di errore
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');//svuota il buffer del input stream
+        ///////////////////Cleaning the in stream////////////
+        std::cin.clear();  //Remove the error state
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout << "Please correct your data, according to the error"<< '\n';
         
         if (!(std::string(e.what()) == "The simulation with the vaccine can't start if the critical threshold is minor than one! ")){
@@ -315,9 +307,9 @@ int main(){
         //////////////////////////Handling ecceptions/////////////////////////
          if (std::string(e.what() )!= "This simulation has already an initial condition, please start another simulation" && std::string(e.what()) !="You already set the initial condition"){
           
-          std::cout << "Error: " << e.what() << '\n';
-          std::cout<<"  "<<'\n';
-          std::cin.clear();  // Rimuove lo stato di errore
+          std::cout << "Error: " << e.what() << "\n\n";
+        //////////////////Cleaning the in stream///////////
+          std::cin.clear();  //Remove the error state
           std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
           std::cout << "Please correct your data, according to the error, and insert them in the same order"<<'\n';
           std::cin>> people;
@@ -330,7 +322,7 @@ int main(){
                 if(it == MAX_IT){
                      std::cout<<" The attempts are finished! "<<"\n\n";
 
-                     //people = {{N*(1-0.25),0},{N*0.25},0,0};
+                     people = {{1,0},{1,0},0,0} ;
                        break;
                   }
          
@@ -343,28 +335,28 @@ int main(){
        std::cin>> duration_;
        while (duration_ != 'A' && duration_ != 'C')
        {
+        //////////////////Cleaning the in stream///////////
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout<< "Please, insert 'A' or 'C' "<<'\n';
         std::cin>> duration_;
        }
       if ( duration_ == 'A')
        {////////////AUTOMATICALLY////////////////
-       
-       ///////////ciclo di Rendering///////////
-        ///////////////Creo la finestra sfml/////////////////
+        ///////////////SFML Window/////////////////
     
        sf::RenderWindow window_(sf::VideoMode(800, 600), "SIHD");
-       //sf::RenderWindow window2(sf::VideoMode(800, 600), "SIHD: with vaccine");
+     
          window_.setPosition(sf::Vector2i(100, 50)); 
-         ////////Creazione della matrice (gemellare di ag_*) di pallini, coerente all'oggetto agent///////////
+  ////////Creation of the Matrix of circles corrisponding to the Matrix of Person of the Agent object ///////////
           sf::CircleShape circle1_;
          Matrix<sf::CircleShape> circles_(ag_->get_side(),circle1_);
   
-         //////Stampa su terminale della matrice e de le conteggio
-        std::cout <<"Ecco la matrice-> Giorno N° 1 " <<'\n';
+      //////Showing tha Matrix on the terminal//////////
+        std::cout <<"Day N° 1 " <<'\n';
         std::cout << ag_->get_matrix()<<'\n';
-        std::cout << ag_->get_condition_day(1)<<"\n\n";
+        std::cout << ag_->get_situation_day(1)<<"\n\n";
 
-        //////////Small talk///////////////
+        //////////Some Information///////////////
        std::cout<<" Fanatastic, the simulation will go on undisturbed, but you'll be able to interact with the window with the following keys :"<< "\n\n";
        std::cout<<" Space bar -> to launch the simulation"<<"\n\n";
        std::cout<<" 'P' -> to pause the simulation"<<"\n\n";
@@ -374,17 +366,16 @@ int main(){
       bool simulationOn = false;
       int t = 2;
     
-               /////////////inizio del ciclo di vita della finestra/////////////
+               /////////////Opening window/////////////
         while (window_.isOpen()) {
-        
-     
+      
        sf::Event event_;
        
-        ///////////////interrogatorio degli eventi/////////////////
+        ///////////////Polling events/////////////////
         while (window_.pollEvent(event_)) {
             ///////////Closing//////////////////
             if (event_.type == sf::Event::Closed) {
-                window_.close();  // Chiude la finestra
+                window_.close();  
                  
             }
             ///////////////////Launching/////////////////////////
@@ -403,11 +394,13 @@ int main(){
                 throw std::runtime_error{"It has been already set the probability of getting vaccinated"};
                 std::cout<<" Press the Space bar to continue"<<"\n\n";
               }
+            //////////////////Impossible introducing vaccine///////
               if (sum(ag_->get_evolution().back().S_) == 0){
                 
                 throw std::runtime_error{"There are no susceptible people left"};
                 std::cout<<" Press the Space bar to continue"<<"\n\n";
               }
+
                 simulationOn = false; 
                 double v;
                 std::cout<<"Insert the probability of getting vaccinated"<<"\n\n";
@@ -424,8 +417,8 @@ int main(){
                     } catch(std::runtime_error& e){
 
                        std::cout << "Error: " << e.what() << "\n\n";
-                     
-                       std::cin.clear();  // Rimuove lo stato di errore
+               ///////////////////Cleaning the in stream/////////////////      
+                       std::cin.clear();  //Remove the errore state
                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                        std::cin>> v;
                        it++;
@@ -445,20 +438,20 @@ int main(){
              
             }
 
-          // Pulisce la finestra per prepararla al nuovo disegno
-         window_.clear(sf::Color::Black);  // Sfondo nero 
+          ////////Cleaning window and preparing it for new drawings//////////////////////////  
+         window_.clear(sf::Color::Black);  
 
 
 
   
-        //////////////verifica dell'avvio volontario della simulazione/////////////////
+        //////////////Intentional launching  /////////////////
         if (simulationOn){
 
-        //////////Nuovo giorno d'evoluzione //////////////
+        //////////New Day//////////////
         People next {{0,0},{0,0},0,0};
         ag_->evolve(next);
 
-        ///////////////Modifica dei colori dei pallini//////
+        ///////////////Changing colors//////
         ag_->get_matrix().inside_matrix([&window_,&circles_](Person& cell, int r, int c){ 
          circles_[r][c].setFillColor(paint(cell));
          circles_[r][c].setRadius(4.f); 
@@ -466,20 +459,19 @@ int main(){
          window_.draw(circles_[r][c]);
         });
 
-        ////////////////////Stampa su terminale della matrice e dei numeri////////////
-            std::cout <<"Ecco la matrice-> Giorno N° "<< t <<'\n';
+            std::cout <<"Day N° "<< t <<'\n';
             std::cout<< ag_->get_matrix();
             std::cout<< "Ecco i numeri : " << '\n' ;
-            std::cout << ag_->get_condition_day(t)<<"\n\n";
+            std::cout << ag_->get_situation_day(t)<<"\n\n";
             std::cout<< "La somma : " << "\n\n" ;
             std::cout<< sum(transform_arr<int,6>(ag_->get_evolution().back()))<< "\n\n" ;
       
-        ///////incremento delle giornate////////////
+        ///////Increasing day counter////////////
         t++;
-         ////////////ritardo dell'evoluzione //////////////
+         ////////////Delay//////////////
        std::this_thread::sleep_for(std::chrono::milliseconds(2000)); 
        } else {
-        ////////////////mostra l'ultima matrice a pallini/////////
+        ////////////////Showing the last Matrix registered/////////
         ag_->get_matrix().inside_matrix([&window_,&circles_](Person& cell,int r, int c){
           
           circles_[r][c].setPosition((c * 8.f)+ 0.1f ,(r * 8.f )+ 0.1f);
@@ -489,80 +481,74 @@ int main(){
         });
        }
 
-      ////////////Primo Stop///////////
-       if(t == (T+1)){
-         simulationOn = false;
-       }
-       ///////////////Secondo stop//////////////////
+       ///////////////Stop//////////////////
        if(sum(ag_->get_evolution().back().I_) == 0){
         
         simulationOn = false;
        }
      
-    //////////aggiornamento della finestra 
+    //////////Updating window////////////
      window_.display();
         
-    } ////////////////////chiusura della finestra///////////////////////
+    } ////////////////////Closing window///////////////////////
       
        } else {//////////////////CHOOSE NUMBER OF DAYS////////////////////
 
-        //////////Richiesta del numero dei giorni/////////////////////////
+      
        std::cout<< "For how many days do you want your simulation to last?"<< '\n';
        std::cin>> T;
   
     //////////////////////////////////////////////////////////////////////////
  
      
-    ///////////////Creo la finestra sfml/////////////////
+    ///////////////SFML Window /////////////////
     
        sf::RenderWindow window_;
-       //sf::RenderWindow window2(sf::VideoMode(800, 600), "SIHD: with vaccine");
+
          window_.setPosition(sf::Vector2i(100, 50)); 
-         ////////Creazione della matrice (gemellare di ag_*) di pallini, coerente all'oggetto agent///////////
+         ////////Creation of the Matrix of circles corrisponding to the Matrix of Person of the Agent object ///////////
           sf::CircleShape circle1_;
          Matrix<sf::CircleShape> circles_(ag_->get_side(),circle1_);
   
-         //////Stampa su terminale della matrice e de le conteggio
-        std::cout <<"Ecco la matrice-> Giorno N° 1 " <<'\n';
+        //////Showing tha Matrix on the terminal//////////
+        std::cout <<"Day N° 1 " <<'\n';
         std::cout << ag_->get_matrix()<<'\n';
-        std::cout << ag_->get_condition_day(1)<<'\n';
+        std::cout << ag_->get_situation_day(1)<<'\n';
       bool running = true;
       bool simulationOn = false;
       int t = 2;
        while(running){
-         window_.create(sf::VideoMode(800, 600), "SIHD: without vaccine");
-               /////////////inizio del ciclo di vita della finestra/////////////
+
+         window_.create(sf::VideoMode(800, 600), "SIHD");
         while (window_.isOpen()) {
         
      
        sf::Event event_;
        
-        ///////////////interrogatorio degli eventi/////////////////
+        ///////////////Polling events/////////////////
         while (window_.pollEvent(event_)) {
-            // Se viene premuto il bottone di chiusura della finestra
+            ////////////////Closing//////////
             if (event_.type == sf::Event::Closed) {
-                window_.close();  // Chiude la finestra
+                window_.close();  
                  
             }
+            /////////////Launching///////////
             if(event_.type == sf::Event::KeyPressed && event_.key.code == sf::Keyboard::Space) {
-                simulationOn = true;  // Avvia la simulazione
+                simulationOn = true;  
             }
             
         }
-        // Pulisce la finestra per prepararla al nuovo disegno
-         window_.clear(sf::Color::Black);  // Sfondo nero 
-
-
-
+        ////////Cleaning window and preparing it for new drawings//////////////////////////  
+         window_.clear(sf::Color::Black);  
   
-        //////////////verifica dell'avvio volontario della simulazione/////////////////
+        //////////////Intentional launching/////////////////
         if (simulationOn){
 
-        //////////Nuovo giorno d'evoluzione //////////////
+        //////////New day//////////////
         People next {{0,0},{0,0},0,0};
         ag_->evolve(next);
 
-        ///////////////Modifica dei colori dei pallini//////
+        ///////////////Changing colors//////
         ag_->get_matrix().inside_matrix([&window_,&circles_](Person& cell, int r, int c){ 
          circles_[r][c].setFillColor(paint(cell));
          circles_[r][c].setRadius(4.f); 
@@ -571,19 +557,18 @@ int main(){
         });
 
         ////////////////////Stampa su terminale della matrice e dei numeri////////////
-            std::cout <<"Ecco la matrice-> Giorno N° "<< t <<'\n';
+            std::cout <<"Day Giorno N° "<< t <<'\n';
             std::cout<< ag_->get_matrix();
             std::cout<< "Ecco i numeri : " << '\n' ;
-            std::cout << ag_->get_condition_day(t)<<"\n\n";
-            std::cout<< "La somma : " << "\n\n" ;
-            std::cout<< sum(transform_arr<int,6>(ag_->get_evolution().back()))<< "\n\n" ;
-      
-        ///////incremento delle giornate////////////
+            std::cout << ag_->get_situation_day(t)<<"\n\n";
+    
+    
+        ///////Increasing day counter ////////////
         t++;
          ////////////ritardo dell'evoluzione //////////////
        std::this_thread::sleep_for(std::chrono::milliseconds(2000)); 
        } else {
-        ////////////////mostra l'ultima matrice a pallini/////////
+        ////////////////Shows the last Matrix registered/////////
         ag_->get_matrix().inside_matrix([&window_,&circles_](Person& cell,int r, int c){
           
           circles_[r][c].setPosition((c * 8.f)+ 0.1f ,(r * 8.f )+ 0.1f);
@@ -593,20 +578,24 @@ int main(){
         });
        }
 
-      ////////////Primo Stop///////////
+      ////////////First Stop///////////
        if(t == (T+1)){
          simulationOn = false;
        }
-       ///////////////Secondo stop//////////////////
+       ///////////////Second Stop//////////////////
        if(sum(ag_->get_evolution().back().I_) == 0){
         
         simulationOn = false;
        }
      
-    //////////aggiornamento della finestra 
+    //////////Updating the window////////// 
      window_.display();
    
-    } ////////////////////chiusura della finestra///////////////////////
+    } ////////////////////Closing window///////////////////////
+
+
+
+    
       //////////////////quando concludono i giorni si chiede se si vuole continuare ////////////////////
        if(sum(ag_->get_evolution().back().I_)>0){
             char finish;
@@ -617,7 +606,7 @@ int main(){
                std::cout<< "Please, insert 'y' or 'n' "<<'\n';
                std::cin>> finish;
              }
-             ////////////if statement che gestisce l'input dell'utente
+          
               if(finish == 'y'){
 
                 if(sum(ag_->get_evolution().back().S_)!=0){
@@ -625,7 +614,8 @@ int main(){
                   double vacc;
                   std::cout<<"Insert the probability of getting vaccinated(If don't want it, just write 0)[0,1["<<"\n\n";
                   std::cin>> vacc;
-                     //////////////////metti il caso in cui per gestirlo in maniera sicura////////////////
+
+                     if (vacc == 0){
                   ag_->introduce_vacc(vacc);
                   ag_->change_after_vacc();
                   ag_->sorting();
@@ -633,11 +623,14 @@ int main(){
                  std::cout<<"For the vaccinated people the probability have changed : "<<'\n';
                  std::cout<< "Beta(Infection) :"<< ag_->get_Parameters().beta[1] <<'\n'<< "omega (Death):" << ag_->get_Parameters().omega[1] <<'\n' << "gamma (Healing):"<< ag_->get_Parameters().gamma[1]<<"\n\n";   
                  std::cout<< "==========================================================================="<<"\n\n";
-                }
+
+                     }
+                  
+                }/////////////////"Still Susceptiple people" scope closed /////////
                 
                 std::cout<<"Somma"<< sum(ag_->get_evolution().back().S_)<<"\n\n";
                 std::cout<<"Great! Press again the Space bar when the window is opened, please"<<"\n\n";
-                ///////////////////riapertura della stessa finestra //////////////////
+                ///////////////////Opening again the same window //////////////////
               } else {
                  running = false;
                  std::cout<<"Alright! Thanks for your time!"<<"\n\n";
@@ -655,7 +648,7 @@ int main(){
       std::cout<<"Situation of the last day : " << ag_->get_evolution().back()<< "\n\n";
       std::cout<<"Critical threshold : "<< ag_->calculate_R0(ag_->get_Parameters())<<"\n\n";
        
-       }///////////////closing of the "PERSONALISED" scope///////////////////////// 
+       }///////////////closing of the "PERSONALIZED" scope///////////////////////// 
 
 
 }

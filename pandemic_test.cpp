@@ -21,8 +21,8 @@ TEST_CASE("Functions"){
 
     CHECK(sum(b) == 170 );
   
-   
-  }//4
+  }
+
   std::array<double,6> e{56.67,8.34,3.56,0.45,1.925,7.234};
   std::array<int,6> f{56,8,3,0,1,7};
   SUBCASE("maximum_dec() & integer_part") {
@@ -39,26 +39,23 @@ TEST_CASE("Functions"){
     CHECK(integer_part(e) == b);
     CHECK(sum(integer_part(e))== 170);
     CHECK(sum(e) - sum(integer_part(e)) == doctest::Approx(2.828).epsilon(0.000000001));  
-  }//8
-  SUBCASE("convert()") {
-   
   }
  
   SUBCASE("Trasform") {
    
-    //trasform_people()
+  ///////////////////array->people///////////////
    People g{{0,10},{20,30},40,70};
    CHECK(transform_people(b) == g);
-    //trasform_array()
+  ///////////////////people->array////////
    People h{{200,10},{20,30},50,8};
    std::array<int,6> i{200,10,20,30,50,8};
 
    CHECK(transform_arr<int,6>(h) == i);
   
-  }//2
+  }
 
 }
-
+////////////////////////////People struct/////////////////7
 TEST_CASE("People type") {
   std::array<int, 2> s{57, 6};
   std::array<int, 2> i{64, 93};
@@ -66,34 +63,37 @@ TEST_CASE("People type") {
   int d = 87;
   People one(s, i, h, d);
   People two;
-  SUBCASE("Parametric Constructor: People") {
+
+  SUBCASE("Parametric Constructor") {
     CHECK(one.S_[0] == 57);
     CHECK(one.S_[1] == 6);
     CHECK(one.I_[0] == 64);
     CHECK(one.I_[1] == 93);
     CHECK(one.H_ == 39);
     CHECK(one.D_ == 87);
-  }//6
-  SUBCASE("Default Constructor: People") {
+  }
+  SUBCASE("Default Constructor") {
     CHECK(two.S_[0] == 2499);
     CHECK(two.S_[1] == 0);
     CHECK(two.I_[0] == 1);
     CHECK(two.I_[1] == 0);
     CHECK(two.H_ == 0);
     CHECK(two.D_ == 0);
-  }//6
-  SUBCASE("Copy Construttor: People") {}
-  People three(two);
-  CHECK(three == two);
-}//1
-TEST_CASE("Parameters type") {//15
+  }
+  SUBCASE("Copy Construttor") {
+    People three(two);
+    CHECK(three == two);
+}
+  }
+ ///////////////////////////Parameters struct//////////////////
+TEST_CASE("Parameters type") {
   std::array<double, 2> b{0.6, 0.};
   std::array<double, 2> g{0.4, 0.};
   std::array<double, 2> o{0.5, 0.};
   double vax = 0.3;
   Parameters one(b, g, o, vax);
   Parameters two;
-  SUBCASE("Parametric Constructor: Parameters") {
+  SUBCASE("Parametric Constructor") {
     CHECK(one.beta[0] == 0.6);
     CHECK(one.beta[1] == 0.);
     CHECK(one.gamma[0] == 0.4);
@@ -101,8 +101,8 @@ TEST_CASE("Parameters type") {//15
     CHECK(one.omega[0] == 0.5);
     CHECK(one.omega[1] == 0.);
     CHECK(one.vax == 0.3);
-  }//7
-  SUBCASE("Default Constructor: Parameters") {
+  }
+  SUBCASE("Default Constructor") {
     CHECK(two.beta[0] == 0.6);
     CHECK(two.beta[1] == 0.);
     CHECK(two.gamma[0] == 0.2);
@@ -110,17 +110,16 @@ TEST_CASE("Parameters type") {//15
     CHECK(two.omega[0] == 0.35);
     CHECK(two.omega[1] == 0.);
     CHECK(two.vax == 0.);
-  }//7
+  }
   SUBCASE("Copy Construttor") {}
   Parameters three(two);
   CHECK(three == two);
-}//1
+}
+///////////////////////////////Pandemic class////////////////////
 
-// Classe madre
-
-TEST_CASE("Mother Class") {
+TEST_CASE("Pandemic Class") {
   Pandemic global;
-  SUBCASE("Testing the default Constructor") {//15
+  SUBCASE("Testing the default Constructor") {
     
 
     CHECK(global.get_number_population() == 2500);
@@ -135,34 +134,44 @@ TEST_CASE("Mother Class") {
 
     global.set_initial_condition({{2499,0},{1,0},0,0});
 
-    CHECK(global.get_condition_day(1).S_[0] == 2499);
-    CHECK(global.get_condition_day(1).S_[1] == 0);
-    CHECK(global.get_condition_day(1).I_[0] == 1);
-    CHECK(global.get_condition_day(1).I_[1] == 0);
-    CHECK(global.get_condition_day(1).H_ == 0);
-    CHECK(global.get_condition_day(1).D_ == 0);
+    CHECK(global.get_situation_day(1).S_[0] == 2499);
+    CHECK(global.get_situation_day(1).S_[1] == 0);
+    CHECK(global.get_situation_day(1).I_[0] == 1);
+    CHECK(global.get_situation_day(1).I_[1] == 0);
+    CHECK(global.get_situation_day(1).H_ == 0);
+    CHECK(global.get_situation_day(1).D_ == 0);
 
     People subject({6395, 0}, {3, 0}, 1, 1);
     global.add_data(subject);
 
-    CHECK(global.get_condition_day(2).S_[0] == 6395);
-    CHECK(global.get_condition_day(2).S_[1] == 0);
-    CHECK(global.get_condition_day(2).I_[0] == 3);
-    CHECK(global.get_condition_day(2).I_[1] == 0);
-    CHECK(global.get_condition_day(2).H_ == 1);
-    CHECK(global.get_condition_day(2).D_ == 1);
+    CHECK(global.get_situation_day(2).S_[0] == 6395);
+    CHECK(global.get_situation_day(2).S_[1] == 0);
+    CHECK(global.get_situation_day(2).I_[0] == 3);
+    CHECK(global.get_situation_day(2).I_[1] == 0);
+    CHECK(global.get_situation_day(2).H_ == 1);
+    CHECK(global.get_situation_day(2).D_ == 1);
 
     CHECK(global.get_days() == 2);
-  }//21
+  }
   SUBCASE("Parametric Constructor ") {
-    Parameters p_r({0.7, 0.}, {0.156, 0.}, {0.3, 0.}, 0.);  // giusto
-    Parameters p_w1({3., 0.}, {0.1, 0.}, {4., 0.},0.);  // sbaglaiato ha valori delle probabilità che eccedono
-    Parameters p_w2({0., 0.6}, {0., 0.5}, {0., 0.},0.4);  // ha le probabilità condizionate diverse da 0
-    People sub_r({3000000, 0}, {500000, 0}, 0, 0);
-    People sub_w1({5000000, 0}, {1, 0}, 0,0);  // non c'è coerenza con con l'altro parametro della classe
-    People sub_w2({23, 3}, {87, 5}, 0, 0);  // i valori dei vaccinati non sono nulli
+    ////////////Right///////
+     People sub_r({3000000, 0}, {500000, 0}, 0, 0);
+    Parameters p_r({0.7, 0.}, {0.156, 0.}, {0.3, 0.}, 0.);
+    /////////////Wrong///////////////
+
+    ///////////Outside ]0,1[ and the R0 > 1/////////////////
+    Parameters p_w1({3., 0.}, {0.1, 0.}, {4., 0.},0.); 
+    ///////////////Probabillities  with vaccine not null////////////////
+    Parameters p_w2({0., 0.6}, {0., 0.5}, {0., 0.},0.4);
+
+   ///////////////////////Incoherent with N/////////////////////
+    People sub_w1({5000000, 0}, {1, 0}, 0,0); 
+    ///////////////////////There are vaccinated people/////////////
+    People sub_w2({23, 3}, {87, 5}, 0, 0); 
+    //////////////////The infected people are null///////////////
     People sub_w3({3, 0 }, {0, 0}, 0, 0);
-    People sub_w4({3, 0 }, {6, 0}, 10, 89);//i morti e i guariti devono essere nulli 
+    ///////////////Healed and Dead are not null///////////
+    People sub_w4({3, 0 }, {6, 0}, 10, 89);
    
     std::vector<People> days;
     int N = 4000000;
@@ -182,24 +191,22 @@ TEST_CASE("Mother Class") {
     //N_ = 4000000
     CHECK(global_p.get_number_population() == 4000000);
 
-    CHECK(global_p.get_condition_day(1).S_[0] == 3500000);
-    CHECK(global_p.get_condition_day(1).S_[1] == 0);
-    CHECK(global_p.get_condition_day(1).I_[0] == 500000);
-    CHECK(global_p.get_condition_day(1).I_[1] == 0);
-    CHECK(global_p.get_condition_day(1).H_ == 0);
-    CHECK(global_p.get_condition_day(1).D_ == 0);
-    //
+    CHECK(global_p.get_situation_day(1).S_[0] == 3500000);
+    CHECK(global_p.get_situation_day(1).S_[1] == 0);
+    CHECK(global_p.get_situation_day(1).I_[0] == 500000);
+    CHECK(global_p.get_situation_day(1).I_[1] == 0);
+    CHECK(global_p.get_situation_day(1).H_ == 0);
+    CHECK(global_p.get_situation_day(1).D_ == 0);
+    
            SUBCASE("Checking errors by throw"){
-      // Checking the values of the  parameters objects
+      /////////////////////Ecception in parameters///////////////////
       std::vector<People> days_e;
-               CHECK_THROWS_AS(Pandemic(days_e, p_w1, N),std::runtime_error);  // CHECK_THROWS_AS controlla che il tipo di
-                              // operazitwo sia quello che voglio
+               CHECK_THROWS_AS(Pandemic(days_e, p_w1, N),std::runtime_error); 
                CHECK_THROWS_WITH(Pandemic(days_e, p_w1, N),"The values of the parameters must be inside the interval [0,1] !");
 
                CHECK_THROWS_AS(Pandemic(days_e, p_w2, N), std::runtime_error);
                CHECK_THROWS_WITH(Pandemic(days_e, p_w2, N),"The value of the parameters in case of vaccination must be 0 !");
-
-    // Checking the values of the people objects
+//////////////////////////Ecception in people//////////////////////
     std::vector<People> days1;
               Pandemic global_w1(days1,p_r,N);
                CHECK_THROWS_AS(global_w1.set_initial_condition(sub_w1), std::runtime_error);
@@ -218,83 +225,32 @@ TEST_CASE("Mother Class") {
                CHECK_THROWS_AS(global_w4.set_initial_condition(sub_w4), std::runtime_error);
                CHECK_THROWS_WITH(global_w4.set_initial_condition(sub_w4),"It doesn't make sense start with some healed or dead people");
 
-    // Check that the initial condition is absent
+////////////////////The initial condition must be absent//////////////////
               People sub{{300,0},{20,0},0,0};
 
               CHECK_THROWS_AS(global_p.set_initial_condition(sub), std::runtime_error);
               CHECK_THROWS_WITH(global_p.set_initial_condition(sub),"This simulation has already an initial condition, please start another simulation");
               
-    // Check the start from day one 
-              CHECK_THROWS_AS(global_p.get_condition_day(0), std::runtime_error);
-              CHECK_THROWS_WITH(global_p.get_condition_day(0),"The simulation starts from day one!");
+///////////////////////The first day is 1 not 0/////////////////////
+              CHECK_THROWS_AS(global_p.get_situation_day(0), std::runtime_error);
+              CHECK_THROWS_WITH(global_p.get_situation_day(0),"The simulation starts from day one!");
+    ///////////////////Check_R0////////////////
+              CHECK_THROWS_AS(global_p.set_Parameters(p_w1), std::runtime_error);
+              CHECK_THROWS_WITH(global_p.set_Parameters(p_w1),"The simulation with the vaccine can't start if the critical threshold is minor than or equal to one! ");
+
     }
 
     
-
-   /*SUBCASE("Checking the output messages") {//5
-      std::stringstream oss;
-      std::streambuf* or_cout = std::cout.rdbuf(oss.rdbuf());  // dupilce azione il metodo rdbuf(arg*) non solo
-                         // sostituisce il buffer ma estrapola il buffer
-                         // originale dell'oggetto che lo chiama, per poi
-                         // ripristinare il buffer originale
-
-    ////////////////////controllo nel costruttore/////////////////////////////////
-      Parameters c{{0.7, 0.}, {0.4, 0.}, {0.2, 0.}, 0.};
-
-      ///////////chaiamata dell'operazione da tetstare, viene intercettato perchè in precendenza ho spostato il buffere originale di cout all'oggetto stringstream
-      
-       global_p.check_normalization(c);
-      
-         //////////reindeirizzamento del buffere allo stream originale/////////////
-      std::cout.rdbuf(or_cout);
-      
-      //////////////flusso d'uscita vuoto///////////
-      CHECK(oss.str().empty());
    
-
-      
-      std::stringstream oss3;
-      std::cout.rdbuf(oss3.rdbuf());
-
-      Parameters e({0.7, 0.}, {0.7, 0.}, {0.5, 0.}, 0.);
-      
-      global_p.check_normalization(e);
-      std::cout.rdbuf(or_cout);
-
-      CHECK(oss3.str() == "The probablities of healing and dying must be minor than or equal to one, don't worry it has been fixed\n");
-      CHECK(e.omega[0] == doctest::Approx(0.3).epsilon(0.0000000000000001));
-     /////////////////////////////  
-
-
-
-      
-
-      // Verifica del output perché d non è corretto
-      /////////////////////////////////////metodo puro//////////////////////////////////
-      std::stringstream oss2;
-      ///////////spostamento del buffer///////////
-      std::cout.rdbuf(oss2.rdbuf());
-
-      Parameters d{{0.7, 0.}, {0.4, 0.}, {0.7, 0.}, 0.};
-      ///////////intercettazione//////////////
-      global_p.set_Parameters(d);
-      //////////reindirizzamento all'originale///////
-      std::cout.rdbuf(or_cout);  
-
-    CHECK(oss2.str() == "The probablities of healing and dying must be minor than or equal to one, don't worry it has been fixed\n");
-    CHECK(global_p.get_Parameters().omega[0] == doctest::Approx(0.6).epsilon(0.0000000000000001));
-    
-    
-    }*/
-   SUBCASE("Checking the output messages") {//5
+   SUBCASE("Checking the output messages") {
 
    std::cout<<"Checking the output messages"<<"\n\n";
-    ////////////////////controllo nel costruttore/////////////////////////////////
+    ////////////////////Constructor/////////////////////////////////
       Parameters c{{0.7, 0.}, {0.4, 0.}, {0.2, 0.}, 0.};
-
-      ///////////chaiamata dell'operazione da tetstare, viene intercettato perchè in precendenza ho spostato il buffere originale di cout all'oggetto stringstream
-       std::cout<<"First check : ok!" <<"\n\n";
+         
          global_p.check_normalization(c);
+       std::cout<<"First check : ok!" <<"\n\n";
+       
        
     std::cout<<"Second check :" <<'\n';
       Parameters e({0.7, 0.}, {0.5, 0.}, {0.9, 0.}, 0.);
@@ -311,7 +267,6 @@ TEST_CASE("Mother Class") {
 
     CHECK(global_p.get_Parameters().omega[0] == doctest::Approx(0.2).epsilon(0.01));
 
-    //std::cout<<"Fourth check : " <<'\n';
     
     std::vector<People> days5;
     Pandemic norm(days5,d, 100);
@@ -322,7 +277,7 @@ TEST_CASE("Mother Class") {
 
 
 
-      SUBCASE("Checking members of the Pandemic class") {//22
+      SUBCASE("Checking members of the Pandemic class") {
         //////////checking change_after_vacc//////////
         Parameters p_r({0.75, 0.}, {0.3, 0.}, {0.4, 0.}, 0.);
         std::vector<People> days3;
@@ -340,7 +295,7 @@ TEST_CASE("Mother Class") {
               doctest::Approx(0.56).epsilon(0.000001));
         CHECK(members.get_Parameters().omega[1] ==
               doctest::Approx(0.14).epsilon(0.000001));
-
+//////////////////////the vaccine must be introduced just one time///////////////////////
         CHECK_THROWS_AS(members.introduce_vacc(0.65), std::runtime_error);
         CHECK_THROWS_WITH(members.introduce_vacc(0.65), "You can't introduce the vaccine more than once");
 

@@ -6,9 +6,9 @@ project(SIHDProject VERSION 1.0) # NameProject
 set(CMAKE_CXX_STANDARD 14) 
 set(CMAKE_CXX_STANDARD_REQUIRED True) # Assicura che sia obbligatorio
 
-include_directories(include)
+
 ################################# Pandemic ##########################################
-add_executable( sihd_pan_test  pandemic.hpp pandemic.cpp doctest.h pandemic_test.cpp )
+add_executable( sihd_pan_test pandemic.cpp pandemic_test.cpp )
 # Adding compile options for the target
 target_compile_options(sihd_pan_test PRIVATE -fsanitize=address)
 
@@ -20,7 +20,7 @@ target_link_options(sihd_pan_test PRIVATE -fsanitize=address)
 
 ################################## Equation ##########################################
                     ############# main_eq_simulation ################
-add_executable( sihd_eq  pandemic.hpp pandemic.cpp equation.hpp equation.cpp main_eq_simulation.cpp )
+add_executable( sihd_eq pandemic.cpp equation.cpp main_eq_simulation.cpp )
 # Adding compile options for the target
 target_compile_options(sihd_eq PRIVATE -fsanitize=address)
 
@@ -30,7 +30,7 @@ target_compile_options(sihd_eq PRIVATE -Wall -Wextra)
 target_link_options(sihd_eq PRIVATE -fsanitize=address)
 
                 ########### equation_test ##############
-add_executable( sihd_eq_test  pandemic.hpp pandemic.cpp equation.hpp equation.cpp doctest.h equation_test.cpp )
+add_executable( sihd_eq_test pandemic.cpp  equation.cpp equation_test.cpp )
 # Adding compile options for the target
 target_compile_options(sihd_eq_test PRIVATE -fsanitize=address)
 
@@ -40,7 +40,7 @@ target_compile_options(sihd_eq_test PRIVATE -Wall -Wextra)
 target_link_options(sihd_eq_test PRIVATE -fsanitize=address)
 
 #################################### Matrix ###########################################
-add_executable( sihd_mat_test  matrix.hpp matrix_test.cpp )
+add_executable( sihd_mat_test matrix_test.cpp )
 # Adding compile options for the target
 target_compile_options(sihd_mat_test PRIVATE -fsanitize=address)
 
@@ -56,7 +56,7 @@ find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system)
 
     
                          ############## main_ag_simulation #####################
-add_executable( sihd_ag  pandemic.hpp pandemic.cpp agent.hpp agent.cpp matrix.hpp main_ag_simulation.cpp )
+add_executable( sihd_ag pandemic.cpp agent.cpp main_ag_simulation.cpp )
 
 # Adding compile options for the target
 target_compile_options(sihd_ag PRIVATE -fsanitize=address)
@@ -71,7 +71,7 @@ target_link_options(sihd_ag PRIVATE -fsanitize=address)
 target_link_libraries(sihd_ag PRIVATE sfml-graphics sfml-window sfml-system)
 
                     ################ agent_test ######################
-add_executable( sihd_ag_test  pandemic.hpp pandemic.cpp agent.hpp agent.cpp matrix.hpp doctest.h agent_test.cpp )
+add_executable( sihd_ag_test pandemic.cpp agent.cpp matrix.hpp agent_test.cpp )
 # Adding compile options for the target
 target_compile_options(sihd_ag_test PRIVATE -fsanitize=address)
 

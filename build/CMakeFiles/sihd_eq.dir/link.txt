@@ -1,1 +1,1 @@
-/usr/bin/c++ -fsanitize=address CMakeFiles/sihd_eq.dir/pandemic.cpp.o CMakeFiles/sihd_eq.dir/equation.cpp.o CMakeFiles/sihd_eq.dir/main_eq_simulation.cpp.o -o sihd_eq 
+/usr/bin/c++ -O3 -DNDEBUG -fsanitize=address CMakeFiles/sihd_eq.dir/pandemic.cpp.o CMakeFiles/sihd_eq.dir/equation.cpp.o CMakeFiles/sihd_eq.dir/main_eq_simulation.cpp.o -o sihd_eq 

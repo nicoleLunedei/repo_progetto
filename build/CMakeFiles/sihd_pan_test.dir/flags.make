@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/lunemonday/repo_progetto/include
+CXX_INCLUDES = 
 
-CXX_FLAGS = -std=gnu++14 -fsanitize=address -Wall -Wextra
+CXX_FLAGS = -O3 -DNDEBUG -std=gnu++14 -fsanitize=address -Wall -Wextra
 

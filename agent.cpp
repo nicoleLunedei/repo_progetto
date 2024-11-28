@@ -1,7 +1,7 @@
 #include "matrix.hpp"
 #include "agent.hpp"
 
-
+////////////////Checking if the number is a perfect square///////////////////
 bool is_perfect_square(int num){  
   int root = static_cast<int> (std::sqrt(num));
   return (root * root == num);
@@ -18,75 +18,41 @@ int sum_person(std::vector<Person>& pers){
 
 
 /////////////////////CLASS AGENT///////////////////////////////////////////
+////////////////////////Constructors////////////////////////////
+
+      ///////Parametric/////////// 
 Agent::Agent(std::vector<People>& population,  Parameters& par,const int& N): Pandemic(population,par,N),M_(static_cast<int>(std::sqrt(N)), Susceptible) {
    
       if (!is_perfect_square(this->get_number_population())) 
       throw std::runtime_error{"The number of the population must a perfect square"};
       
     }
-    
+ ////////////Default/////////  
 Agent::Agent(): Pandemic(),M_(){
-   //utilizzo i costruttori di default di Pandemic e Matrix che sono entrambi consistenti con il lato=80
-  //inizio a costruire le righe 
+ //////////////////Setting initial situation////////////////
      People initial_data;
             this->set_initial_condition(initial_data);
-   M_.inside_matrix([this](Person& cell, int r, int c){//[] roba che serve soltanto alla lambada function, ()argomenti che ho messo nell'action() in inside_matrix
+   M_.inside_matrix([this](Person& cell, int r, int c){
 
          if (r == (static_cast<int>(M_.M.size())/2) && c == static_cast<int>(M_.M.size()/2) ){
            cell= Person::Infected;
          } else {
           cell = Person::Susceptible;
          }
-    // qua dovrebbe avermi creato la pandemia e la matrice per rappresentarne gli stati
+  
      });
    }
-     
-void Agent::draw_matrix(People& begin){
-  //fare un controllo che non ci sia già la situazione iniziale, esattamente come in set_initial condition
-  if (this->get_matrix().sum() !=0){
-    throw std::runtime_error{"You already set the initial condition"};
-  }
-  //prende gli infetti da pandemic e riempie la matrice finchè non è stata settata la situzione iniziale 
-  this->set_initial_condition(begin);
-  
-  int i = 0;
-  while (i < sum(this->get_condition_day(1).I_)){//ciclo che mi assicura di mettere tutti gli infetti richiesti
-    //estrazione delle coordinate nella matrice 
-    int rr = std::floor(this->generate() * this->get_side());
-    int cc = std::floor(this->generate() * this->get_side());
-     
-      if (this->show_cell(rr,cc) == Person::Infected)
-         {
-           while (sum_person(this->get_matrix().M[rr]) == this->get_side()){//fisso la riga, perchè controllo quale riga ha la somma diversa dal lato della griglia
-               rr++;
-           }
-           while(this->show_cell(rr,cc) == Person::Infected ){//fisso la colonna 
-            cc++;
-           }
-          this->show_cell(rr,cc) = Person::Infected;
-          i++;
-         } else {
-            this->show_cell(rr,cc) = Person::Infected;
-            i++;
-         }
-    
-       } 
-  }  
-     
-  
-
-    
-
-
+       //////////Getters///////
+       
 Matrix<Person>& Agent::get_matrix() {
   return this->M_;
 }
 int Agent::get_side() const{
   return std::sqrt(this->get_number_population());
 }
-// toroidal structure viewing
+///////////// Toroidal structure viewing/////////////////////
 Person& Agent::show_cell(int r, int c) {
-  //controllo che la matrice sia vuota oppure no 
+  
   if(this->get_matrix().M.empty())
    throw std::runtime_error{"The Matrix is empty!"};
 
@@ -99,18 +65,56 @@ Person& Agent::show_cell(int r, int c) {
 
    return this->get_matrix().M[rr][cc];
 } 
+    /////////Setter///////
+    /////////Setting the first situation and drawing it on the Matrix///////////  
+    
+void Agent::draw_matrix(People& begin){
+  
+  if (this->get_matrix().sum() !=0){
+    throw std::runtime_error{"You already set the initial condition"};
+  }
 
-bool Agent::throwing_dices(double& dice){
+  this->set_initial_condition(begin);
+  
+  int i = 0;
+  while (i < sum(this->get_situation_day(1).I_)){
+    ////////////////Extraction of the random coordinates////////////////////////
+    int rr = std::floor(this->generate() * this->get_side());
+    int cc = std::floor(this->generate() * this->get_side());
+     
+      if (this->show_cell(rr,cc) == Person::Infected)
+         {
+////////////Checking wich line has sum == to the side of matrix////////////////
+           while (sum_person(this->get_matrix().M[rr]) == this->get_side()){
+               rr++;
+           }
+////////////////Scrolling columns//////////////////
+           while(this->show_cell(rr,cc) == Person::Infected ){
+            cc++;
+           }
+          this->show_cell(rr,cc) = Person::Infected;
+          i++;
+         } else {
+            this->show_cell(rr,cc) = Person::Infected;
+            i++;
+         }
+    
+       } 
+  }  
+       
+  /////////////////////////////General functionalities//////////////////////////////////////////
+
+    bool Agent::throwing_dices(double& dice){
   if (this->generate()<= dice){
-    //changing state
+    //Chenge
     return true;
   } else {
-    //remaining state
+    //Invariation
     return false;
   }
 }
 
-//Check infected number next to the cell
+ //////////Counting the infected people around a specific cell of Matrix/////////
 int Agent::infected_neighbours( int r, int c) {
 
   int contacts = 0;
@@ -126,8 +130,9 @@ int Agent::infected_neighbours( int r, int c) {
  assert(contacts <= 8);
   return contacts;
 }
-//Smistamento 
-void Agent::sorting(){
+     
+       ////////////Data collection about the vaccine///////////////
+       void Agent::sorting(){
     int check = this->get_evolution().back().S_[0];
     this->get_matrix().each_cell([this](Person& cell ){
         if (cell == Person::Susceptible){
@@ -141,8 +146,12 @@ void Agent::sorting(){
     assert((this->get_evolution().back().S_[0])+(this->get_evolution().back().S_[1]) == check );
 }
 
-void Agent::change_state(){ //l'indice i mi permetterà di distinguere l'evoluzione da evolve e evolve vaccine
-  this->get_matrix().inside_matrix([this](Person& cell, int r, int c ){{//per ogni elemento viene fatto un controllo della cella 
+          /////////////////////Evolving functionalities/////////////////
+
+    /////////Recognizing the state of a cell and than change it according on the rules//////////////
+
+void Agent::change_state(){ 
+  this->get_matrix().inside_matrix([this](Person& cell, int r, int c ){{ 
 
 int inf = 0;
 int k = 1;
@@ -151,9 +160,9 @@ int k = 1;
      switch (cell)
   { 
     case Person::Susceptible:
-  /* genera il numero casualmente e confrontalo con la probabilià che d'infezione  */
+ 
   inf = this->infected_neighbours(r ,c);
-  //calcolo della probabilità con un numero specifico di contatti infetti, con utilizzo della distribuzione di probabilità binomiale
+
    for(; k <= inf; k++){
     if(this->throwing_dices(this->get_Parameters().beta[0])){
               cell = Person::Infected;
@@ -162,9 +171,9 @@ int k = 1;
    }
    break;
      case Person::Susceptible_v:
-  /* genera il numero casualmente e confrontalo con la probabilià che d'infezione  */
+ 
    inf = this->infected_neighbours(r ,c );
-  //calcolo della probabilità con un numero specifico di contatti infetti, con utilizzo della distribuzione di probabilità binomiale
+
   for(; k <= inf; k++){
     if(this->throwing_dices(this->get_Parameters().beta[0])){
               cell = Person::Infected_v;
@@ -182,7 +191,7 @@ int k = 1;
       if(this->throwing_dices(this->get_Parameters().omega[0])){
         cell = Person::Dead;
       } else { 
-        //rimane infettato
+        //Still Infected
       }
      }
   
@@ -196,21 +205,20 @@ int k = 1;
       if(this->throwing_dices(this->get_Parameters().omega[1])){
         cell = Person::Dead;
       } else { 
-        //rimane infettato
+        //Still Infected
       }
       
      }
   break;
   case Person::Healed :
-    //Non c'è un cambio di stato della cella 
-    //La cella rimane Healed
+//////////////Inavriation///////////
+     break;
   case Person::Dead :
-  //Non c'è un cambio di stato della cella 
-    //La cella rimane Morta
+//////////////Inavriation///////////
     break;
   }
 }});
-//
+
   
 }
 
@@ -246,12 +254,12 @@ this->add_data(collection);
 }
 
  
-void Agent::evolve(People& follow){//qua ci sarebbe d verificare che la dimensione di populationè aumentata di 1 e soparttutto che la matrice precedemte è diversa a quella di prima 
-  //Far evolvere la matrice 
+void Agent::evolve(People& follow){
+  ///////Changing///////////
   this->change_state();
-  //e registrare i nuovi dati giornalmente in population
+  ///////////Collecting///////////////
   this->data_collection(follow);
 }
 
-
+//////////////Distructor//////////////
  Agent::~Agent() = default;
