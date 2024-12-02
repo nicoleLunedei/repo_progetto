@@ -9,7 +9,7 @@ SUBCASE("Constructor"){
      
  SUBCASE("Parametric"){
 ///////////////by dimension///////////////////////
-   int l = 5;
+   std::size_t l = 5;
   Matrix<int> parametric1(l,5);
 
   CHECK(parametric1.M.size() == 5);
@@ -107,9 +107,9 @@ SUBCASE("Constructor"){
 SUBCASE("Members functions"){
    Matrix<int> member(10,8);
    ////////////modify & read/////////////////////
-   for(int r = 0 ; r < 10 ; r++ ){
-      for(int c = 0 ; c < 10 ; c++ ){
-       const int& v = r * c;
+   for(std::size_t  r = 0 ; r < 10 ; r++ ){
+      for(std::size_t c = 0 ; c < 10 ; c++ ){
+       const int& v = static_cast<int>(r * c);
        member.modify(v,r,c);
       }
    }
@@ -131,7 +131,7 @@ SUBCASE("Members functions"){
 
    Matrix<int> m(mat);
    max = 0;
-   m.inside_matrix([&max](int& cell,int r, int c){
+   m.inside_matrix([&max](int& cell, std::size_t r, std::size_t c){
       
       if ((r+c) % 2 == 0 && cell > max){
             max = cell;  
@@ -147,11 +147,11 @@ SUBCASE("Members functions"){
 
     vec1.push_back(10);
     std::vector<std::vector<int>> mat_(11,vec1);
-    CHECK(static_cast<int>(mat_.size()) == 11);
-    CHECK(static_cast<int>(mat_[0].size()) == 11);
+    CHECK(mat_.size() == 11);
+    CHECK(mat_[0].size() == 11);
     Matrix<int> v(mat_);
-    CHECK(static_cast<int>(v.M.size()) == 11);
-    CHECK(static_cast<int>(v.M[0].size()) == 11);
+    CHECK(v.M.size() == 11);
+    CHECK(v.M[0].size() == 11);
     
     Matrix<int> v_(11,4);
    

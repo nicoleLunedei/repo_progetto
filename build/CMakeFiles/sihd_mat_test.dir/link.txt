@@ -1,1 +1,1 @@
-/usr/bin/c++ -O3 -DNDEBUG -fsanitize=address CMakeFiles/sihd_mat_test.dir/matrix_test.cpp.o -o sihd_mat_test 
+/usr/bin/c++ -O3 -DNDEBUG -fsanitize=address -fsanitize=undefined CMakeFiles/sihd_mat_test.dir/matrix_test.cpp.o -o sihd_mat_test 

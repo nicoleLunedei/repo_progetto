@@ -11,6 +11,8 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/lunemonday/repo_progetto/agent.cpp" "CMakeFiles/sihd_ag.dir/agent.cpp.o" "gcc" "CMakeFiles/sihd_ag.dir/agent.cpp.o.d"
   "/home/lunemonday/repo_progetto/main_ag_simulation.cpp" "CMakeFiles/sihd_ag.dir/main_ag_simulation.cpp.o" "gcc" "CMakeFiles/sihd_ag.dir/main_ag_simulation.cpp.o.d"
   "/home/lunemonday/repo_progetto/pandemic.cpp" "CMakeFiles/sihd_ag.dir/pandemic.cpp.o" "gcc" "CMakeFiles/sihd_ag.dir/pandemic.cpp.o.d"
+  "/home/lunemonday/repo_progetto/parameters.cpp" "CMakeFiles/sihd_ag.dir/parameters.cpp.o" "gcc" "CMakeFiles/sihd_ag.dir/parameters.cpp.o.d"
+  "/home/lunemonday/repo_progetto/people.cpp" "CMakeFiles/sihd_ag.dir/people.cpp.o" "gcc" "CMakeFiles/sihd_ag.dir/people.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

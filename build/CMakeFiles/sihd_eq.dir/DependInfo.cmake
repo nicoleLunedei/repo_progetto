@@ -11,6 +11,8 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/lunemonday/repo_progetto/equation.cpp" "CMakeFiles/sihd_eq.dir/equation.cpp.o" "gcc" "CMakeFiles/sihd_eq.dir/equation.cpp.o.d"
   "/home/lunemonday/repo_progetto/main_eq_simulation.cpp" "CMakeFiles/sihd_eq.dir/main_eq_simulation.cpp.o" "gcc" "CMakeFiles/sihd_eq.dir/main_eq_simulation.cpp.o.d"
   "/home/lunemonday/repo_progetto/pandemic.cpp" "CMakeFiles/sihd_eq.dir/pandemic.cpp.o" "gcc" "CMakeFiles/sihd_eq.dir/pandemic.cpp.o.d"
+  "/home/lunemonday/repo_progetto/parameters.cpp" "CMakeFiles/sihd_eq.dir/parameters.cpp.o" "gcc" "CMakeFiles/sihd_eq.dir/parameters.cpp.o.d"
+  "/home/lunemonday/repo_progetto/people.cpp" "CMakeFiles/sihd_eq.dir/people.cpp.o" "gcc" "CMakeFiles/sihd_eq.dir/people.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

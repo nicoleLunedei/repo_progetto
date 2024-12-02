@@ -41,7 +41,14 @@ sf::Color paint(Person& element){
                }
     return color; 
 }
- 
+ void writing_Circles( Matrix<sf::CircleShape> circ, std::size_t r, std::size_t c){
+          
+          const float r_ = static_cast<float>(r) ;
+          const float c_ = static_cast<float>(c) ;
+
+          circ[r][c].setPosition(120.f+ (c_ * 8.f)+ 0.1f , 100.f + (r_ * 8.f)+ 0.1f);
+          circ[r][c].setRadius(4); 
+ }
 
 int main(){
     int T;
@@ -61,13 +68,13 @@ int main(){
     if (sim == 'D'){
    /////////////////////Default simulation/////////////////////
   //////////////////Default Agent object///////////////
-       Agent ag ;
+       std::unique_ptr<Agent> ag = std::make_unique<Agent>();
 
        std::cout<< " Great! You've chosen the default simulation, here below some data :" << '\n';
-       std::cout<< " The population corrisponds to " << ag.get_number_population() << " people"<< '\n';
-       std::cout<< " Probability to infect : " << ag.get_Parameters().beta[0] * 100 << "%";
-       std::cout<< " Probability of healing :  " << ag.get_Parameters().gamma[0] * 100 << "%";
-       std::cout<< " Probability of dying :" << ag.get_Parameters().omega[0] * 100 << "%";
+       std::cout<< " The population corrisponds to " << ag->get_number_population() << " people"<< '\n';
+       std::cout<< " Probability to infect : " << ag->get_Parameters().beta[0] * 100 << "%";
+       std::cout<< " Probability of healing :  " << ag->get_Parameters().gamma[0] * 100 << "%";
+       std::cout<< " Probability of dying :" << ag->get_Parameters().omega[0] * 100 << "%";
        std::cout<< " Probability of getting vaccinated , initially is null, later you'll have the chance to introduce it." << "\n\n";
        std::cout<< "Ok ! Let's get started ! "<<"\n\n";
        ///////////////////////////////////////////////////////////////////////////
@@ -83,12 +90,12 @@ int main(){
         window1.setPosition(sf::Vector2i(100, 50)); 
          ////////Creation of the Matrix of circles corrisponding to the Matrix of Person of the Agent object ///////////
           sf::CircleShape circle1;
-         Matrix<sf::CircleShape> circles(ag.get_side(),circle1);
+         Matrix<sf::CircleShape> circles(ag->get_side(),circle1);
 
          //////Showing tha Matrix on the terminal//////////
         std::cout <<"Day N° 1 " <<'\n';
-        std::cout << ag.get_matrix()<<'\n';
-        std::cout << ag.get_situation_day(1)<<'\n';
+        std::cout << ag->get_matrix()<<'\n';
+        std::cout << ag->get_situation_day(1)<<'\n';
     
       bool running = true;
       bool simulationOn = false;
@@ -120,30 +127,34 @@ int main(){
        ////////Cleaning window and preparing it for new drawings/////////////////77
          window1.clear(sf::Color::Black);  
 
-
-
-  
         //////////////Intentional launch by Space bar/////////////////
         /////////////Simulation state On/////////////////
         if (simulationOn){
 
         //////////New Day //////////////
         People next {{0,0},{0,0},0,0};
-        ag.evolve(next);
+        ag->evolve(next);
 
         ///////////////Drawing circles//////
-        ag.get_matrix().inside_matrix([&window1,&circles](Person& cell, int r, int c){ 
+        ag->get_matrix().inside_matrix([&window1,&circles](Person& cell, std::size_t r, std::size_t c){ 
+         
+         const float r_ = static_cast<float>(r) ;
+          const float c_ = static_cast<float>(c) ;
+
+          circles[r][c].setPosition(120.f+ (c_ * 8.f)+ 0.1f , 100.f + (r_ * 8.f)+ 0.1f);
+          circles[r][c].setRadius(4); 
+         //circles[r][c].setRadius(4); 
+         //circles[r][c].setPosition(120.f + (c * 8.f)+ 0.1f , 100.f + (r * 8.f )+ 0.1f);
+        // writing_Circles(circles,r,c);
          circles[r][c].setFillColor(paint(cell));
-         circles[r][c].setRadius(4.f); 
-         circles[r][c].setPosition(120.f + (c * 8.f)+ 0.1f , 100.f + (r * 8.f )+ 0.1f);
          window1.draw(circles[r][c]);
         });
 
         ////////////////////Printing Matrix and data on the terminal////////////
             std::cout <<"Day N°"<< t <<'\n';
-            std::cout<< ag.get_matrix();
+            std::cout<< ag->get_matrix();
             std::cout<< "Situation data: " << '\n' ;
-            std::cout << ag.get_situation_day(t)<<"\n\n";
+            std::cout << ag->get_situation_day(t)<<"\n\n";
       
         ///////Increasing day counter////////////
         t++;
@@ -151,21 +162,25 @@ int main(){
        std::this_thread::sleep_for(std::chrono::milliseconds(2000)); 
        } else {
         ////////////////Shows the last Matrix registered/////////
-        ag.get_matrix().inside_matrix([&window1,&circles](Person& cell,int r, int c){
-          
-          circles[r][c].setPosition(120.f + (c * 8.f)+ 0.1f , 100.f + (r * 8.f )+ 0.1f);
-          circles[r][c].setRadius(4.f); 
+        ag->get_matrix().inside_matrix([&window1,&circles](Person& cell, std::size_t r, std::size_t c){
+
+          const float r_ = static_cast<float>(r) ;
+          const float c_ = static_cast<float>(c) ;
+
+          circles[r][c].setPosition(120.f+ (c_ * 8.f) + 0.1f , 100.f + (r_ * 8.f)+ 0.1f);
+          circles[r][c].setRadius(4); 
+         //writing_Circles(circles,r,c);
           circles[r][c].setFillColor(paint(cell));
             window1.draw(circles[r][c]);
         });
        }
 
       ////////////First Stop///////////
-       if(t == (T+1)){
+       if(t == (T + 1)){
          simulationOn = false;
        }
        ///////////////Second Stop//////////////////
-       if(sum(ag.get_evolution().back().I_) == 0){
+       if(sum(ag->get_evolution().back().I_) == 0){
 
         simulationOn = false;
        }
@@ -175,7 +190,7 @@ int main(){
     ////////////////////Closing window///////////////////////
     }
        //////////////////"Still Infected" people scope////////////////////
-       if(sum(ag.get_evolution().back().I_)>0){
+       if(sum(ag->get_evolution().back().I_)>0){
             char finish;
              std::cout<<" There are still infected people, do you want to finish the simulation?[y/n]"<<'\n';
              std::cin>> finish;
@@ -202,12 +217,12 @@ int main(){
                 std::cout<<"That's all! Thanks for your time!"<<"\n\n";
               }
     
-       }///////////////////Running state//////////////
+      }///////////////////Running state//////////////
       
       std::cout<<"Data of your simulation :"<<"\n\n";
-      std::cout<<"Number of days : " << ag.get_days()<<"\n\n";
-      std::cout<<"Situation of the last day : " << ag.get_evolution().back()<< "\n\n";
-      std::cout<<"Critical threshold : "<< ag.calculate_R0(ag.get_Parameters())<<"\n\n";
+      std::cout<<"Number of days : " << ag->get_days()<<"\n\n";
+      std::cout<<"Situation of the last day : " << ag->get_evolution().back()<< "\n\n";
+      std::cout<<"Critical threshold : "<< ag->calculate_R0(ag->get_Parameters())<<"\n\n";
     }
      else {
      /////////////////////////Personalized simulation
@@ -452,19 +467,23 @@ int main(){
         ag_->evolve(next);
 
         ///////////////Changing colors//////
-        ag_->get_matrix().inside_matrix([&window_,&circles_](Person& cell, int r, int c){ 
-         circles_[r][c].setFillColor(paint(cell));
-         circles_[r][c].setRadius(4.f); 
-         circles_[r][c].setPosition((c * 8.f)+ 0.1f ,(r * 8.f )+ 0.1f);
-         window_.draw(circles_[r][c]);
+        ag_->get_matrix().inside_matrix([&window_,&circles_](Person& cell, std::size_t r, std::size_t c){ 
+           
+           const float r_ = static_cast<float>(r) ;
+          const float c_ = static_cast<float>(c) ;
+
+          circles_[r][c].setPosition(120.f+ (c_ * 8.f) + 0.1f , 100.f + (r_ * 8.f)+ 0.1f);
+          circles_[r][c].setRadius(4); 
+        //writing_Circles(circles_,r,c);
+        circles_[r][c].setFillColor(paint(cell));
+        window_.draw(circles_[r][c]);
         });
 
             std::cout <<"Day N° "<< t <<'\n';
             std::cout<< ag_->get_matrix();
             std::cout<< "Ecco i numeri : " << '\n' ;
             std::cout << ag_->get_situation_day(t)<<"\n\n";
-            std::cout<< "La somma : " << "\n\n" ;
-            std::cout<< sum(transform_arr<int,6>(ag_->get_evolution().back()))<< "\n\n" ;
+           
       
         ///////Increasing day counter////////////
         t++;
@@ -472,10 +491,13 @@ int main(){
        std::this_thread::sleep_for(std::chrono::milliseconds(2000)); 
        } else {
         ////////////////Showing the last Matrix registered/////////
-        ag_->get_matrix().inside_matrix([&window_,&circles_](Person& cell,int r, int c){
-          
-          circles_[r][c].setPosition((c * 8.f)+ 0.1f ,(r * 8.f )+ 0.1f);
-          circles_[r][c].setRadius(4.f); 
+        ag_->get_matrix().inside_matrix([&window_,&circles_](Person& cell,std::size_t r, std::size_t c){
+          const float r_ = static_cast<float>(r) ;
+          const float c_ = static_cast<float>(c) ;
+
+          circles_[r][c].setPosition(120.f+ (c_ * 8.f) + 0.1f , 100.f + (r_ * 8.f)+ 0.1f);
+          circles_[r][c].setRadius(4);   
+          //writing_Circles(circles_,r,c);
           circles_[r][c].setFillColor(paint(cell));
             window_.draw(circles_[r][c]);
         });
@@ -549,10 +571,14 @@ int main(){
         ag_->evolve(next);
 
         ///////////////Changing colors//////
-        ag_->get_matrix().inside_matrix([&window_,&circles_](Person& cell, int r, int c){ 
+        ag_->get_matrix().inside_matrix([&window_,&circles_](Person& cell, std::size_t r, std::size_t c){ 
+          const float r_ = static_cast<float>(r) ;
+          const float c_ = static_cast<float>(c) ;
+
+          circles_[r][c].setPosition(120.f+ (c_ * 8.f) + 0.1f , 100.f + (r_ * 8.f)+ 0.1f);
+          circles_[r][c].setRadius(4); 
+         //writing_Circles(circles_,r,c);
          circles_[r][c].setFillColor(paint(cell));
-         circles_[r][c].setRadius(4.f); 
-         circles_[r][c].setPosition((c * 8.f)+ 0.1f ,(r * 8.f )+ 0.1f);
          window_.draw(circles_[r][c]);
         });
 
@@ -569,17 +595,21 @@ int main(){
        std::this_thread::sleep_for(std::chrono::milliseconds(2000)); 
        } else {
         ////////////////Shows the last Matrix registered/////////
-        ag_->get_matrix().inside_matrix([&window_,&circles_](Person& cell,int r, int c){
+        ag_->get_matrix().inside_matrix([&window_,&circles_](Person& cell, std::size_t r, std::size_t c){
           
-          circles_[r][c].setPosition((c * 8.f)+ 0.1f ,(r * 8.f )+ 0.1f);
-          circles_[r][c].setRadius(4.f); 
+          const float r_ = static_cast<float>(r) ;
+          const float c_ = static_cast<float>(c) ;
+
+          circles_[r][c].setPosition(120.f+ (c_ * 8.f) + 0.1f , 100.f + (r_ * 8.f)+ 0.1f);
+          circles_[r][c].setRadius(4); 
+          //writing_Circles(circles_,r,c); 
           circles_[r][c].setFillColor(paint(cell));
             window_.draw(circles_[r][c]);
         });
        }
 
       ////////////First Stop///////////
-       if(t == (T+1)){
+       if(t == (T + 1)){
          simulationOn = false;
        }
        ///////////////Second Stop//////////////////
@@ -597,7 +627,7 @@ int main(){
 
     
       //////////////////quando concludono i giorni si chiede se si vuole continuare ////////////////////
-       if(sum(ag_->get_evolution().back().I_)>0){
+       if(sum(ag_->get_evolution().back().I_) > 0){
             char finish;
              std::cout<<" There are still infected people, do you want to finish the simulation?[y/n]"<<'\n';
              std::cin>> finish;
@@ -609,7 +639,7 @@ int main(){
           
               if(finish == 'y'){
 
-                if(sum(ag_->get_evolution().back().S_)!=0){
+                if(sum(ag_->get_evolution().back().S_) != 0){
 
                   double vacc;
                   std::cout<<"Insert the probability of getting vaccinated(If don't want it, just write 0)[0,1["<<"\n\n";

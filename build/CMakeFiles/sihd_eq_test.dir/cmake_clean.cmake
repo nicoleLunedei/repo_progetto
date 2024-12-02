@@ -5,6 +5,10 @@ file(REMOVE_RECURSE
   "CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o.d"
   "CMakeFiles/sihd_eq_test.dir/pandemic.cpp.o"
   "CMakeFiles/sihd_eq_test.dir/pandemic.cpp.o.d"
+  "CMakeFiles/sihd_eq_test.dir/parameters.cpp.o"
+  "CMakeFiles/sihd_eq_test.dir/parameters.cpp.o.d"
+  "CMakeFiles/sihd_eq_test.dir/people.cpp.o"
+  "CMakeFiles/sihd_eq_test.dir/people.cpp.o.d"
   "sihd_eq_test"
   "sihd_eq_test.pdb"
 )

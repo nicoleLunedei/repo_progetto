@@ -9,13 +9,13 @@
 class Equation : public Pandemic
 {
 private:
-    std::mt19937 gen;  // Generatore di numeri casuali
+    std::mt19937 gen;  
     std::uniform_real_distribution<> dis; 
     std::vector<People> population_;
     Parameters par_;
-    int N_;  //N
+    int N_;  
     static std::array<double,2> intersec_; 
-     //std::vector<std::array<int,4>> counting_; //mezzo di visualizzazione dell'andamento
+   
 
 public:
     ////////////////////////Constructors////////////////////////////
@@ -24,8 +24,8 @@ public:
     Equation( std::vector<People>& population,  Parameters& par, const int& N);
     ///////Default////////////
     Equation();
-  
-   
+    ///////////Copy/////////////
+    Equation(Equation& copy);
    ////////////Data collection about the vaccine///////////////
     void sorting();
     ////////////////////////////////////Evolving functionalities////////////////////////////

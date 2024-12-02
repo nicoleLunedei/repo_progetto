@@ -428,6 +428,78 @@ pandemic_test.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/pandemic_test.cpp.s
 .PHONY : pandemic_test.cpp.s
 
+parameters.o: parameters.cpp.o
+.PHONY : parameters.o
+
+# target to build an object file
+parameters.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/parameters.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/parameters.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/parameters.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/parameters.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/parameters.cpp.o
+.PHONY : parameters.cpp.o
+
+parameters.i: parameters.cpp.i
+.PHONY : parameters.i
+
+# target to preprocess a source file
+parameters.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/parameters.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/parameters.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/parameters.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/parameters.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/parameters.cpp.i
+.PHONY : parameters.cpp.i
+
+parameters.s: parameters.cpp.s
+.PHONY : parameters.s
+
+# target to generate assembly for a file
+parameters.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/parameters.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/parameters.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/parameters.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/parameters.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/parameters.cpp.s
+.PHONY : parameters.cpp.s
+
+people.o: people.cpp.o
+.PHONY : people.o
+
+# target to build an object file
+people.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/people.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/people.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/people.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/people.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/people.cpp.o
+.PHONY : people.cpp.o
+
+people.i: people.cpp.i
+.PHONY : people.i
+
+# target to preprocess a source file
+people.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/people.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/people.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/people.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/people.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/people.cpp.i
+.PHONY : people.cpp.i
+
+people.s: people.cpp.s
+.PHONY : people.s
+
+# target to generate assembly for a file
+people.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/people.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/people.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/people.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/people.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/people.cpp.s
+.PHONY : people.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -469,6 +541,12 @@ help:
 	@echo "... pandemic_test.o"
 	@echo "... pandemic_test.i"
 	@echo "... pandemic_test.s"
+	@echo "... parameters.o"
+	@echo "... parameters.i"
+	@echo "... parameters.s"
+	@echo "... people.o"
+	@echo "... people.i"
+	@echo "... people.s"
 .PHONY : help
 
 

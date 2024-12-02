@@ -5,6 +5,10 @@ file(REMOVE_RECURSE
   "CMakeFiles/sihd_ag.dir/main_ag_simulation.cpp.o.d"
   "CMakeFiles/sihd_ag.dir/pandemic.cpp.o"
   "CMakeFiles/sihd_ag.dir/pandemic.cpp.o.d"
+  "CMakeFiles/sihd_ag.dir/parameters.cpp.o"
+  "CMakeFiles/sihd_ag.dir/parameters.cpp.o.d"
+  "CMakeFiles/sihd_ag.dir/people.cpp.o"
+  "CMakeFiles/sihd_ag.dir/people.cpp.o.d"
   "sihd_ag"
   "sihd_ag.pdb"
 )

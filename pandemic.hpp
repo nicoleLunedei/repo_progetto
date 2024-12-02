@@ -1,25 +1,11 @@
-//costruzione della classe equation based: sistema di equazioni differenziali 
-//evoluzione della diffusione con incremento discreto 
-//restituire il parametro R0 che ora non ricordi a cosa fa riferimento 
-
-//questa sarà la classe madre delle due quindi la stai pensando come se fosse una fusione primordiale delle due
-//per poi specializzarsi nelle figlie agent e equation 
-//LEGGI E GUARDA BENE I COMMENTI CHE TI SERVONO PER POI SPEZZARE IL CODICE
-#include <vector>
-#include <functional>
-#include <iostream>
-#include <stdexcept>
-#include <random>
-#include <array>
-#include <cassert>
-
-
-//template<typename T, std::size_t N> T sum(std::array<T,N>& a);
-//template<typename T, std::size_t N> T& maximum_dec(std::array<T,N> a);
 
 #ifndef PANDEMIC_HPP
 #define PANDEMIC_HPP
 
+
+#include "people.hpp"
+#include "parameters.hpp"
+//////////////////////////////////////////////////////////////////////////////////////
 template<typename T, std::size_t N> T sum(const std::array<T,N>& a){
   T tot = T();
   for(const T& t: a ){
@@ -36,14 +22,14 @@ template<typename T> T sum(std::vector<T>& v){
 
   return tot;
 }
-template<typename T, std::size_t N> int maximum_dec(std::array<T,N>& a){
+template<typename T, std::size_t N> std::size_t maximum_dec(std::array<T,N>& a){
     T max = 0;
-    int t = 0;//lui rappresenta l'iteratore uscente 
-   for (auto it = 0; it < 6; ++it)
+   std::size_t t = 0;
+   for (std::size_t it = 0; it < N; ++it)
           {
-             if ((a[it] - std::floor(a[it])) > max)//per guadagnarsi il titolo di maximum deve essere maggiore non uguale 
+             if ((a[static_cast<std::size_t>(it)] - std::floor(a[static_cast<std::size_t>(it)])) > max)
              {
-                max = a[it] - std::floor(a[it]);
+                max = a[static_cast<std::size_t>(it)] - std::floor(a[static_cast<std::size_t>(it)]);
                 t = it;
              }
           }
@@ -51,102 +37,41 @@ template<typename T, std::size_t N> int maximum_dec(std::array<T,N>& a){
  }
 
   
- template<typename T,typename C, std::size_t N> const std::array<T,N> convert(const std::array<C,N>& c){
+ /*template<typename T,typename C, std::size_t N> const std::array<T,N> convert(const std::array<C,N>& c){
 
   std::array<T,N> t;
  
   for (std::size_t i = 0; i < N; i++)
   {
     t[i] = std::floor(c[i]);
-    //t[i] = static_cast<T>(c[i]);
   }
     return t;
- }
+ }*/
   template<typename C, std::size_t N> const std::array<int,N> integer_part(const std::array<C,N>& c){
 
   std::array<int,N> t;
- 
-  for (std::size_t i = 0; i < N; i++)
+  
+     for (std::size_t i = 0; i < N; i++)
   {
-    t[i] = std::floor(c[i]);
+    t[i] = static_cast<int>(std::floor(c[i]));
   }
-    return t;
+     return t;
+
+ 
+ 
+   
  }
 
 
-
-
-struct People
-{
- std::array<int, 2> S_; // Array per le persone suscettibili
- std::array<int, 2> I_; 
- int H_;
- int D_;
-//Parametric Constructor
-People( const std::array<int,2>& s,const std::array<int,2>& i , const int  h, const int& d  );
-//Default Constructor
-People();
-//Copy Constructor
-People(const People& other);
-
-////////////////////// Over loading /////////////////////
- People& operator=( const People& value);
-
- friend bool operator==( const People& left, const People& right);
- 
- //considera che potresti fare una valutazione paragonando la situazione no vax e vax
- friend std::ostream& operator<<(std::ostream& os, const People& p_out);
-  
-         //Operator>>
- friend std::istream& operator>>(std::istream& is, People& p_in );// qua mettere p_in  con const è un errore perchè >> prende in valora dato in input sall'utente e lo utilizzerà per modificare p_in
-     //Destructor
- ~People();
-
-};
-
-template<typename T, std::size_t N>  const std::array<T,N> transform_arr( const People& p){
+template<typename T, std::size_t N>  const std::array<T,N> transform_Array( const People& p){
      
        return {static_cast<T>(p.S_[0]),static_cast<T>(p.S_[1]),static_cast<T> (p.I_[0]), static_cast<T>(p.I_[1]), static_cast<T>(p.H_), static_cast<T>(p.D_)} ;
  }
-template<typename T, std::size_t N>   const People transform_people(const std::array<T,N>& t){
+template<typename T, std::size_t N>   const People transform_People(const std::array<T,N>& t){
 
-     return {{t[0],t[1]},{t[2],t[3]},t[4],t[5]} ;//non hai potuto metterlo T& perchè stai restituendo una variabile lovale che muore nelle scope e il riferimento perde di significato
-     //mi raccomando ricorda il legame T&->const& non va bene perchè T& è modificabile  e const T& no perciò viene messa in pericolo la protezione di const T&
-     //invce const T& || T-> T& si può fare e non mette in pericolo nulla 
+     return {{t[0],t[1]},{t[2],t[3]},t[4],t[5]} ;
  }
-
-
-
-
-
-
-struct Parameters
-{ // considera se metterli const 
-    std::array<double,2> beta;//d'infezione ; anche beta e gamma potrei metterle come vettori bidimensionali 
-    std::array<double,2> gamma;//guarigione
-    std::array<double,2> omega;//morire
-    double vax;// vaccinazione
-//Parametric Constructor
-Parameters(const std::array<double,2>& b, const std::array<double,2>& g, const std::array<double,2>& o, const double& v) ;// l'assegnazione degli array non li puoi mettere nella lista d'inizializzazione perchè non è supportata la loro assegnazione in blocco
-//Default Constructor   
-Parameters();
-//Copy Constructor
-Parameters(const Parameters& other ) ; //costruttore di copia che è diverso dal costruttore parametrico; questo è propio per costruire un oggetto a partire da un altro oggetto dello stesso tispo 
-       
-
-        //Operator=
-  Parameters& operator=( const Parameters& other);// di fatto si serve mettere il tipo dell'operatore perchè l'assegnazione restituisce un oggetto modificato che nella dichiarazione ha la referenza ma poi renderà forma con l'oggetto vero 
-        //Operator ==
-    friend bool operator==( const Parameters& left, const Parameters& right);
-        //Operator<<
-    /*friend std::ostream& operator<<(std::ostream& os, const Parameters& p_out){}
-        //Operator>>
-    friend std::istream& operator>>(std::istream& is, Parameters& p_in ){}*/
-   ~Parameters();   
-};
-
-
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -157,7 +82,7 @@ class Pandemic {
     /////////////Probabilistic parameters //////////////////////////
     Parameters par_;
     //////////////Number of the population///////////////
-    int N_; 
+     int N_; 
     /////////////Efficacy of the vaccine //////////////////
     static std::array<double,2> efficacy_; 
     /////////////Pseudo Random Number Generator//////////
@@ -167,24 +92,28 @@ class Pandemic {
     
     public:
 
-    ///////////////////Parametric Constructor//////////////////// 
+     ////////////////////////Constructors////////////////////////////
+
+    ////////Parametric////////////// 
 
     Pandemic( std::vector<People>& population,  Parameters& par, const int& N) ;
     
-    /////////////Default Constructor///////////
+    /////////////Default///////////
     Pandemic(); 
+    ////////////////Copy/////////////////////////
+    Pandemic(Pandemic& copy);
  
-   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   //////////////////////////////////////////////////////////////////////////////////////////////////
    /////////////Setters///////////////////
    void set_Parameters( Parameters& p);
    void introduce_vacc(const double& v);
    void set_initial_condition(const People& start);
    ////////////Getters//////////////////
-    std::vector<People>& get_evolution();//questo mi restituisce tutta l'evoluzione 
+    std::vector<People>& get_evolution(); 
     Parameters& get_Parameters();
-    int get_number_population() const;
+    const int& get_number_population() const;
     
-    int get_days();
+    long unsigned int get_days() const;
     People& get_situation_day( const int& i);
    
    ////////////Checking///////////////
@@ -197,7 +126,7 @@ class Pandemic {
    void change_after_vacc();
 
   /////////////Generates a casual number
-   const double& generate();
+   double generate();
   
   /////////////Adds data by adding a new element People to the vector population_
   void add_data(const People& add);//  test

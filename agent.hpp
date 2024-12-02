@@ -39,10 +39,12 @@ public:
     Agent(std::vector<People>& population,  Parameters& par,const int& N);
       ////////////Default/////////
     Agent();
+    //////////Copy////////////
+    Agent(Agent& copy);
     //////////Getters///////
     Matrix<Person>& get_matrix();
-    Person& show_cell(int r, int c);
-    int get_side()const ;
+    Person& show_cell( std::size_t r, std::size_t c);
+    std::size_t get_side()const ;
     /////////Setter///////
     /////////Setting the first situation and drawing it on the Matrix///////////
     void draw_matrix(People& begin);
@@ -51,7 +53,7 @@ public:
 
     bool throwing_dices(double& dice);
     //////////Counting the infected people around a specific cell of Matrix/////////
-    int infected_neighbours( int r, int c);
+    int infected_neighbours( std::size_t r,std::size_t c);
     ////////////Data collection about the vaccine///////////////
     void sorting();
     /////////////////////Evolving functionalities/////////////////

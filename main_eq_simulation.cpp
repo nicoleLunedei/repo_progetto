@@ -34,16 +34,16 @@ int main() {
 
     if (sim == 'D'){
   /////////////////////////Default simulation/////////////////
-       Equation eq;
+      std::unique_ptr<Equation>  eq = std::make_unique<Equation>();
      
        std::cout<< " Great! You've chosen the default simulation, here below some data :" << '\n';
-       std::cout<< " The population corrisponds to " << eq.get_number_population() << " people"<< '\n';
+       std::cout<< " The population corrisponds to " << eq->get_number_population() << " people"<< '\n';
        std::cout<< "Situation of the firt day :"<<'\n';
-       eq.Print(1);
+       eq->Print(1);
        std::cout<< " Note the following probabilities are refering to what happends in one day  "<<"\n\n";
-       std::cout<< " Probability to infect : " << eq.get_Parameters().beta[0] * 100 << "%"<<'\n';
-       std::cout<< " Probability of healing : " << eq.get_Parameters().gamma[0] * 100 << "%"<<'\n';
-       std::cout<< " Probability of dying : " << eq.get_Parameters().omega[0] * 100 << "%"<<'\n';
+       std::cout<< " Probability to infect : " << eq->get_Parameters().beta[0] * 100 << "%"<<'\n';
+       std::cout<< " Probability of healing : " << eq->get_Parameters().gamma[0] * 100 << "%"<<'\n';
+       std::cout<< " Probability of dying : " << eq->get_Parameters().omega[0] * 100 << "%"<<'\n';
        std::cout<< " Probability to get vaccinated, initially is null, later you'll have the chance to introduce it." << '\n';
        
       ////////////////////////Intentional start //////////////////// 
@@ -69,21 +69,20 @@ int main() {
       if (start =='y'){
          int t = 1 ;
 ///////////////Automatic evoluation//////////////////// 
-       while (!eq.terminate())
+       while (!eq->terminate())
          {  
           
              std::cout<<"Day N° :"<< t <<"\n\n";
-             std::cout<< "Confronto:"<< eq.get_number_population() <<" = "<< sum(transform_arr<int,6>(eq.get_situation_day(t)))<<"\n\n";
-             eq.Print(t);
+             eq->Print(t);
              
-             if (sum(eq.get_evolution().back().I_) == 0){
+             if (sum(eq->get_evolution().back().I_) == 0){
                it++;
                 if(it == MAX_IT){
                      std::cout<<" Simulation terminated !"<<"\n\n";
                        break;
                   }
              }
-              eq.evolve(); 
+              eq->evolve(); 
                   /////Increasing day counter///////
               t++;
   ////////////////Imposing a delay//////////////////// 
@@ -95,9 +94,10 @@ int main() {
        MAX_IT = 5;
        std::cout<<"Would you be interested to observe the difference between the last simulation and another with the option to get vaccinated?[y/n]"<<'\n';
       
-        while(!( std::cin>>comparison)||(comparison != 'y' && comparison != 'n')){
+        while((comparison != 'y' && comparison != 'n')){
 
             std::cout<< "Please, insert 'y', for yes, or 'n', for no"<<'\n';
+            std::cin>> comparison;
   /////////////////Cleaning the in stream///////////////////////////
             //std::cin.clear();  
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -119,6 +119,7 @@ int main() {
 
         std::cout<<"Insert the probability of getting vaccinated"<<'\n';
         std::cin>> prob_v;
+
         bool input_v = false;
         it = 0;
       
@@ -196,10 +197,10 @@ int main() {
         }
 
        std::cout<<"| Simulation without vaccine |" <<"\n\n";
-       std::cout<<"The critical threshold is equal to " << eq.calculate_R0(eq.get_Parameters())<<'\n';
-       std::cout<<" Numbers of days :" << eq.get_days()<<'\n';
+       std::cout<<"The critical threshold is equal to " << eq->calculate_R0(eq->get_Parameters())<<'\n';
+       std::cout<<" Numbers of days :" << eq->get_days()<<'\n';
        std::cout<< "Total counting :" <<"\n\n";
-       eq.Print(t);
+       eq->Print(t);
       
 } else {
         std::cout<< "Alright! See you next time!"<< '\n';
@@ -399,7 +400,7 @@ std::cout<<"Would you be interested to observe the difference between the last s
         
         if(comparison2 == 'y'){
         std::cout<<"Great!Let's start another simulation! The initial conditions are the same."<<'\n';
-        Equation eq_vp(*eq_);
+        std::unique_ptr<Equation> eq_vp = std::make_unique<Equation>(eq_);
         
         double prob_v;
         std::cout<<"Insert the probability of getting vaccinated"<<'\n';
@@ -410,7 +411,7 @@ std::cout<<"Would you be interested to observe the difference between the last s
         while (!input_v)
         {
            try{
-          eq_vp.introduce_vacc(prob_v);
+          eq_vp->introduce_vacc(prob_v);
           input_v = true;
           } catch(std::runtime_error& e){
          std::cout << "Error: " << e.what() <<"\n\n";
@@ -429,33 +430,33 @@ std::cout<<"Would you be interested to observe the difference between the last s
                   }
           }
         }
-        eq_vp.change_after_vacc();
+        eq_vp->change_after_vacc();
          std::cout<<"For the vaccinated people the values of the probabilities are : "<<'\n';
-               std::cout<< "beta :"<< eq_vp.get_Parameters().beta[1] <<'\n'<< "omega :" << eq_vp.get_Parameters().omega[1] <<'\n' << "gamma :"<< eq_vp.get_Parameters().gamma[1]<<"\n\n";   
+               std::cout<< "beta :"<< eq_vp->get_Parameters().beta[1] <<'\n'<< "omega :" << eq_vp->get_Parameters().omega[1] <<'\n' << "gamma :"<< eq_vp->get_Parameters().gamma[1]<<"\n\n";   
                std::cout<< "==========================================================================="<<"\n\n";
       
-        eq_vp.sorting();
-        std::cout << eq_vp.get_situation_day(1);
+        eq_vp->sorting();
+        std::cout << eq_vp->get_situation_day(1);
         MAX_IT = 1;
         int tt = 1;
         it = 0;
-           while (!eq_vp.terminate())
+           while (!eq_vp->terminate())
          {  
              
              std::cout<< "Day N° :" << tt <<"\n\n";
-             std::cout<<eq_vp.get_situation_day(tt)<<'\n';
+             std::cout<<eq_vp->get_situation_day(tt)<<'\n';
              std::cout<< "Total Counting : " <<'\n';
-             eq_vp.Print(tt);
+             eq_vp->Print(tt);
              
 
-              if (sum(eq_vp.get_evolution().back().I_) == 0){
+              if (sum(eq_vp->get_evolution().back().I_) == 0){
                it++;
                 if(it == MAX_IT){
                      std::cout<<" Simulation terminated !"<<"\n\n";
                        break;
                   }
               }
-              eq_vp.evolve_vaccine();
+              eq_vp->evolve_vaccine();
                   /////Increasing day counter///////
               tt++;
 //////////////////////Imposing the daley//////////////////////////////
@@ -463,10 +464,10 @@ std::cout<<"Would you be interested to observe the difference between the last s
          }
        std::cout<<"//////////////COMPARISON////////////////////////"<<"\n\n";
        std::cout<< "| Simulation with vaccine |" <<"\n\n";
-       std::cout<<" Numbers of days :" << eq_vp.get_days()<<'\n';
-       eq_vp.Print(tt); 
+       std::cout<<" Numbers of days :" << eq_vp->get_days()<<'\n';
+       eq_vp->Print(tt); 
 
-       } {
+       } else {
          std::cout<<"Alright, thank you for your time! Below here there are the results of your simulation"<<'\n';
         }
 

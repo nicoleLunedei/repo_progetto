@@ -45,12 +45,12 @@ TEST_CASE("Functions"){
    
   ///////////////////array->people///////////////
    People g{{0,10},{20,30},40,70};
-   CHECK(transform_people(b) == g);
+   CHECK(transform_People(b) == g);
   ///////////////////people->array////////
    People h{{200,10},{20,30},50,8};
    std::array<int,6> i{200,10,20,30,50,8};
 
-   CHECK(transform_arr<int,6>(h) == i);
+   CHECK(transform_Array<int,6>(h) == i);
   
   }
 
@@ -153,16 +153,19 @@ TEST_CASE("Pandemic Class") {
 
     CHECK(global.get_days() == 2);
   }
+
   SUBCASE("Parametric Constructor ") {
     ////////////Right///////
      People sub_r({3000000, 0}, {500000, 0}, 0, 0);
     Parameters p_r({0.7, 0.}, {0.156, 0.}, {0.3, 0.}, 0.);
     /////////////Wrong///////////////
 
-    ///////////Outside ]0,1[ and the R0 > 1/////////////////
+    ///////////Outside ]0,1[ ////////////////////
     Parameters p_w1({3., 0.}, {0.1, 0.}, {4., 0.},0.); 
     ///////////////Probabillities  with vaccine not null////////////////
     Parameters p_w2({0., 0.6}, {0., 0.5}, {0., 0.},0.4);
+    ///////////////////the R0 > 1/////////////////
+    Parameters p_w3({0.56, 0.}, {0.3, 0.}, {0.4, 0.},0.);
 
    ///////////////////////Incoherent with N/////////////////////
     People sub_w1({5000000, 0}, {1, 0}, 0,0); 
@@ -197,6 +200,9 @@ TEST_CASE("Pandemic Class") {
     CHECK(global_p.get_situation_day(1).I_[1] == 0);
     CHECK(global_p.get_situation_day(1).H_ == 0);
     CHECK(global_p.get_situation_day(1).D_ == 0);
+
+    
+      
     
            SUBCASE("Checking errors by throw"){
       /////////////////////Ecception in parameters///////////////////
@@ -235,8 +241,8 @@ TEST_CASE("Pandemic Class") {
               CHECK_THROWS_AS(global_p.get_situation_day(0), std::runtime_error);
               CHECK_THROWS_WITH(global_p.get_situation_day(0),"The simulation starts from day one!");
     ///////////////////Check_R0////////////////
-              CHECK_THROWS_AS(global_p.set_Parameters(p_w1), std::runtime_error);
-              CHECK_THROWS_WITH(global_p.set_Parameters(p_w1),"The simulation with the vaccine can't start if the critical threshold is minor than or equal to one! ");
+              CHECK_THROWS_AS(global_p.set_Parameters(p_w3), std::runtime_error);
+              CHECK_THROWS_WITH(global_p.set_Parameters(p_w3),"The simulation can't start if the critical threshold is minor than or equal to one! ");
 
     }
 
@@ -279,10 +285,10 @@ TEST_CASE("Pandemic Class") {
 
       SUBCASE("Checking members of the Pandemic class") {
         //////////checking change_after_vacc//////////
-        Parameters p_r({0.75, 0.}, {0.3, 0.}, {0.4, 0.}, 0.);
+        Parameters p_({0.75, 0.}, {0.3, 0.}, {0.4, 0.}, 0.);
         std::vector<People> days3;
 
-        Pandemic members(days3, p_r, 3000000);
+        Pandemic members(days3, p_, 3000000);
         members.introduce_vacc(0.15);
 
         CHECK(members.get_Parameters().vax == 0.15);
@@ -313,6 +319,19 @@ TEST_CASE("Pandemic Class") {
 
     
       }
+      
+        SUBCASE("Copy Constructor"){
+      
+      Pandemic copy_global(global_p);
+      CHECK(copy_global.get_number_population() == global_p.get_number_population());
+      CHECK(copy_global.get_Parameters() == global_p.get_Parameters());
+      CHECK(copy_global.get_situation_day(1) == global_p.get_situation_day(1) );
+      CHECK(copy_global.get_days() == 1);
+
+         }
+
     }
+
+    
   }
 

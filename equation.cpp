@@ -17,6 +17,8 @@ Equation::Equation(): Pandemic(){
         People initial_data({2000,0},{500,0},0,0);
           this->set_initial_condition(initial_data);
     } 
+   ///////////Copy/////////////
+    Equation::Equation(Equation& copy): Pandemic(copy){}
 
 //////////////////Data collection about the vaccine///////////////////////
 
@@ -46,7 +48,7 @@ Equation::Equation(): Pandemic(){
       ////////////////Controlling that the vector isn't empty////////////////////////  
      assert(!(this->get_evolution().empty()));
      //////////////////Trasforming the object People to an array/////////////////
-      std::array<double,6> next_a{transform_arr<double,6>(next)};
+      std::array<double,6> next_a{transform_Array<double,6>(next)};
 
                     ////////// H_ & D_ ///////////  
        if (sum(next_a) == 0){
@@ -93,7 +95,7 @@ Equation::Equation(): Pandemic(){
       next[maximum_dec(next)] += diff;
 
       }
-      return transform_people(integer_part(next));
+      return transform_People(integer_part(next));
      }  
 
    void Equation::evolve() {
@@ -102,7 +104,7 @@ Equation::Equation(): Pandemic(){
 //////////////////////Updating the situation/////////////////////////
       this->add_data(this->fix(this->update_situation(0,follow)));
 
-      assert( this->get_number_population()== sum(transform_arr<int,6>(this->get_evolution().back())));
+      assert( this->get_number_population()== sum(transform_Array<int,6>(this->get_evolution().back())));
       }
      
      
@@ -115,7 +117,7 @@ Equation::Equation(): Pandemic(){
 //////////////////////Second the evoulution with the vaccine///////////////////
       this->add_data(this->fix(this->update_situation(1,natural)));
 
-      assert( this->get_number_population()== sum(transform_arr<int,6>(this->get_evolution().back())));
+      assert( this->get_number_population()== sum(transform_Array<int,6>(this->get_evolution().back())));
    } 
 ///////////////////////////////////////////Displaying Functionalities///////////////////////////
 ////////////////////////Summing data////////////////////

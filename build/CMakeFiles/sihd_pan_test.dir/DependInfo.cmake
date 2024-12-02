@@ -10,6 +10,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/lunemonday/repo_progetto/pandemic.cpp" "CMakeFiles/sihd_pan_test.dir/pandemic.cpp.o" "gcc" "CMakeFiles/sihd_pan_test.dir/pandemic.cpp.o.d"
   "/home/lunemonday/repo_progetto/pandemic_test.cpp" "CMakeFiles/sihd_pan_test.dir/pandemic_test.cpp.o" "gcc" "CMakeFiles/sihd_pan_test.dir/pandemic_test.cpp.o.d"
+  "/home/lunemonday/repo_progetto/parameters.cpp" "CMakeFiles/sihd_pan_test.dir/parameters.cpp.o" "gcc" "CMakeFiles/sihd_pan_test.dir/parameters.cpp.o.d"
+  "/home/lunemonday/repo_progetto/people.cpp" "CMakeFiles/sihd_pan_test.dir/people.cpp.o" "gcc" "CMakeFiles/sihd_pan_test.dir/people.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

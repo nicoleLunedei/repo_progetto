@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = 
 
-CXX_FLAGS = -O3 -DNDEBUG -std=gnu++14 -fsanitize=address -Wall -Wextra
+CXX_FLAGS = -O3 -DNDEBUG -std=gnu++17 -fsanitize=address -fsanitize=undefined -D_GLIBCXX_ASSERTIONS -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast
 
