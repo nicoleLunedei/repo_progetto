@@ -8,10 +8,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/lunemonday/repo_progetto/pandemic.cpp" "CMakeFiles/sihd_pan_test.dir/pandemic.cpp.o" "gcc" "CMakeFiles/sihd_pan_test.dir/pandemic.cpp.o.d"
-  "/home/lunemonday/repo_progetto/pandemic_test.cpp" "CMakeFiles/sihd_pan_test.dir/pandemic_test.cpp.o" "gcc" "CMakeFiles/sihd_pan_test.dir/pandemic_test.cpp.o.d"
-  "/home/lunemonday/repo_progetto/parameters.cpp" "CMakeFiles/sihd_pan_test.dir/parameters.cpp.o" "gcc" "CMakeFiles/sihd_pan_test.dir/parameters.cpp.o.d"
-  "/home/lunemonday/repo_progetto/people.cpp" "CMakeFiles/sihd_pan_test.dir/people.cpp.o" "gcc" "CMakeFiles/sihd_pan_test.dir/people.cpp.o.d"
+  "/home/lunemonday/repo_progetto/Pandemic/pandemic.cpp" "CMakeFiles/sihd_pan_test.dir/Pandemic/pandemic.cpp.o" "gcc" "CMakeFiles/sihd_pan_test.dir/Pandemic/pandemic.cpp.o.d"
+  "/home/lunemonday/repo_progetto/Pandemic/pandemic_test.cpp" "CMakeFiles/sihd_pan_test.dir/Pandemic/pandemic_test.cpp.o" "gcc" "CMakeFiles/sihd_pan_test.dir/Pandemic/pandemic_test.cpp.o.d"
+  "/home/lunemonday/repo_progetto/Pandemic/parameters.cpp" "CMakeFiles/sihd_pan_test.dir/Pandemic/parameters.cpp.o" "gcc" "CMakeFiles/sihd_pan_test.dir/Pandemic/parameters.cpp.o.d"
+  "/home/lunemonday/repo_progetto/Pandemic/people.cpp" "CMakeFiles/sihd_pan_test.dir/Pandemic/people.cpp.o" "gcc" "CMakeFiles/sihd_pan_test.dir/Pandemic/people.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/home/lunemonday/repo_progetto/Pandemic
 
 CXX_FLAGS = -O3 -DNDEBUG -std=gnu++17 -fsanitize=address -fsanitize=undefined -D_GLIBCXX_ASSERTIONS -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fsanitize=address,undefined
 

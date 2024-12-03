@@ -194,311 +194,311 @@ sihd_ag_test/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/build
 .PHONY : sihd_ag_test/fast
 
-agent.o: agent.cpp.o
-.PHONY : agent.o
+Pandemic/Agent/agent.o: Pandemic/Agent/agent.cpp.o
+.PHONY : Pandemic/Agent/agent.o
 
 # target to build an object file
-agent.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/agent.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/agent.cpp.o
-.PHONY : agent.cpp.o
+Pandemic/Agent/agent.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/Pandemic/Agent/agent.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/Pandemic/Agent/agent.cpp.o
+.PHONY : Pandemic/Agent/agent.cpp.o
 
-agent.i: agent.cpp.i
-.PHONY : agent.i
+Pandemic/Agent/agent.i: Pandemic/Agent/agent.cpp.i
+.PHONY : Pandemic/Agent/agent.i
 
 # target to preprocess a source file
-agent.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/agent.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/agent.cpp.i
-.PHONY : agent.cpp.i
+Pandemic/Agent/agent.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/Pandemic/Agent/agent.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/Pandemic/Agent/agent.cpp.i
+.PHONY : Pandemic/Agent/agent.cpp.i
 
-agent.s: agent.cpp.s
-.PHONY : agent.s
+Pandemic/Agent/agent.s: Pandemic/Agent/agent.cpp.s
+.PHONY : Pandemic/Agent/agent.s
 
 # target to generate assembly for a file
-agent.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/agent.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/agent.cpp.s
-.PHONY : agent.cpp.s
+Pandemic/Agent/agent.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/Pandemic/Agent/agent.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/Pandemic/Agent/agent.cpp.s
+.PHONY : Pandemic/Agent/agent.cpp.s
 
-agent_test.o: agent_test.cpp.o
-.PHONY : agent_test.o
+Pandemic/Agent/agent_test.o: Pandemic/Agent/agent_test.cpp.o
+.PHONY : Pandemic/Agent/agent_test.o
 
 # target to build an object file
-agent_test.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/agent_test.cpp.o
-.PHONY : agent_test.cpp.o
+Pandemic/Agent/agent_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/Pandemic/Agent/agent_test.cpp.o
+.PHONY : Pandemic/Agent/agent_test.cpp.o
 
-agent_test.i: agent_test.cpp.i
-.PHONY : agent_test.i
+Pandemic/Agent/agent_test.i: Pandemic/Agent/agent_test.cpp.i
+.PHONY : Pandemic/Agent/agent_test.i
 
 # target to preprocess a source file
-agent_test.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/agent_test.cpp.i
-.PHONY : agent_test.cpp.i
+Pandemic/Agent/agent_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/Pandemic/Agent/agent_test.cpp.i
+.PHONY : Pandemic/Agent/agent_test.cpp.i
 
-agent_test.s: agent_test.cpp.s
-.PHONY : agent_test.s
+Pandemic/Agent/agent_test.s: Pandemic/Agent/agent_test.cpp.s
+.PHONY : Pandemic/Agent/agent_test.s
 
 # target to generate assembly for a file
-agent_test.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/agent_test.cpp.s
-.PHONY : agent_test.cpp.s
+Pandemic/Agent/agent_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/Pandemic/Agent/agent_test.cpp.s
+.PHONY : Pandemic/Agent/agent_test.cpp.s
 
-equation.o: equation.cpp.o
-.PHONY : equation.o
+Pandemic/Agent/main_ag_simulation.o: Pandemic/Agent/main_ag_simulation.cpp.o
+.PHONY : Pandemic/Agent/main_ag_simulation.o
 
 # target to build an object file
-equation.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/equation.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/equation.cpp.o
-.PHONY : equation.cpp.o
+Pandemic/Agent/main_ag_simulation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/Pandemic/Agent/main_ag_simulation.cpp.o
+.PHONY : Pandemic/Agent/main_ag_simulation.cpp.o
 
-equation.i: equation.cpp.i
-.PHONY : equation.i
+Pandemic/Agent/main_ag_simulation.i: Pandemic/Agent/main_ag_simulation.cpp.i
+.PHONY : Pandemic/Agent/main_ag_simulation.i
 
 # target to preprocess a source file
-equation.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/equation.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/equation.cpp.i
-.PHONY : equation.cpp.i
+Pandemic/Agent/main_ag_simulation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/Pandemic/Agent/main_ag_simulation.cpp.i
+.PHONY : Pandemic/Agent/main_ag_simulation.cpp.i
 
-equation.s: equation.cpp.s
-.PHONY : equation.s
+Pandemic/Agent/main_ag_simulation.s: Pandemic/Agent/main_ag_simulation.cpp.s
+.PHONY : Pandemic/Agent/main_ag_simulation.s
 
 # target to generate assembly for a file
-equation.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/equation.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/equation.cpp.s
-.PHONY : equation.cpp.s
+Pandemic/Agent/main_ag_simulation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/Pandemic/Agent/main_ag_simulation.cpp.s
+.PHONY : Pandemic/Agent/main_ag_simulation.cpp.s
 
-equation_test.o: equation_test.cpp.o
-.PHONY : equation_test.o
+Pandemic/Agent/matrix_test.o: Pandemic/Agent/matrix_test.cpp.o
+.PHONY : Pandemic/Agent/matrix_test.o
 
 # target to build an object file
-equation_test.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/equation_test.cpp.o
-.PHONY : equation_test.cpp.o
+Pandemic/Agent/matrix_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_mat_test.dir/build.make CMakeFiles/sihd_mat_test.dir/Pandemic/Agent/matrix_test.cpp.o
+.PHONY : Pandemic/Agent/matrix_test.cpp.o
 
-equation_test.i: equation_test.cpp.i
-.PHONY : equation_test.i
+Pandemic/Agent/matrix_test.i: Pandemic/Agent/matrix_test.cpp.i
+.PHONY : Pandemic/Agent/matrix_test.i
 
 # target to preprocess a source file
-equation_test.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/equation_test.cpp.i
-.PHONY : equation_test.cpp.i
+Pandemic/Agent/matrix_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_mat_test.dir/build.make CMakeFiles/sihd_mat_test.dir/Pandemic/Agent/matrix_test.cpp.i
+.PHONY : Pandemic/Agent/matrix_test.cpp.i
 
-equation_test.s: equation_test.cpp.s
-.PHONY : equation_test.s
+Pandemic/Agent/matrix_test.s: Pandemic/Agent/matrix_test.cpp.s
+.PHONY : Pandemic/Agent/matrix_test.s
 
 # target to generate assembly for a file
-equation_test.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/equation_test.cpp.s
-.PHONY : equation_test.cpp.s
+Pandemic/Agent/matrix_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_mat_test.dir/build.make CMakeFiles/sihd_mat_test.dir/Pandemic/Agent/matrix_test.cpp.s
+.PHONY : Pandemic/Agent/matrix_test.cpp.s
 
-main_ag_simulation.o: main_ag_simulation.cpp.o
-.PHONY : main_ag_simulation.o
+Pandemic/Equation/equation.o: Pandemic/Equation/equation.cpp.o
+.PHONY : Pandemic/Equation/equation.o
 
 # target to build an object file
-main_ag_simulation.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/main_ag_simulation.cpp.o
-.PHONY : main_ag_simulation.cpp.o
+Pandemic/Equation/equation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/Pandemic/Equation/equation.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/Pandemic/Equation/equation.cpp.o
+.PHONY : Pandemic/Equation/equation.cpp.o
 
-main_ag_simulation.i: main_ag_simulation.cpp.i
-.PHONY : main_ag_simulation.i
+Pandemic/Equation/equation.i: Pandemic/Equation/equation.cpp.i
+.PHONY : Pandemic/Equation/equation.i
 
 # target to preprocess a source file
-main_ag_simulation.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/main_ag_simulation.cpp.i
-.PHONY : main_ag_simulation.cpp.i
+Pandemic/Equation/equation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/Pandemic/Equation/equation.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/Pandemic/Equation/equation.cpp.i
+.PHONY : Pandemic/Equation/equation.cpp.i
 
-main_ag_simulation.s: main_ag_simulation.cpp.s
-.PHONY : main_ag_simulation.s
+Pandemic/Equation/equation.s: Pandemic/Equation/equation.cpp.s
+.PHONY : Pandemic/Equation/equation.s
 
 # target to generate assembly for a file
-main_ag_simulation.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/main_ag_simulation.cpp.s
-.PHONY : main_ag_simulation.cpp.s
+Pandemic/Equation/equation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/Pandemic/Equation/equation.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/Pandemic/Equation/equation.cpp.s
+.PHONY : Pandemic/Equation/equation.cpp.s
 
-main_eq_simulation.o: main_eq_simulation.cpp.o
-.PHONY : main_eq_simulation.o
+Pandemic/Equation/equation_test.o: Pandemic/Equation/equation_test.cpp.o
+.PHONY : Pandemic/Equation/equation_test.o
 
 # target to build an object file
-main_eq_simulation.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/main_eq_simulation.cpp.o
-.PHONY : main_eq_simulation.cpp.o
+Pandemic/Equation/equation_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/Pandemic/Equation/equation_test.cpp.o
+.PHONY : Pandemic/Equation/equation_test.cpp.o
 
-main_eq_simulation.i: main_eq_simulation.cpp.i
-.PHONY : main_eq_simulation.i
+Pandemic/Equation/equation_test.i: Pandemic/Equation/equation_test.cpp.i
+.PHONY : Pandemic/Equation/equation_test.i
 
 # target to preprocess a source file
-main_eq_simulation.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/main_eq_simulation.cpp.i
-.PHONY : main_eq_simulation.cpp.i
+Pandemic/Equation/equation_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/Pandemic/Equation/equation_test.cpp.i
+.PHONY : Pandemic/Equation/equation_test.cpp.i
 
-main_eq_simulation.s: main_eq_simulation.cpp.s
-.PHONY : main_eq_simulation.s
+Pandemic/Equation/equation_test.s: Pandemic/Equation/equation_test.cpp.s
+.PHONY : Pandemic/Equation/equation_test.s
 
 # target to generate assembly for a file
-main_eq_simulation.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/main_eq_simulation.cpp.s
-.PHONY : main_eq_simulation.cpp.s
+Pandemic/Equation/equation_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/Pandemic/Equation/equation_test.cpp.s
+.PHONY : Pandemic/Equation/equation_test.cpp.s
 
-matrix_test.o: matrix_test.cpp.o
-.PHONY : matrix_test.o
+Pandemic/Equation/main_eq_simulation.o: Pandemic/Equation/main_eq_simulation.cpp.o
+.PHONY : Pandemic/Equation/main_eq_simulation.o
 
 # target to build an object file
-matrix_test.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_mat_test.dir/build.make CMakeFiles/sihd_mat_test.dir/matrix_test.cpp.o
-.PHONY : matrix_test.cpp.o
+Pandemic/Equation/main_eq_simulation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/Pandemic/Equation/main_eq_simulation.cpp.o
+.PHONY : Pandemic/Equation/main_eq_simulation.cpp.o
 
-matrix_test.i: matrix_test.cpp.i
-.PHONY : matrix_test.i
+Pandemic/Equation/main_eq_simulation.i: Pandemic/Equation/main_eq_simulation.cpp.i
+.PHONY : Pandemic/Equation/main_eq_simulation.i
 
 # target to preprocess a source file
-matrix_test.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_mat_test.dir/build.make CMakeFiles/sihd_mat_test.dir/matrix_test.cpp.i
-.PHONY : matrix_test.cpp.i
+Pandemic/Equation/main_eq_simulation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/Pandemic/Equation/main_eq_simulation.cpp.i
+.PHONY : Pandemic/Equation/main_eq_simulation.cpp.i
 
-matrix_test.s: matrix_test.cpp.s
-.PHONY : matrix_test.s
+Pandemic/Equation/main_eq_simulation.s: Pandemic/Equation/main_eq_simulation.cpp.s
+.PHONY : Pandemic/Equation/main_eq_simulation.s
 
 # target to generate assembly for a file
-matrix_test.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_mat_test.dir/build.make CMakeFiles/sihd_mat_test.dir/matrix_test.cpp.s
-.PHONY : matrix_test.cpp.s
+Pandemic/Equation/main_eq_simulation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/Pandemic/Equation/main_eq_simulation.cpp.s
+.PHONY : Pandemic/Equation/main_eq_simulation.cpp.s
 
-pandemic.o: pandemic.cpp.o
-.PHONY : pandemic.o
+Pandemic/pandemic.o: Pandemic/pandemic.cpp.o
+.PHONY : Pandemic/pandemic.o
 
 # target to build an object file
-pandemic.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/pandemic.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/pandemic.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/pandemic.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/pandemic.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/pandemic.cpp.o
-.PHONY : pandemic.cpp.o
+Pandemic/pandemic.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/Pandemic/pandemic.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/Pandemic/pandemic.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/Pandemic/pandemic.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/Pandemic/pandemic.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/Pandemic/pandemic.cpp.o
+.PHONY : Pandemic/pandemic.cpp.o
 
-pandemic.i: pandemic.cpp.i
-.PHONY : pandemic.i
+Pandemic/pandemic.i: Pandemic/pandemic.cpp.i
+.PHONY : Pandemic/pandemic.i
 
 # target to preprocess a source file
-pandemic.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/pandemic.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/pandemic.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/pandemic.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/pandemic.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/pandemic.cpp.i
-.PHONY : pandemic.cpp.i
+Pandemic/pandemic.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/Pandemic/pandemic.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/Pandemic/pandemic.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/Pandemic/pandemic.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/Pandemic/pandemic.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/Pandemic/pandemic.cpp.i
+.PHONY : Pandemic/pandemic.cpp.i
 
-pandemic.s: pandemic.cpp.s
-.PHONY : pandemic.s
+Pandemic/pandemic.s: Pandemic/pandemic.cpp.s
+.PHONY : Pandemic/pandemic.s
 
 # target to generate assembly for a file
-pandemic.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/pandemic.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/pandemic.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/pandemic.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/pandemic.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/pandemic.cpp.s
-.PHONY : pandemic.cpp.s
+Pandemic/pandemic.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/Pandemic/pandemic.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/Pandemic/pandemic.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/Pandemic/pandemic.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/Pandemic/pandemic.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/Pandemic/pandemic.cpp.s
+.PHONY : Pandemic/pandemic.cpp.s
 
-pandemic_test.o: pandemic_test.cpp.o
-.PHONY : pandemic_test.o
+Pandemic/pandemic_test.o: Pandemic/pandemic_test.cpp.o
+.PHONY : Pandemic/pandemic_test.o
 
 # target to build an object file
-pandemic_test.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/pandemic_test.cpp.o
-.PHONY : pandemic_test.cpp.o
+Pandemic/pandemic_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/Pandemic/pandemic_test.cpp.o
+.PHONY : Pandemic/pandemic_test.cpp.o
 
-pandemic_test.i: pandemic_test.cpp.i
-.PHONY : pandemic_test.i
+Pandemic/pandemic_test.i: Pandemic/pandemic_test.cpp.i
+.PHONY : Pandemic/pandemic_test.i
 
 # target to preprocess a source file
-pandemic_test.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/pandemic_test.cpp.i
-.PHONY : pandemic_test.cpp.i
+Pandemic/pandemic_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/Pandemic/pandemic_test.cpp.i
+.PHONY : Pandemic/pandemic_test.cpp.i
 
-pandemic_test.s: pandemic_test.cpp.s
-.PHONY : pandemic_test.s
+Pandemic/pandemic_test.s: Pandemic/pandemic_test.cpp.s
+.PHONY : Pandemic/pandemic_test.s
 
 # target to generate assembly for a file
-pandemic_test.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/pandemic_test.cpp.s
-.PHONY : pandemic_test.cpp.s
+Pandemic/pandemic_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/Pandemic/pandemic_test.cpp.s
+.PHONY : Pandemic/pandemic_test.cpp.s
 
-parameters.o: parameters.cpp.o
-.PHONY : parameters.o
+Pandemic/parameters.o: Pandemic/parameters.cpp.o
+.PHONY : Pandemic/parameters.o
 
 # target to build an object file
-parameters.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/parameters.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/parameters.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/parameters.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/parameters.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/parameters.cpp.o
-.PHONY : parameters.cpp.o
+Pandemic/parameters.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/Pandemic/parameters.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/Pandemic/parameters.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/Pandemic/parameters.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/Pandemic/parameters.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/Pandemic/parameters.cpp.o
+.PHONY : Pandemic/parameters.cpp.o
 
-parameters.i: parameters.cpp.i
-.PHONY : parameters.i
+Pandemic/parameters.i: Pandemic/parameters.cpp.i
+.PHONY : Pandemic/parameters.i
 
 # target to preprocess a source file
-parameters.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/parameters.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/parameters.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/parameters.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/parameters.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/parameters.cpp.i
-.PHONY : parameters.cpp.i
+Pandemic/parameters.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/Pandemic/parameters.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/Pandemic/parameters.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/Pandemic/parameters.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/Pandemic/parameters.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/Pandemic/parameters.cpp.i
+.PHONY : Pandemic/parameters.cpp.i
 
-parameters.s: parameters.cpp.s
-.PHONY : parameters.s
+Pandemic/parameters.s: Pandemic/parameters.cpp.s
+.PHONY : Pandemic/parameters.s
 
 # target to generate assembly for a file
-parameters.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/parameters.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/parameters.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/parameters.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/parameters.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/parameters.cpp.s
-.PHONY : parameters.cpp.s
+Pandemic/parameters.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/Pandemic/parameters.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/Pandemic/parameters.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/Pandemic/parameters.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/Pandemic/parameters.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/Pandemic/parameters.cpp.s
+.PHONY : Pandemic/parameters.cpp.s
 
-people.o: people.cpp.o
-.PHONY : people.o
+Pandemic/people.o: Pandemic/people.cpp.o
+.PHONY : Pandemic/people.o
 
 # target to build an object file
-people.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/people.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/people.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/people.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/people.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/people.cpp.o
-.PHONY : people.cpp.o
+Pandemic/people.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/Pandemic/people.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/Pandemic/people.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/Pandemic/people.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/Pandemic/people.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/Pandemic/people.cpp.o
+.PHONY : Pandemic/people.cpp.o
 
-people.i: people.cpp.i
-.PHONY : people.i
+Pandemic/people.i: Pandemic/people.cpp.i
+.PHONY : Pandemic/people.i
 
 # target to preprocess a source file
-people.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/people.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/people.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/people.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/people.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/people.cpp.i
-.PHONY : people.cpp.i
+Pandemic/people.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/Pandemic/people.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/Pandemic/people.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/Pandemic/people.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/Pandemic/people.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/Pandemic/people.cpp.i
+.PHONY : Pandemic/people.cpp.i
 
-people.s: people.cpp.s
-.PHONY : people.s
+Pandemic/people.s: Pandemic/people.cpp.s
+.PHONY : Pandemic/people.s
 
 # target to generate assembly for a file
-people.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/people.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/people.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/people.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/people.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/people.cpp.s
-.PHONY : people.cpp.s
+Pandemic/people.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_pan_test.dir/build.make CMakeFiles/sihd_pan_test.dir/Pandemic/people.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq.dir/build.make CMakeFiles/sihd_eq.dir/Pandemic/people.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_eq_test.dir/build.make CMakeFiles/sihd_eq_test.dir/Pandemic/people.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag.dir/build.make CMakeFiles/sihd_ag.dir/Pandemic/people.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sihd_ag_test.dir/build.make CMakeFiles/sihd_ag_test.dir/Pandemic/people.cpp.s
+.PHONY : Pandemic/people.cpp.s
 
 # Help Target
 help:
@@ -514,39 +514,39 @@ help:
 	@echo "... sihd_eq_test"
 	@echo "... sihd_mat_test"
 	@echo "... sihd_pan_test"
-	@echo "... agent.o"
-	@echo "... agent.i"
-	@echo "... agent.s"
-	@echo "... agent_test.o"
-	@echo "... agent_test.i"
-	@echo "... agent_test.s"
-	@echo "... equation.o"
-	@echo "... equation.i"
-	@echo "... equation.s"
-	@echo "... equation_test.o"
-	@echo "... equation_test.i"
-	@echo "... equation_test.s"
-	@echo "... main_ag_simulation.o"
-	@echo "... main_ag_simulation.i"
-	@echo "... main_ag_simulation.s"
-	@echo "... main_eq_simulation.o"
-	@echo "... main_eq_simulation.i"
-	@echo "... main_eq_simulation.s"
-	@echo "... matrix_test.o"
-	@echo "... matrix_test.i"
-	@echo "... matrix_test.s"
-	@echo "... pandemic.o"
-	@echo "... pandemic.i"
-	@echo "... pandemic.s"
-	@echo "... pandemic_test.o"
-	@echo "... pandemic_test.i"
-	@echo "... pandemic_test.s"
-	@echo "... parameters.o"
-	@echo "... parameters.i"
-	@echo "... parameters.s"
-	@echo "... people.o"
-	@echo "... people.i"
-	@echo "... people.s"
+	@echo "... Pandemic/Agent/agent.o"
+	@echo "... Pandemic/Agent/agent.i"
+	@echo "... Pandemic/Agent/agent.s"
+	@echo "... Pandemic/Agent/agent_test.o"
+	@echo "... Pandemic/Agent/agent_test.i"
+	@echo "... Pandemic/Agent/agent_test.s"
+	@echo "... Pandemic/Agent/main_ag_simulation.o"
+	@echo "... Pandemic/Agent/main_ag_simulation.i"
+	@echo "... Pandemic/Agent/main_ag_simulation.s"
+	@echo "... Pandemic/Agent/matrix_test.o"
+	@echo "... Pandemic/Agent/matrix_test.i"
+	@echo "... Pandemic/Agent/matrix_test.s"
+	@echo "... Pandemic/Equation/equation.o"
+	@echo "... Pandemic/Equation/equation.i"
+	@echo "... Pandemic/Equation/equation.s"
+	@echo "... Pandemic/Equation/equation_test.o"
+	@echo "... Pandemic/Equation/equation_test.i"
+	@echo "... Pandemic/Equation/equation_test.s"
+	@echo "... Pandemic/Equation/main_eq_simulation.o"
+	@echo "... Pandemic/Equation/main_eq_simulation.i"
+	@echo "... Pandemic/Equation/main_eq_simulation.s"
+	@echo "... Pandemic/pandemic.o"
+	@echo "... Pandemic/pandemic.i"
+	@echo "... Pandemic/pandemic.s"
+	@echo "... Pandemic/pandemic_test.o"
+	@echo "... Pandemic/pandemic_test.i"
+	@echo "... Pandemic/pandemic_test.s"
+	@echo "... Pandemic/parameters.o"
+	@echo "... Pandemic/parameters.i"
+	@echo "... Pandemic/parameters.s"
+	@echo "... Pandemic/people.o"
+	@echo "... Pandemic/people.i"
+	@echo "... Pandemic/people.s"
 .PHONY : help
 
 

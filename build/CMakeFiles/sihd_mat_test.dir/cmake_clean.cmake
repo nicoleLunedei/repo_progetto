@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/sihd_mat_test.dir/matrix_test.cpp.o"
-  "CMakeFiles/sihd_mat_test.dir/matrix_test.cpp.o.d"
+  "CMakeFiles/sihd_mat_test.dir/Pandemic/Agent/matrix_test.cpp.o"
+  "CMakeFiles/sihd_mat_test.dir/Pandemic/Agent/matrix_test.cpp.o.d"
   "sihd_mat_test"
   "sihd_mat_test.pdb"
 )
