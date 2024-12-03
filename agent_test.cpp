@@ -173,7 +173,7 @@ std::cout << ag1->get_matrix()<<"\n\n";
 
        SUBCASE("Copy Constructor"){
       
-      std::unique_ptr<Agent> copy_ag1 = std::make_unique<Agent>(ag1);
+      std::unique_ptr<Agent> copy_ag1 = std::make_unique<Agent>(*ag1);
       CHECK(copy_ag1->get_number_population() == ag1->get_number_population());
       CHECK(copy_ag1->get_Parameters() == ag1->get_Parameters());
       CHECK(copy_ag1->get_situation_day(1) == ag1->get_situation_day(1) );

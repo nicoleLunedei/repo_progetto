@@ -337,7 +337,7 @@ TEST_CASE("Equation Class") {
      
       SUBCASE("Copy Constructor"){
       
-      std::unique_ptr<Equation> copy_eq1 = std::make_unique<Equation>(eq1);
+      std::unique_ptr<Equation> copy_eq1 = std::make_unique<Equation>(*eq1);
       CHECK(copy_eq1->get_number_population() == eq1->get_number_population());
       CHECK(copy_eq1->get_Parameters() == eq1->get_Parameters());
       CHECK(copy_eq1->get_situation_day(1) == eq1->get_situation_day(1) );

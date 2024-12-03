@@ -400,7 +400,7 @@ std::cout<<"Would you be interested to observe the difference between the last s
         
         if(comparison2 == 'y'){
         std::cout<<"Great!Let's start another simulation! The initial conditions are the same."<<'\n';
-        std::unique_ptr<Equation> eq_vp = std::make_unique<Equation>(eq_);
+        std::unique_ptr<Equation> eq_vp = std::make_unique<Equation>(*eq_);
         
         double prob_v;
         std::cout<<"Insert the probability of getting vaccinated"<<'\n';
