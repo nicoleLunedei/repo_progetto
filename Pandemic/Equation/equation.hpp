@@ -7,13 +7,7 @@
 
 class Equation : public Pandemic {
  private:
-  std::mt19937 gen;
-  std::uniform_real_distribution<> dis;
-  std::vector<People> population_;
-  Parameters par_;
-  int N_;
-  static std::array<double, 2> intersec_;
-
+////////////////Same members of the class Pandemic////////////////
  public:
   ////////////////////////Constructors////////////////////////////
 

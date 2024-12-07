@@ -25,12 +25,6 @@ int sum_person(std::vector<Person>& pers);
 
 class Agent : public Pandemic {
  private:
-  std::mt19937 gen;
-  std::uniform_real_distribution<> dis;
-  std::vector<People> population_;
-  Parameters par_;
-  int N_;
-  static std::array<double, 2> intersec_;
   ///////////////Matrix object rappresenting the population/////////////////////
   Matrix<Person> M_;
 
