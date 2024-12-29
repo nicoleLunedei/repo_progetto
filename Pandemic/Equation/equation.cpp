@@ -11,8 +11,8 @@
 ////////////////////////Constructors////////////////////////////
 
 //////////////////////Parametric//////////////////////////////
-Equation::Equation(std::vector<People>& population, Parameters& par,
-                   const int& N)
+Equation::Equation(const std::vector<People>& population, Parameters& par,
+                   const int N)
     : Pandemic(population, par, N) {}
 
 /////////////////////////Default////////////////////////////
@@ -42,13 +42,14 @@ void Equation::sorting() {
 ////////////////Evolving functionalities////////////////////////////
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
 
-std::array<double, 6> Equation::update_situation(int index,
+std::array<double, 6> Equation::update_situation(const int index,
                                                  People const& next) {
   assert(index == 1 || index == 0);
   ////////////////Controlling that the vector isn't
   ///empty////////////////////////
   assert(!(this->get_evolution().empty()));
   //////////////////Trasforming the object People to an array/////////////////
+  ////////////////////Local variable////////////////////
   std::array<double, 6> next_a{transform_Array<double, 6>(next)};
 
   ////////// H_ & D_ ///////////
@@ -75,13 +76,8 @@ std::array<double, 6> Equation::update_situation(int index,
             this->get_number_population()) *
            (sum(this->get_evolution()
                     .back()
-                    .I_)));  // qua devo considerare tutti gli infetti perchè si
-                             // tratta di una pobabilità d'interazione che
-                             // l'individuo ha con tutti gli infetti quindi,
-                             // perciò beta[1] tiene in considerazione la
-                             // protezione personale ma non smette d'interagire
-                             // con chi non è vaccinato e la tendenza
-                             // dell'infetto ad infettare
+                    .I_))); 
+
       next_a[2] = this->get_evolution().back().I_[0] +
                   ((((this->get_Parameters().beta[0]) *
                      (this->get_evolution().back().S_[0])) /
@@ -102,13 +98,8 @@ std::array<double, 6> Equation::update_situation(int index,
             this->get_number_population()) *
            (sum(this->get_evolution()
                     .back()
-                    .I_)));  // qua devo considerare tutti gli infetti perchè si
-                             // tratta di una pobabilità d'interazione che
-                             // l'individuo ha con tutti gli infetti quindi,
-                             // perciò beta[1] tiene in considerazione la
-                             // protezione personale ma non smette d'interagire
-                             // con chi non è vaccinato e la tendenza
-                             // dell'infetto ad infettare
+                    .I_))); 
+
       next_a[3] = this->get_evolution().back().I_[1] +
                   ((((this->get_Parameters().beta[1]) *
                      (this->get_evolution().back().S_[1])) /
@@ -121,12 +112,12 @@ std::array<double, 6> Equation::update_situation(int index,
       break;
     }
   }
-
+/////////////////Returning a local variable///////////////
   return next_a;
 }
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
 
-const People Equation::fix(std::array<double, 6> next) {
+const People Equation::fix( std::array<double, 6>&& next) {
   ////////////////////Getting the deviation//////////////////
   const double diff = sum(next) - sum(integer_part(next));
   assert(diff >= 0);
@@ -141,7 +132,7 @@ const People Equation::fix(std::array<double, 6> next) {
 }
 
 void Equation::evolve() {
-  const People& follow = {{0, 0}, {0, 0}, 0, 0};
+  const People follow = {{0, 0}, {0, 0}, 0, 0};
 
   //////////////////////Updating the situation/////////////////////////
   this->add_data(this->fix(this->update_situation(0, follow)));
@@ -165,7 +156,7 @@ void Equation::evolve_vaccine() {
 ///////////////////////////////////////////Displaying
 ///Functionalities///////////////////////////
 ////////////////////////Summing data////////////////////
-std::array<int, 4> Equation::calculate(const int& t) {
+std::array<int, 4> Equation::calculate(const int t) {
   std::array<int, 4> calc{0, 0, 0, 0};
   calc[0] = sum(this->get_situation_day(t).S_);
   calc[1] = sum(this->get_situation_day(t).I_);
@@ -174,7 +165,7 @@ std::array<int, 4> Equation::calculate(const int& t) {
   return calc;
 }
 ////////////////////Printing on terminal////////////////////
-void Equation::Print(const int& d) {
+void Equation::Print(const int d) {
   std::cout << "S = " << this->calculate(d)[0] << " || ";
   std::cout << "I = " << this->calculate(d)[1] << " || ";
   std::cout << "H = " << this->calculate(d)[2] << " || ";

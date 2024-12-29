@@ -92,8 +92,7 @@ Matrix<T>& Matrix<T>::operator=(const Matrix<T>& other) {
     throw std::runtime_error{"Invalid assignment! They are the same object."};
   }
 }
-///////////////////overloading
-///dell'operator==///////////////////////////////////
+///////////////////Operator== overloading ///////////////////////////////////
 template <typename T>
 bool operator==(const Matrix<T>& left, const Matrix<T>& right) {
   if (left.M.size() != right.M.size() ||

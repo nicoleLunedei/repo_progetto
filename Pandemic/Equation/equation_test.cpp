@@ -111,7 +111,7 @@ TEST_CASE("Equation Class") {
         CHECK(situation[5] == 35000);
         CHECK(sum(situation) == eq1->get_number_population());
 
-        eq1->add_data(eq1->fix(situation));
+        eq1->add_data(eq1->fix(std::move(situation)));
 
         eq1->evolve();
 
@@ -142,7 +142,7 @@ TEST_CASE("Equation Class") {
       CHECK(situation2[5] == 17.5);
       CHECK(sum((situation2)) == eq2->get_number_population());  // 72
 
-      eq2->add_data(eq2->fix(situation2));
+      eq2->add_data(eq2->fix(std::move(situation2)));
 
       CHECK(eq2->get_situation_day(2).S_[0] == 523);
       CHECK(eq2->get_situation_day(2).S_[1] == 0);
@@ -166,7 +166,7 @@ TEST_CASE("Equation Class") {
       CHECK(eq2->get_number_population() - sum(integer_part(situation3)) ==
             2);  // 95
 
-      eq2->add_data(eq2->fix(situation3));
+      eq2->add_data(eq2->fix(std::move(situation3)));
 
       CHECK(eq2->get_situation_day(3).S_[0] == 498);
       CHECK(eq2->get_situation_day(3).S_[1] == 0);
@@ -189,7 +189,7 @@ TEST_CASE("Equation Class") {
       CHECK(sum(situation4) == eq2->get_number_population());  // 72
       CHECK(eq2->get_number_population() - sum(integer_part(situation4)) == 2);
 
-      eq2->add_data(eq2->fix(situation4));
+      eq2->add_data(eq2->fix(std::move(situation4)));
 
       CHECK(eq2->get_situation_day(4).S_[0] == 474);
       CHECK(eq2->get_situation_day(4).S_[1] == 0);

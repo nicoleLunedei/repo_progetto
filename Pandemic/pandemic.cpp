@@ -17,8 +17,8 @@ std::uniform_real_distribution<> Pandemic::dis(0.0, 1.0);
 
 ////////Parametric//////////////
 
-Pandemic::Pandemic(std::vector<People>& population, Parameters& par,
-                   const int& N)
+Pandemic::Pandemic(const std::vector<People>& population, Parameters& par,
+                   const int N)
     : population_{population}, par_(par), N_{N} {
   /////////////////////Checking values////////////////////////////////
   if ((par.beta[0] < 0. || par.beta[0] > 1.) ||
@@ -68,9 +68,7 @@ void Pandemic::set_Parameters(Parameters& p) {
 void Pandemic::introduce_vacc(const double& v) {
   if (this->get_Parameters().vax != 0.)
     throw std::runtime_error{
-        "You can't introduce the vaccine more than once"};  // si può introdurre
-                                                            // il vaccino solo
-                                                            // una volta
+        "You can't introduce the vaccine more than once"};
 
   if ((v < 0. || v > 1.))
     throw std::runtime_error{
@@ -146,7 +144,7 @@ const int& Pandemic::get_number_population() const { return this->N_; }
 std::vector<People>& Pandemic::get_evolution() { return this->population_; }
 
 ////////////Checking///////////////
-void Pandemic::check_normalization(Parameters& p) {
+void Pandemic::check_normalization(Parameters& p) const {
   double com = p.gamma[0] + p.omega[0];
 
   if (com > 1) {
@@ -183,7 +181,7 @@ void Pandemic::change_after_vacc() {
   this->get_Parameters().gamma[1] = 1 - x_0 - this->get_Parameters().omega[1];
 }
 /////////////Generates a casual number
-double Pandemic::generate() { return dis(gen); }
+double Pandemic::generate() const { return dis(gen); }
 
 /////////////Adds data by adding a new element People to the vector population_
 void Pandemic::add_data(const People& add) {
@@ -208,7 +206,7 @@ double Pandemic::calculate_R0(Parameters& p) {
 }
 //////////////////Informs when the evolution has finished because there aren't
 ///infected people left
-bool Pandemic::terminate() {
+bool Pandemic::terminate(){
   if (sum(this->get_evolution().back().I_) >= 0) {
     return false;
 

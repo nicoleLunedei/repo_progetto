@@ -12,7 +12,7 @@ class Equation : public Pandemic {
   ////////////////////////Constructors////////////////////////////
 
   ////////Parametric//////////////
-  Equation(std::vector<People>& population, Parameters& par, const int& N);
+  Equation(const std::vector<People>& population, Parameters& par, const int N);
   ///////Default////////////
   Equation();
   ///////////Copy/////////////
@@ -21,17 +21,17 @@ class Equation : public Pandemic {
   void sorting();
   ////////////////////////////////////Evolving
   ///functionalities////////////////////////////
-  std::array<double, 6> update_situation(int index, People const& next);
-  const People fix(std::array<double, 6> next);
+  std::array<double, 6> update_situation(const int index, People const& next);
+  const People fix(std::array<double, 6>&& next);
   void evolve();
   void evolve_vaccine();
 
   ///////////////////////////////////////////Displaying
   ///Functionalities///////////////////////////
   ////////////////////////Summing data////////////////////
-  std::array<int, 4> calculate(const int& t);
+  std::array<int, 4> calculate(const int t);
   ////////////////////Printing on terminal///////////////
-  void Print(const int& d);
+  void Print(const int d);
   ////////////Distructor////////////
   ~Equation();
 };

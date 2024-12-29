@@ -21,7 +21,7 @@ int sum_person(std::vector<Person>& pers) {
 ////////////////////////Constructors////////////////////////////
 
 ///////Parametric///////////
-Agent::Agent(std::vector<People>& population, Parameters& par, const int& N)
+Agent::Agent(const std::vector<People>& population, Parameters& par, const int N)
     : Pandemic(population, par, N),
       M_(static_cast<std::size_t>(std::sqrt(N)), Susceptible) {
   if (!is_perfect_square(this->get_number_population()))
@@ -106,7 +106,7 @@ void Agent::draw_matrix(People& begin) {
 /////////////////////////////General
 ///functionalities//////////////////////////////////////////
 
-bool Agent::throwing_dices(double& dice) {
+bool Agent::throwing_dices(double dice) const{
   if (this->generate() <= dice) {
     // Change
     return true;

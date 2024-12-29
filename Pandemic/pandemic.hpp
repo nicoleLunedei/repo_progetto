@@ -15,16 +15,16 @@ T sum(const std::array<T, N>& a) {
   return tot;
 }
 template <typename T>
-T sum(std::vector<T>& v) {
+T sum(const std::vector<T>& v) {
   T tot = 0;
-  for (T& t : v) {
+  for (const T& t : v) {
     tot += t;
   }
 
   return tot;
 }
 template <typename T, std::size_t N>
-std::size_t maximum_dec(std::array<T, N>& a) {
+std::size_t maximum_dec(const std::array<T, N>& a) {
   T max = 0;
   std::size_t t = 0;
   for (std::size_t it = 0; it < N; ++it) {
@@ -79,7 +79,7 @@ class Pandemic {
   /////////////Probabilistic parameters //////////////////////////
   Parameters par_;
   //////////////Number of the population///////////////
-  int N_;
+  const int N_;
   /////////////Efficacy of the vaccine //////////////////
   static std::array<double, 2> efficacy_;
   /////////////Pseudo Random Number Generator//////////
@@ -91,7 +91,7 @@ class Pandemic {
 
   ////////Parametric//////////////
 
-  Pandemic(std::vector<People>& population, Parameters& par, const int& N);
+  Pandemic(const std::vector<People>& population, Parameters& par, const int N);
 
   /////////////Default///////////
   Pandemic();
@@ -113,7 +113,7 @@ class Pandemic {
 
   ////////////Checking///////////////
   bool check_R0(Parameters& p);
-  void check_normalization(Parameters& p);
+  void check_normalization(Parameters& p)const;
 
   ////////////General functionalities///////////////
 
@@ -121,11 +121,11 @@ class Pandemic {
   void change_after_vacc();
 
   /////////////Generates a casual number
-  double generate();
+  double generate() const;
 
   /////////////Adds data by adding a new element People to the vector
   ///population_
-  void add_data(const People& add);  //  test
+  void add_data(const People& add); 
 
   /////////////Does a data collection about who decides to get vaccinated,
   ///according the probability to get vaccinated

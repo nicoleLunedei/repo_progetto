@@ -32,7 +32,7 @@ class Agent : public Pandemic {
   ////////////////////////Constructors////////////////////////////
 
   ///////Parametric///////////
-  Agent(std::vector<People>& population, Parameters& par, const int& N);
+  Agent(const std::vector<People>& population, Parameters& par, const int N);
   ////////////Default/////////
   Agent();
   //////////Copy////////////
@@ -47,7 +47,7 @@ class Agent : public Pandemic {
 
   ///////////////General functionalities///////////////
 
-  bool throwing_dices(double& dice);
+  bool throwing_dices(double dice) const;
   //////////Counting the infected people around a specific cell of
   ///Matrix/////////
   int infected_neighbours(std::size_t r, std::size_t c);
