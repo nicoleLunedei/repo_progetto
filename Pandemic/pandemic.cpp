@@ -1,7 +1,6 @@
 #include "pandemic.hpp"
 
 #include <array>
-#include <functional>
 #include <iostream>
 #include <random>
 #include <stdexcept>
@@ -12,7 +11,7 @@ std::array<double, 2> Pandemic::efficacy_{0.71, 0.65};
 std::mt19937 Pandemic::gen(std::random_device{}());
 std::uniform_real_distribution<> Pandemic::dis(0.0, 1.0);
 ///////////////////////////////////////Pandemic
-///Class///////////////////////////////////
+/// Class///////////////////////////////////
 ////////////////////////Constructors////////////////////////////
 
 ////////Parametric//////////////
@@ -65,10 +64,9 @@ void Pandemic::set_Parameters(Parameters& p) {
 
   this->par_ = p;
 }
-void Pandemic::introduce_vacc(const double& v) {
+void Pandemic::introduce_vacc(double v) {
   if (this->get_Parameters().vax != 0.)
-    throw std::runtime_error{
-        "You can't introduce the vaccine more than once"};
+    throw std::runtime_error{"You can't introduce the vaccine more than once"};
 
   if ((v < 0. || v > 1.))
     throw std::runtime_error{
@@ -79,16 +77,16 @@ void Pandemic::introduce_vacc(const double& v) {
 void Pandemic::set_initial_condition(const People& start) {
   if (this->get_evolution().empty()) {
     ///////////////////////Controll on initial
-    ///data/////////////////////////////////////
+    /// data/////////////////////////////////////
     //////////////Controll on Susceptible and Infected not
-    ///vaccinated////////////////////
+    /// vaccinated////////////////////
     if (start.I_[0] <= 0 || start.S_[0] <= 0) {
       throw std::runtime_error{
           "It can't start the evolution without any susceptible or any "
           "infected ! "};
     }
     //////////////Controll on Susceptible and Infected
-    ///vaccinated////////////////////
+    /// vaccinated////////////////////
     if (start.S_[1] != 0 || start.I_[1] != 0) {
       throw std::runtime_error{
           "At the begining the number of vaccinated people must be null! "};
@@ -96,11 +94,11 @@ void Pandemic::set_initial_condition(const People& start) {
     ////////////Controll on Healed and Dead////////////
     if (start.H_ != 0 || start.D_ != 0) {
       throw std::runtime_error{
-          "It doesn't make sense start with some healed or dead people"};
+          "It doesn't make sense starting with some healed or dead people"};
     }
 
-    ///////////////////Everything is fine, so it can be set the initial
-    ///condition: it's left the final check///////////////
+    /////////////////// Coherency between number population and the sum of the
+    ///Infected and Susceptible people///////////////
     const int tot = sum(transform_Array<int, 6>(start));
     if (tot <= this->get_number_population()) {
       this->add_data(start);
@@ -121,23 +119,20 @@ void Pandemic::set_initial_condition(const People& start) {
 }
 ////////////Getters//////////////////
 Parameters& Pandemic::get_Parameters() { return this->par_; }
-People& Pandemic::get_situation_day(const int& i) {
-  if (i <= 0 || static_cast<std::vector<People>::size_type>(i) >
-                    this->population_.size()) {
-    if (i == 0) {
+const People& Pandemic::get_situation_day(int i) {
+  std::size_t i_ = static_cast<std::size_t>(i);
+  if (i_ <= 0 || i_ > this->population_.size()) {
+    if (i_ == 0) {
       throw std::runtime_error{"The simulation starts from day one!"};
     } else {
       throw std::out_of_range{"Invalid day number!"};
     }
   }
 
-  return this
-      ->get_evolution()[static_cast<std::vector<People>::size_type>(i - 1)];
+  return this->get_evolution()[i_ - 1];
 }
 
-long unsigned int Pandemic::get_days() const {
-  return this->population_.size();
-}
+std::size_t Pandemic::get_days() const { return this->population_.size(); }
 
 const int& Pandemic::get_number_population() const { return this->N_; }
 
@@ -191,7 +186,7 @@ void Pandemic::add_data(const People& add) {
 }
 
 /////////////Does a data collection about who decides to get vaccinated,
-///according the probability to get vaccinated
+/// according the probability to get vaccinated
 bool Pandemic::is_vaccinated() {
   if ((this->generate()) <= this->get_Parameters().vax) {
     return true;
@@ -205,8 +200,8 @@ double Pandemic::calculate_R0(Parameters& p) {
   return (p.beta[0]) / (p.gamma[0] + p.omega[0]);
 }
 //////////////////Informs when the evolution has finished because there aren't
-///infected people left
-bool Pandemic::terminate(){
+/// infected people left
+bool Pandemic::terminate() {
   if (sum(this->get_evolution().back().I_) >= 0) {
     return false;
 

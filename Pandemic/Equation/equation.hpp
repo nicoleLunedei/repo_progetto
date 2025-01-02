@@ -15,8 +15,7 @@ class Equation : public Pandemic {
   Equation(const std::vector<People>& population, Parameters& par, const int N);
   ///////Default////////////
   Equation();
-  ///////////Copy/////////////
-  Equation(Equation& copy);
+
   ////////////Data collection about the vaccine///////////////
   void sorting();
   ////////////////////////////////////Evolving

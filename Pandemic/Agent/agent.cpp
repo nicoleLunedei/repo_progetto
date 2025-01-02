@@ -52,8 +52,7 @@ std::size_t Agent::get_side() const { return this->M_.M.size(); }
 Person& Agent::show_cell(std::size_t r, std::size_t c) {
   if (this->get_matrix().M.empty())
     throw std::runtime_error{"The Matrix is empty!"};
-  /////////////////////Manipulating indixes & converting in
-  ///std::size_t/////////////////
+  /////////////////////Manipulating indixes for the toroidal structure///////////////
   const std::size_t rr =
       static_cast<std::size_t>((r + this->get_side()) % this->get_side());
   const std::size_t cc =

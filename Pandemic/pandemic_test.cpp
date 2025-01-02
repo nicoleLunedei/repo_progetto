@@ -233,7 +233,7 @@ TEST_CASE("Pandemic Class") {
                       std::runtime_error);
       CHECK_THROWS_WITH(
           global_w4.set_initial_condition(sub_w4),
-          "It doesn't make sense start with some healed or dead people");
+          "It doesn't make sense starting with some healed or dead people");
 
       ////////////////////The initial condition must be absent//////////////////
       People sub{{300, 0}, {20, 0}, 0, 0};

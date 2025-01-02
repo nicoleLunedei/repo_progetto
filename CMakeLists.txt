@@ -105,4 +105,4 @@ target_link_options(sihd_ag_test PRIVATE -fsanitize=address -fsanitize=undefined
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-message(STATUS "Configuration completed for ${CMAKE_BUILD_TYPE}")
+

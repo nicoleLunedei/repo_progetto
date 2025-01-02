@@ -74,7 +74,7 @@ const People transform_People(const std::array<T, N>& t) {
 class Pandemic {
  private:
   ///////////A tracking vector that registrates data of each day of the
-  ///simulation////////////
+  /// simulation////////////
   std::vector<People> population_;
   /////////////Probabilistic parameters //////////////////////////
   Parameters par_;
@@ -95,25 +95,26 @@ class Pandemic {
 
   /////////////Default///////////
   Pandemic();
+
   ////////////////Copy/////////////////////////
   Pandemic(Pandemic& copy);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   /////////////Setters///////////////////
   void set_Parameters(Parameters& p);
-  void introduce_vacc(const double& v);
+  void introduce_vacc(double v);
   void set_initial_condition(const People& start);
   ////////////Getters//////////////////
   std::vector<People>& get_evolution();
   Parameters& get_Parameters();
   const int& get_number_population() const;
 
-  long unsigned int get_days() const;
-  People& get_situation_day(const int& i);
+  std::size_t get_days() const;
+  const People& get_situation_day(const int i);
 
   ////////////Checking///////////////
   bool check_R0(Parameters& p);
-  void check_normalization(Parameters& p)const;
+  void check_normalization(Parameters& p) const;
 
   ////////////General functionalities///////////////
 
@@ -124,17 +125,17 @@ class Pandemic {
   double generate() const;
 
   /////////////Adds data by adding a new element People to the vector
-  ///population_
-  void add_data(const People& add); 
+  /// population_
+  void add_data(const People& add);
 
   /////////////Does a data collection about who decides to get vaccinated,
-  ///according the probability to get vaccinated
+  /// according the probability to get vaccinated
   bool is_vaccinated();
 
   /////////////Calculates the critical threshold
   double calculate_R0(Parameters& p);
   //////////////////Informs when the evolution has finished because there aren't
-  ///infected people left
+  /// infected people left
   bool terminate();
 
   ///////////Distructor//////////////////////////////////////

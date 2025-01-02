@@ -22,13 +22,12 @@ Equation::Equation() : Pandemic() {
   People initial_data({2000, 0}, {500, 0}, 0, 0);
   this->set_initial_condition(initial_data);
 }
-///////////Copy/////////////
-Equation::Equation(Equation& copy) : Pandemic(copy) {}
+
 
 //////////////////Data collection about the vaccine///////////////////////
 
 void Equation::sorting() {
-  ////////Savinge the current value of the Susceptible people////////////////
+  ////////Saving the current value of the Susceptible people////////////////
   int t = this->get_evolution().back().S_[0];
 
   for (int i = 0; i <= t; i++) {
