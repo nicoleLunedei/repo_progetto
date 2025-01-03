@@ -32,3 +32,4 @@ Per l'esecuzione dei file:
 
     ./build/sihd_mat_test
 
+Per leggere la relazione "Lunedei_Nicole relazione simulazione SIHD" è necessario scaricarla 
