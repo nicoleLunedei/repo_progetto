@@ -43,7 +43,7 @@ int main() {
               << '\n';
     std::cout << " The population corrisponds to "
               << eq->get_number_population() << " people" << '\n';
-    std::cout << "Situation of the firt day :" << '\n';
+    std::cout << "Situation of the first day :" << '\n';
     eq->Print(1);
     std::cout << " Note the following probabilities are refering to what "
                  "happends in one day  "
@@ -113,7 +113,6 @@ int main() {
         std::cout << "Please, insert 'y', for yes, or 'n', for no" << '\n';
         std::cin >> comparison;
         /////////////////Cleaning the in stream///////////////////////////
-        // std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         it++;
@@ -399,9 +398,9 @@ int main() {
         std::cout << "Day N° :" << t << "\n\n";
         std::cout << "====================="
                   << "\n\n";
-        std::cout << eq_->get_situation_day(t) << '\n';
-        std::cout << "====================="
-                  << "\n\n";
+        //std::cout << eq_->get_situation_day(t) << '\n';
+        //std::cout << "====================="
+                  //<< "\n\n";
         std::cout << "Total Counting :" << '\n';
         eq_->Print(t);
 

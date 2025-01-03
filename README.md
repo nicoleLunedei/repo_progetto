@@ -12,7 +12,7 @@ Per l'esecuzione dei file:
 
     ./build/sihd_eq
 
-  >Simulazione con evoluzione con logicadi tipo probabilistico applicata ad un automa cellulare
+  >Simulazione con evoluzione con logica di tipo probabilistico applicata ad un automa cellulare
 
     ./build/sihd_ag
 

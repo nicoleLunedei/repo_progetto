@@ -77,11 +77,11 @@ int main() {
     std::cout << " The population corrisponds to "
               << ag->get_number_population() << " people" << '\n';
     std::cout << " Probability to infect : "
-              << ag->get_Parameters().beta[0] * 100 << "%";
+              << ag->get_Parameters().beta[0] * 100 << "%" << '\n';
     std::cout << " Probability of healing :  "
-              << ag->get_Parameters().gamma[0] * 100 << "%";
+              << ag->get_Parameters().gamma[0] * 100 << "%" << '\n';
     std::cout << " Probability of dying :"
-              << ag->get_Parameters().omega[0] * 100 << "%";
+              << ag->get_Parameters().omega[0] * 100 << "%" << '\n';
     std::cout << " Probability of getting vaccinated , initially is null, "
                  "later you'll have the chance to introduce it."
               << "\n\n";
@@ -261,12 +261,12 @@ int main() {
                  "probability to get vaccinated "
               << "\n\n";
 
-    std::cout << " Number population (please at least 100 )" << '\n';
+    std::cout << " Number population (max = 5329 )" << '\n';
     std::cin >> N;
 
-    if (N < 100) {
+    if (N > 5329) {
       char change;
-      std::cout << "You're number population is quite small, do you want to "
+      std::cout << "You're number population is too large for the sfml window (max = 5329), do you want to "
                    "change ?[y/n]"
                 << '\n';
       std::cin >> change;
@@ -523,8 +523,8 @@ int main() {
             const float r_ = static_cast<float>(r);
             const float c_ = static_cast<float>(c);
 
-            circles_[r][c].setPosition(120.f + (c_ * 8.f) + 0.1f,
-                                       100.f + (r_ * 8.f) + 0.1f);
+            circles_[r][c].setPosition(10.f + (c_ * 8.f) + 0.1f,
+                                       10.f + (r_ * 8.f) + 0.1f);
             circles_[r][c].setRadius(4);
             // writing_Circles(circles_,r,c);
             circles_[r][c].setFillColor(paint(cell));
@@ -548,8 +548,8 @@ int main() {
             const float r_ = static_cast<float>(r);
             const float c_ = static_cast<float>(c);
 
-            circles_[r][c].setPosition(120.f + (c_ * 8.f) + 0.1f,
-                                       100.f + (r_ * 8.f) + 0.1f);
+            circles_[r][c].setPosition(10.f + (c_ * 8.f) + 0.1f,
+                                       10.f + (r_ * 8.f) + 0.1f);
             circles_[r][c].setRadius(4);
             // writing_Circles(circles_,r,c);
             circles_[r][c].setFillColor(paint(cell));
@@ -626,8 +626,8 @@ int main() {
                   const float r_ = static_cast<float>(r);
                   const float c_ = static_cast<float>(c);
 
-                  circles_[r][c].setPosition(120.f + (c_ * 8.f) + 0.1f,
-                                             100.f + (r_ * 8.f) + 0.1f);
+                  circles_[r][c].setPosition(10.f + (c_ * 8.f) + 0.1f,
+                                             10.f + (r_ * 8.f) + 0.1f);
                   circles_[r][c].setRadius(4);
                   // writing_Circles(circles_,r,c);
                   circles_[r][c].setFillColor(paint(cell));
@@ -653,8 +653,8 @@ int main() {
                   const float r_ = static_cast<float>(r);
                   const float c_ = static_cast<float>(c);
 
-                  circles_[r][c].setPosition(120.f + (c_ * 8.f) + 0.1f,
-                                             100.f + (r_ * 8.f) + 0.1f);
+                  circles_[r][c].setPosition(10.f + (c_ * 8.f) + 0.1f,
+                                             10.f + (r_ * 8.f) + 0.1f);
                   circles_[r][c].setRadius(4);
                   // writing_Circles(circles_,r,c);
                   circles_[r][c].setFillColor(paint(cell));
