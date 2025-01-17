@@ -14,19 +14,19 @@ TEST_CASE("Equation Class") {
       std::unique_ptr<Equation> eq0 = std::make_unique<Equation>();
 
       CHECK(eq0->get_days() == 1);
-      CHECK(eq0->get_Parameters().beta[0] == 0.6);
-      CHECK(eq0->get_Parameters().beta[1] == 0.0);
-      CHECK(eq0->get_Parameters().gamma[0] == 0.2);
-      CHECK(eq0->get_Parameters().gamma[1] == 0.0);
-      CHECK(eq0->get_Parameters().omega[0] == 0.35);
-      CHECK(eq0->get_Parameters().omega[1] == 0.0);
-      CHECK(eq0->get_Parameters().vax == 0.0);
+      CHECK(eq0->get_Parameters().beta.no_vax == 0.6);
+      CHECK(eq0->get_Parameters().beta.vax == 0.0);
+      CHECK(eq0->get_Parameters().gamma.no_vax == 0.2);
+      CHECK(eq0->get_Parameters().gamma.vax == 0.0);
+      CHECK(eq0->get_Parameters().omega.no_vax == 0.35);
+      CHECK(eq0->get_Parameters().omega.vax == 0.0);
+      CHECK(eq0->get_Parameters().v == 0.0);
       CHECK(eq0->get_number_population() == 2500);
 
-      CHECK(eq0->get_situation_day(1).S_[0] == 2000);
-      CHECK(eq0->get_situation_day(1).S_[1] == 0);
-      CHECK(eq0->get_situation_day(1).I_[0] == 500);
-      CHECK(eq0->get_situation_day(1).I_[1] == 0);
+      CHECK(eq0->get_situation_day(1).S_.no_vax == 2000);
+      CHECK(eq0->get_situation_day(1).S_.vax == 0);
+      CHECK(eq0->get_situation_day(1).I_.no_vax == 500);
+      CHECK(eq0->get_situation_day(1).I_.vax == 0);
       CHECK(eq0->get_situation_day(1).H_ == 0);
       CHECK(eq0->get_situation_day(1).D_ == 0);
 
@@ -38,10 +38,10 @@ TEST_CASE("Equation Class") {
       People sub_1{{2100, 100}, {180, 120}, 0, 0};
       eq0->add_data(sub_1);
 
-      CHECK(eq0->get_situation_day(2).S_[0] == 2100);
-      CHECK(eq0->get_situation_day(2).S_[1] == 100);
-      CHECK(eq0->get_situation_day(2).I_[0] == 180);
-      CHECK(eq0->get_situation_day(2).I_[1] == 120);
+      CHECK(eq0->get_situation_day(2).S_.no_vax == 2100);
+      CHECK(eq0->get_situation_day(2).S_.vax == 100);
+      CHECK(eq0->get_situation_day(2).I_.no_vax == 180);
+      CHECK(eq0->get_situation_day(2).I_.vax == 120);
       CHECK(eq0->get_situation_day(2).H_ == 0);
       CHECK(eq0->get_situation_day(2).D_ == 0);
 
@@ -65,13 +65,13 @@ TEST_CASE("Equation Class") {
 
       CHECK(eq1->get_days() == 0);
 
-      CHECK(eq1->get_Parameters().beta[0] == 0.75);
-      CHECK(eq1->get_Parameters().beta[1] == 0.);
-      CHECK(eq1->get_Parameters().gamma[0] == 0.3);
-      CHECK(eq1->get_Parameters().gamma[1] == 0.);
-      CHECK(eq1->get_Parameters().omega[0] == 0.35);
-      CHECK(eq1->get_Parameters().beta[1] == 0.);
-      CHECK(eq1->get_Parameters().vax == 0.);
+      CHECK(eq1->get_Parameters().beta.no_vax == 0.75);
+      CHECK(eq1->get_Parameters().beta.vax == 0.);
+      CHECK(eq1->get_Parameters().gamma.no_vax == 0.3);
+      CHECK(eq1->get_Parameters().gamma.vax == 0.);
+      CHECK(eq1->get_Parameters().omega.no_vax == 0.35);
+      CHECK(eq1->get_Parameters().beta.vax == 0.);
+      CHECK(eq1->get_Parameters().v == 0.);
 
       CHECK(eq1->get_number_population() == 600000);
       //////////////Adding data/////////////////
@@ -79,10 +79,10 @@ TEST_CASE("Equation Class") {
 
       CHECK(eq1->get_days() == 1);
 
-      CHECK(eq1->get_situation_day(1).S_[0] == 500000);
-      CHECK(eq1->get_situation_day(1).S_[1] == 0);
-      CHECK(eq1->get_situation_day(1).I_[0] == 100000);
-      CHECK(eq1->get_situation_day(1).I_[1] == 0);
+      CHECK(eq1->get_situation_day(1).S_.no_vax == 500000);
+      CHECK(eq1->get_situation_day(1).S_.vax == 0);
+      CHECK(eq1->get_situation_day(1).I_.no_vax == 100000);
+      CHECK(eq1->get_situation_day(1).I_.vax == 0);
       CHECK(eq1->get_situation_day(1).H_ == 0);
       CHECK(eq1->get_situation_day(1).D_ == 0);
 
@@ -94,11 +94,11 @@ TEST_CASE("Equation Class") {
       SUBCASE(" Specilized Members of Equation") {
         //////////update situation//////////////////
 
-        CHECK(eq1->get_evolution().back().I_[0] == 100000);
-        CHECK(eq1->get_evolution().back().I_[1] == 0);
-        CHECK(eq1->get_evolution().back().S_[0] == 500000);
-        CHECK(eq1->get_evolution().back().S_[1] == 0);
-        CHECK(eq1->get_Parameters().beta[0] == 0.75);
+        CHECK(eq1->get_evolution().back().I_.no_vax == 100000);
+        CHECK(eq1->get_evolution().back().I_.vax == 0);
+        CHECK(eq1->get_evolution().back().S_.no_vax == 500000);
+        CHECK(eq1->get_evolution().back().S_.vax == 0);
+        CHECK(eq1->get_Parameters().beta.no_vax == 0.75);
 
         People n{{0, 0}, {0, 0}, 0, 0};
         std::array<double, 6> situation = eq1->update_situation(0, n);
@@ -115,10 +115,10 @@ TEST_CASE("Equation Class") {
 
         eq1->evolve();
 
-        CHECK(eq1->get_evolution().back().S_[0] == 384180);
-        CHECK(eq1->get_evolution().back().S_[1] == 0);
-        CHECK(eq1->get_evolution().back().I_[0] == 87445);
-        CHECK(eq1->get_evolution().back().I_[1] == 0);
+        CHECK(eq1->get_evolution().back().S_.no_vax == 384180);
+        CHECK(eq1->get_evolution().back().S_.vax == 0);
+        CHECK(eq1->get_evolution().back().I_.no_vax == 87445);
+        CHECK(eq1->get_evolution().back().I_.vax == 0);
         CHECK(eq1->get_evolution().back().H_ == 59250);
         CHECK(eq1->get_evolution().back().D_ == 69125);
       }
@@ -144,10 +144,10 @@ TEST_CASE("Equation Class") {
 
       eq2->add_data(eq2->fix(std::move(situation2)));
 
-      CHECK(eq2->get_situation_day(2).S_[0] == 523);
-      CHECK(eq2->get_situation_day(2).S_[1] == 0);
-      CHECK(eq2->get_situation_day(2).I_[0] == 50);
-      CHECK(eq2->get_situation_day(2).I_[1] == 0);
+      CHECK(eq2->get_situation_day(2).S_.no_vax == 523);
+      CHECK(eq2->get_situation_day(2).S_.vax == 0);
+      CHECK(eq2->get_situation_day(2).I_.no_vax == 50);
+      CHECK(eq2->get_situation_day(2).I_.vax == 0);
       CHECK(eq2->get_situation_day(2).H_ == 10);
       CHECK(eq2->get_situation_day(2).D_ == 17);
       CHECK(sum(transform_Array<int, 6>(eq2->get_situation_day(2))) ==
@@ -168,10 +168,10 @@ TEST_CASE("Equation Class") {
 
       eq2->add_data(eq2->fix(std::move(situation3)));
 
-      CHECK(eq2->get_situation_day(3).S_[0] == 498);
-      CHECK(eq2->get_situation_day(3).S_[1] == 0);
-      CHECK(eq2->get_situation_day(3).I_[0] == 48);
-      CHECK(eq2->get_situation_day(3).I_[1] == 0);
+      CHECK(eq2->get_situation_day(3).S_.no_vax == 498);
+      CHECK(eq2->get_situation_day(3).S_.vax == 0);
+      CHECK(eq2->get_situation_day(3).I_.no_vax == 48);
+      CHECK(eq2->get_situation_day(3).I_.vax == 0);
       CHECK(eq2->get_situation_day(3).H_ == 20);
       CHECK(eq2->get_situation_day(3).D_ == 34);
       CHECK(sum(transform_Array<int, 6>(eq2->get_situation_day(3))) ==
@@ -191,10 +191,10 @@ TEST_CASE("Equation Class") {
 
       eq2->add_data(eq2->fix(std::move(situation4)));
 
-      CHECK(eq2->get_situation_day(4).S_[0] == 474);
-      CHECK(eq2->get_situation_day(4).S_[1] == 0);
-      CHECK(eq2->get_situation_day(4).I_[0] == 45);
-      CHECK(eq2->get_situation_day(4).I_[1] == 0);
+      CHECK(eq2->get_situation_day(4).S_.no_vax == 474);
+      CHECK(eq2->get_situation_day(4).S_.vax == 0);
+      CHECK(eq2->get_situation_day(4).I_.no_vax == 45);
+      CHECK(eq2->get_situation_day(4).I_.vax == 0);
       CHECK(eq2->get_situation_day(4).H_ == 29);
       CHECK(eq2->get_situation_day(4).D_ == 52);
       CHECK(sum(transform_Array<int, 6>(eq2->get_situation_day(4))) ==
@@ -202,35 +202,35 @@ TEST_CASE("Equation Class") {
       /////////////////////////evolve()/////////////////
       eq2->evolve();
       CHECK(eq2->get_days() == 5);
-      CHECK(eq2->get_situation_day(5).S_[0] == 452);
-      CHECK(eq2->get_situation_day(5).S_[1] == 0);
-      CHECK(eq2->get_situation_day(5).I_[0] == 41);
-      CHECK(eq2->get_situation_day(5).I_[1] == 0);
+      CHECK(eq2->get_situation_day(5).S_.no_vax == 452);
+      CHECK(eq2->get_situation_day(5).S_.vax == 0);
+      CHECK(eq2->get_situation_day(5).I_.no_vax == 41);
+      CHECK(eq2->get_situation_day(5).I_.vax == 0);
       CHECK(eq2->get_situation_day(5).H_ == 38);
       CHECK(eq2->get_situation_day(5).D_ == 69);
       ////////////////////Introducing the option of the
       ///vaccine//////////////////
       eq2->introduce_vacc(0.24);
-      eq2->change_after_vacc();
+      eq2->change_after_vacc(0.71, 0.65);
 
-      CHECK(eq2->get_Parameters().beta[1] ==
+      CHECK(eq2->get_Parameters().beta.vax ==
             doctest::Approx(0.174).epsilon(0.001));
-      CHECK(eq2->get_Parameters().omega[1] ==
+      CHECK(eq2->get_Parameters().omega.vax ==
             doctest::Approx(0.1225).epsilon(0.001));
-      CHECK(eq2->get_Parameters().gamma[1] ==
+      CHECK(eq2->get_Parameters().gamma.vax ==
             doctest::Approx(0.4275).epsilon(0.001));
       /////////sorting => is _vaccinated///////////
       eq2->sorting();
 
       CHECK(eq2->get_days() == 5);
-      CHECK(static_cast<double>(eq2->get_situation_day(5).S_[0]) /
-                (sum(eq2->get_situation_day(5).S_)) ==
+      CHECK(static_cast<double>(eq2->get_situation_day(5).S_.no_vax) /
+                (total(eq2->get_situation_day(5).S_)) ==
             doctest::Approx(0.76).epsilon(0.1));
-      CHECK(static_cast<double>(eq2->get_situation_day(5).S_[1]) /
-                (sum(eq2->get_situation_day(5).S_)) ==
+      CHECK(static_cast<double>(eq2->get_situation_day(5).S_.vax) /
+                (total(eq2->get_situation_day(5).S_)) ==
             doctest::Approx(0.24).epsilon(0.1));
-      CHECK(eq2->get_situation_day(5).I_[0] == 41);
-      CHECK(eq2->get_situation_day(5).I_[1] == 0);
+      CHECK(eq2->get_situation_day(5).I_.no_vax == 41);
+      CHECK(eq2->get_situation_day(5).I_.vax == 0);
       CHECK(eq2->get_situation_day(5).H_ == 38);
       CHECK(eq2->get_situation_day(5).D_ == 69);
 
@@ -243,10 +243,10 @@ TEST_CASE("Equation Class") {
       eq2->add_data(sorted);
       People last0 = eq2->get_evolution().back();
 
-      CHECK(last0.S_[0] == 344);
-      CHECK(last0.S_[1] == 108);
-      CHECK(last0.I_[0] == 41);
-      CHECK(last0.I_[1] == 0);
+      CHECK(last0.S_.no_vax == 344);
+      CHECK(last0.S_.vax == 108);
+      CHECK(last0.I_.no_vax == 41);
+      CHECK(last0.I_.vax == 0);
       CHECK(last0.H_ == 38);
       CHECK(last0.D_ == 69);
 
@@ -255,27 +255,27 @@ TEST_CASE("Equation Class") {
       People natural1 = eq2->fix(eq2->update_situation(0, e));
       People total1 = eq2->fix(eq2->update_situation(1, natural1));
 
-      CHECK(natural1.S_[0] == 331);
-      CHECK(natural1.S_[1] == 0);
-      CHECK(natural1.I_[0] == 32);
-      CHECK(natural1.I_[1] == 0);
+      CHECK(natural1.S_.no_vax == 331);
+      CHECK(natural1.S_.vax == 0);
+      CHECK(natural1.I_.no_vax == 32);
+      CHECK(natural1.I_.vax == 0);
       CHECK(natural1.H_ == 46);
       CHECK(natural1.D_ == 83);
       ////////////////////////////////////
-      CHECK(total1.S_[0] == 331);
-      CHECK(total1.S_[1] == 107);
-      CHECK(total1.I_[0] == 32);
-      CHECK(total1.I_[1] == 1);
+      CHECK(total1.S_.no_vax == 331);
+      CHECK(total1.S_.vax == 107);
+      CHECK(total1.I_.no_vax == 32);
+      CHECK(total1.I_.vax == 1);
       CHECK(total1.H_ == 46);
       CHECK(total1.D_ == 83);
 
       eq2->add_data(total1);
       People last1 = eq2->get_evolution().back();
 
-      CHECK(last1.S_[0] == 331);
-      CHECK(last1.S_[1] == 107);
-      CHECK(last1.I_[0] == 32);
-      CHECK(last1.I_[1] == 1);
+      CHECK(last1.S_.no_vax == 331);
+      CHECK(last1.S_.vax == 107);
+      CHECK(last1.I_.no_vax == 32);
+      CHECK(last1.I_.vax == 1);
       CHECK(last1.H_ == 46);
       CHECK(last1.D_ == 83);
 
@@ -287,27 +287,27 @@ TEST_CASE("Equation Class") {
       People natural2 = eq2->fix(eq2->update_situation(0, e2));
       People total2 = eq2->fix(eq2->update_situation(1, natural2));
 
-      CHECK(natural2.S_[0] == 320);
-      CHECK(natural2.S_[1] == 0);
-      CHECK(natural2.I_[0] == 25);
-      CHECK(natural2.I_[1] == 0);
+      CHECK(natural2.S_.no_vax == 320);
+      CHECK(natural2.S_.vax == 0);
+      CHECK(natural2.I_.no_vax == 25);
+      CHECK(natural2.I_.vax == 0);
       CHECK(natural2.H_ == 53);
       CHECK(natural2.D_ == 94);
       ////////////////////////////////////
-      CHECK(total2.S_[0] == 320);
-      CHECK(total2.S_[1] == 107);
-      CHECK(total2.I_[0] == 25);
-      CHECK(total2.I_[1] == 1);
+      CHECK(total2.S_.no_vax == 320);
+      CHECK(total2.S_.vax == 107);
+      CHECK(total2.I_.no_vax == 25);
+      CHECK(total2.I_.vax == 1);
       CHECK(total2.H_ == 53);
       CHECK(total2.D_ == 94);
 
       eq2->add_data(total2);
       People last2 = eq2->get_evolution().back();
 
-      CHECK(last2.S_[0] == 320);
-      CHECK(last2.S_[1] == 107);
-      CHECK(last2.I_[0] == 25);
-      CHECK(last2.I_[1] == 1);
+      CHECK(last2.S_.no_vax == 320);
+      CHECK(last2.S_.vax == 107);
+      CHECK(last2.I_.no_vax == 25);
+      CHECK(last2.I_.vax == 1);
       CHECK(last2.H_ == 53);
       CHECK(last2.D_ == 94);
       ///////////////////////////////////////////////////////////////////////////////////
@@ -322,10 +322,10 @@ TEST_CASE("Equation Class") {
 
       People evolved = eq2->get_evolution().back();
 
-      CHECK(evolved.S_[0] == 311);
-      CHECK(evolved.S_[1] == 106);
-      CHECK(evolved.I_[0] == 19);
-      CHECK(evolved.I_[1] == 1);
+      CHECK(evolved.S_.no_vax == 311);
+      CHECK(evolved.S_.vax == 106);
+      CHECK(evolved.I_.no_vax == 19);
+      CHECK(evolved.I_.vax == 1);
       CHECK(evolved.H_ == 59);
       CHECK(evolved.D_ == 104);
 

@@ -69,7 +69,7 @@ Matrix<T>::Matrix() : M(50, std::vector<T>(50, static_cast<T>(0))) {}
 //////////////Copy/////////////////
 template <typename T>
 Matrix<T>::Matrix(const Matrix<T>& M_other) {
-  this->M = M_other.M;
+  M = M_other.M;
 }
 ///////////////////////Operators Overloading////////////////////////
 template <typename T>
@@ -79,11 +79,11 @@ Matrix<T>& Matrix<T>::operator=(const Matrix<T>& other) {
     ////////////////Checking dimension of the two
     ///Matrices///////////////////////
 
-    if (other.M.size() != this->M.size()) {
+    if (other.M.size() != M.size()) {
       throw std::runtime_error{"They don't have the same number of lines"};
     }
 
-    this->inside_matrix([&other](T& cell, std::size_t r, std::size_t c) {
+    inside_matrix([&other](T& cell, std::size_t r, std::size_t c) {
       cell = other.M[r][c];
     });
     return *this;
@@ -123,7 +123,7 @@ std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix) {
 }
 template <typename T>
 std::vector<T>& Matrix<T>::operator[](const std::size_t index_r) {
-  return this->M[index_r];
+  return M[index_r];
 }
 
 template <typename T>
@@ -135,9 +135,9 @@ bool operator!=(const Matrix<T>& left, const Matrix<T>& right) {
 template <typename T>
 template <typename Func>
 void Matrix<T>::inside_matrix(Func action) {
-  for (std::size_t r = 0; r < this->M.size(); r++) {
-    for (std::size_t c = 0; c < this->M[r].size(); c++) {
-      action(this->M[r][c], r, c);
+  for (std::size_t r = 0; r < M.size(); r++) {
+    for (std::size_t c = 0; c < M[r].size(); c++) {
+      action(M[r][c], r, c);
     }
   }
 }
@@ -145,32 +145,32 @@ void Matrix<T>::inside_matrix(Func action) {
 template <typename T>
 template <typename F>
 void Matrix<T>::each_cell(F operation) {
-  for (std::size_t r = 0; r < this->M.size(); r++) {
-    for (std::size_t c = 0; c < this->M[r].size(); c++) {
-      operation(this->M[r][c]);
+  for (std::size_t r = 0; r < M.size(); r++) {
+    for (std::size_t c = 0; c < M[r].size(); c++) {
+      operation(M[r][c]);
     }
   }
 }
 /////////General functionalities//////////////
 template <typename T>
 void Matrix<T>::add(T& plus) {
-  this->M.back().push_back(plus);
+  M.back().push_back(plus);
 }
 template <typename T>
 int Matrix<T>::sum() {
   int tot = 0;
-  this->each_cell([this, &tot](T& cell) { tot += static_cast<int>(cell); });
+  each_cell([this, &tot](T& cell) { tot += static_cast<int>(cell); });
   return tot;
 }
 
 template <typename T>
 void Matrix<T>::modify(const T& value, std::size_t r, std::size_t c) {
-  this->M[r][c] = value;
+  M[r][c] = value;
 }
 
 template <typename T>
 const T& Matrix<T>::read(std::size_t r, std::size_t c) const {
-  return this->M[r][c];
+  return M[r][c];
 }
 
 #endif

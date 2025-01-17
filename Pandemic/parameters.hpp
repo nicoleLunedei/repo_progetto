@@ -1,23 +1,19 @@
 #ifndef PARAMETERS_HPP
 #define PARAMETERS_HPP
 
-#include <array>
-#include <cassert>
-#include <functional>
-#include <iostream>
-#include <random>
-#include <stdexcept>
-#include <vector>
+#include "vaccine.hpp"
+
 struct Parameters {  /////////Infection////////
-  std::array<double, 2> beta;
+  vaccine<double> beta;
   /////////Healing/////////////
-  std::array<double, 2> gamma;
+   vaccine<double> gamma;
   //////////Dying//////////
-  std::array<double, 2> omega;
-  double vax;
+   vaccine<double> omega;
+  /////////getting vaccinated//////////////
+   double v;
   // Parametric Constructor
-  Parameters(const std::array<double, 2>& b, const std::array<double, 2>& g,
-             const std::array<double, 2>& o, const double& v);
+  Parameters(const vaccine<double>& b, const vaccine<double>& g,
+             const vaccine<double>& o, double v);
   // Default Constructor
   Parameters();
   // Copy Constructor
@@ -27,7 +23,7 @@ struct Parameters {  /////////Infection////////
   Parameters& operator=(const Parameters& other);
   // Operator ==
   friend bool operator==(const Parameters& left, const Parameters& right);
-
+  friend std::ostream& operator<<(std::ostream& os, const Parameters& p_out);
   ~Parameters();
 };
 

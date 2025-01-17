@@ -1,18 +1,18 @@
-
-#include <cassert>
-#include <cmath>
 #ifndef EQUATION_HPP
 #define EQUATION_HPP
+
+
 #include "pandemic.hpp"
 
 class Equation : public Pandemic {
  private:
+  
 ////////////////Same members of the class Pandemic////////////////
  public:
   ////////////////////////Constructors////////////////////////////
 
   ////////Parametric//////////////
-  Equation(const std::vector<People>& population, Parameters& par, const int N);
+  Equation(const std::vector<People>& population, Parameters& par, int N);
   ///////Default////////////
   Equation();
 
@@ -28,9 +28,9 @@ class Equation : public Pandemic {
   ///////////////////////////////////////////Displaying
   ///Functionalities///////////////////////////
   ////////////////////////Summing data////////////////////
-  std::array<int, 4> calculate(const int t);
+  std::array<int, 4> calculate( int t);
   ////////////////////Printing on terminal///////////////
-  void Print(const int d);
+  void Print( int d);
   ////////////Distructor////////////
   ~Equation();
 };

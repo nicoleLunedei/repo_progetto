@@ -49,11 +49,11 @@ int main() {
                  "happends in one day  "
               << "\n\n";
     std::cout << " Probability to infect : "
-              << eq->get_Parameters().beta[0] * 100 << "%" << '\n';
+              << eq->get_Parameters().beta.no_vax * 100 << "%" << '\n';
     std::cout << " Probability of healing : "
-              << eq->get_Parameters().gamma[0] * 100 << "%" << '\n';
+              << eq->get_Parameters().gamma.no_vax * 100 << "%" << '\n';
     std::cout << " Probability of dying : "
-              << eq->get_Parameters().omega[0] * 100 << "%" << '\n';
+              << eq->get_Parameters().omega.no_vax * 100 << "%" << '\n';
     std::cout << " Probability to get vaccinated, initially is null, later "
                  "you'll have the chance to introduce it."
               << '\n';
@@ -85,7 +85,7 @@ int main() {
         std::cout << "Day N° :" << t << "\n\n";
         eq->Print(t);
 
-        if (sum(eq->get_evolution().back().I_) == 0) {
+        if (total(eq->get_evolution().back().I_) == 0) {
           it++;
           if (it == MAX_IT) {
             std::cout << " Simulation terminated !"
@@ -167,13 +167,13 @@ int main() {
         }
         ///////////////Modifying the probability for the vaccinated
         ///people/////////////////
-        eq_v.change_after_vacc();
+        eq_v.change_after_vacc(0.71, 0.65);
         std::cout << "For the vaccinated people the values of the "
                      "probabilities are : "
                   << '\n';
-        std::cout << "beta :" << eq_v.get_Parameters().beta[1] << '\n'
-                  << "omega :" << eq_v.get_Parameters().omega[1] << '\n'
-                  << "gamma :" << eq_v.get_Parameters().gamma[1] << "\n\n";
+        std::cout << "beta :" << eq_v.get_Parameters().beta.vax << '\n'
+                  << "omega :" << eq_v.get_Parameters().omega.vax << '\n'
+                  << "gamma :" << eq_v.get_Parameters().gamma.vax << "\n\n";
         std::cout << "========================================================="
                      "=================="
                   << "\n\n";
@@ -192,7 +192,7 @@ int main() {
                     << "\n\n";
           eq_v.Print(tt);
 
-          if (sum(eq_v.get_evolution().back().I_) == 0) {
+          if (total(eq_v.get_evolution().back().I_) == 0) {
             it++;
             //////////////////MAX_IT == 1//////////////////////////
             if (it == MAX_IT) {
@@ -226,7 +226,7 @@ int main() {
       std::cout << "| Simulation without vaccine |"
                 << "\n\n";
       std::cout << "The critical threshold is equal to "
-                << eq->calculate_R0(eq->get_Parameters()) << '\n';
+                << eq->calculate_R0() << '\n';
       std::cout << " Numbers of days :" << eq->get_days() << '\n';
       std::cout << "Total counting :"
                 << "\n\n";
@@ -271,11 +271,11 @@ int main() {
     }
 
     std::cout << "Probability to infect [0,1]" << '\n';
-    std::cin >> prob.beta[0];
+    std::cin >> prob.beta.no_vax;
     std::cout << "Probability of healing [0,1] " << '\n';
-    std::cin >> prob.gamma[0];
+    std::cin >> prob.gamma.no_vax;
     std::cout << "Probability of dying [0,1] " << '\n';
-    std::cin >> prob.omega[0];
+    std::cin >> prob.omega.no_vax;
     std::cout << "\n\n";
     /////////////////////Creating the equation object by using a smart pointer
     ////////////////////////////
@@ -304,20 +304,20 @@ int main() {
           std::cout << "Number of population" << '\n';
           std::cin >> N;
         } else {
-          std::cout << "R_0 : " << eq_->calculate_R0(prob) << "\n\n";
+          std::cout << "R_0 : " << eq_->calculate_R0() << "\n\n";
         }
 
         std::cout << "The probabilities, in the previous order" << '\n';
-        std::cin >> prob.beta[0] >> prob.gamma[0] >> prob.omega[0];
+        std::cin >> prob.beta.no_vax >> prob.gamma.no_vax >> prob.omega.no_vax;
       }
       MAX_IT = 5;
       it++;
       if (it == MAX_IT) {
         std::cout << "The attempts are finished! The values choosen are: "
                   << "\n\n";
-        prob.beta[0] = 0.67;
-        prob.gamma[0] = 0.32;
-        prob.omega[0] = 0.41;
+        prob.beta.no_vax = 0.67;
+        prob.gamma.no_vax = 0.32;
+        prob.omega.no_vax = 0.41;
         std::cout << "P. Infection = 67% || P. Healing = 32% || P. Death = 41% "
                   << '\n';
         break;
@@ -404,7 +404,7 @@ int main() {
         std::cout << "Total Counting :" << '\n';
         eq_->Print(t);
 
-        if (sum(eq_->get_evolution().back().I_) == 0) {
+        if (total(eq_->get_evolution().back().I_) == 0) {
           it++;
           if (it == MAX_IT) {
             std::cout << " Simulation terminated !"
@@ -480,13 +480,13 @@ int main() {
             }
           }
         }
-        eq_vp->change_after_vacc();
+        eq_vp->change_after_vacc(0.71, 0.65);
         std::cout << "For the vaccinated people the values of the "
                      "probabilities are : "
                   << '\n';
-        std::cout << "beta :" << eq_vp->get_Parameters().beta[1] << '\n'
-                  << "omega :" << eq_vp->get_Parameters().omega[1] << '\n'
-                  << "gamma :" << eq_vp->get_Parameters().gamma[1] << "\n\n";
+        std::cout << "beta :" << eq_vp->get_Parameters().beta.vax << '\n'
+                  << "omega :" << eq_vp->get_Parameters().omega.vax << '\n'
+                  << "gamma :" << eq_vp->get_Parameters().gamma.vax << "\n\n";
         std::cout << "========================================================="
                      "=================="
                   << "\n\n";
@@ -502,7 +502,7 @@ int main() {
           std::cout << "Total Counting : " << '\n';
           eq_vp->Print(tt);
 
-          if (sum(eq_vp->get_evolution().back().I_) == 0) {
+          if (total(eq_vp->get_evolution().back().I_) == 0) {
             it++;
             if (it == MAX_IT) {
               std::cout << " Simulation terminated !"
@@ -556,7 +556,7 @@ int main() {
         /////////////////Imposing a delay///////////////
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         ////////////Emergency top/////////////
-        if (sum(eq_->get_evolution().back().I_) == 0) {
+        if (total(eq_->get_evolution().back().I_) == 0) {
           it++;
           if (it == MAX_IT) {
             std::cout << " There aren't infected people left !"
@@ -567,7 +567,7 @@ int main() {
       }
       /////////////////////Chance of introducing the vaccine
       ///option/////////////////////
-      if (sum(eq_->get_evolution().back().I_) > 0) {
+      if (total(eq_->get_evolution().back().I_) > 0) {
         char finish;
         std::cout << " Do you want to finish the simulation?[y/n]" << '\n';
         std::cin >> finish;
@@ -612,13 +612,13 @@ int main() {
             }
 
             //////////Modifying the probabilities/////////
-            eq_->change_after_vacc();
+            eq_->change_after_vacc(0.71, 0.65);
             std::cout
                 << "For the vaccinated people the probability have changed : "
                 << '\n';
-            std::cout << "beta :" << eq_->get_Parameters().beta[1] << '\n'
-                      << "omega :" << eq_->get_Parameters().omega[1] << '\n'
-                      << "gamma :" << eq_->get_Parameters().gamma[1] << "\n\n";
+            std::cout << "beta :" << eq_->get_Parameters().beta.vax << '\n'
+                      << "omega :" << eq_->get_Parameters().omega.vax << '\n'
+                      << "gamma :" << eq_->get_Parameters().gamma.vax << "\n\n";
             std::cout << "====================================================="
                          "======================"
                       << "\n\n";
@@ -635,7 +635,7 @@ int main() {
               std::cout << " Total Countig :" << '\n';
               eq_->Print(t);
               //////////////////Stop///////////////
-              if (sum(eq_->get_evolution().back().I_) == 0) {
+              if (total(eq_->get_evolution().back().I_) == 0) {
                 it++;
                 MAX_IT = 1;
                 if (it == MAX_IT) {
@@ -663,7 +663,7 @@ int main() {
                         << "\n\n";
               eq_->Print(t);
 
-              if (sum(eq_->get_evolution().back().I_) == 0) {
+              if (total(eq_->get_evolution().back().I_) == 0) {
                 it++;
                 if (it == MAX_IT) {
                   std::cout << " Simulation terminated !"
@@ -695,7 +695,7 @@ int main() {
     /////////////////////Chosen scope closed//////////////////
 
     std::cout << "The critical threshold is equal to "
-              << eq_->calculate_R0(eq_->get_Parameters()) << '\n';
+              << eq_->calculate_R0() << '\n';
   }
   ///////////////////Personalized scope closed/////////////////
 

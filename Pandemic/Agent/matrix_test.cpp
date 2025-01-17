@@ -114,14 +114,14 @@ TEST_CASE("Matrix Struct") {
       }
     });
     CHECK(max == 81);
-    /////////////inside_matrix///////////////
+    /////////////each_cell///////////////
 
     std::vector<int> vec1{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     std::vector<std::vector<int>> mat(10, vec1);
 
     Matrix<int> m(mat);
     max = 0;
-    m.inside_matrix([&max](int& cell, std::size_t r, std::size_t c) {
+    m.each_cell([&max](int& cell, std::size_t r, std::size_t c) {
       if ((r + c) % 2 == 0 && cell > max) {
         max = cell;
       }

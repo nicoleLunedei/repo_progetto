@@ -77,11 +77,11 @@ int main() {
     std::cout << " The population corrisponds to "
               << ag->get_number_population() << " people" << '\n';
     std::cout << " Probability to infect : "
-              << ag->get_Parameters().beta[0] * 100 << "%" << '\n';
+              << ag->get_Parameters().beta.no_vax * 100 << "%" << '\n';
     std::cout << " Probability of healing :  "
-              << ag->get_Parameters().gamma[0] * 100 << "%" << '\n';
+              << ag->get_Parameters().gamma.no_vax * 100 << "%" << '\n';
     std::cout << " Probability of dying :"
-              << ag->get_Parameters().omega[0] * 100 << "%" << '\n';
+              << ag->get_Parameters().omega.no_vax * 100 << "%" << '\n';
     std::cout << " Probability of getting vaccinated , initially is null, "
                  "later you'll have the chance to introduce it."
               << "\n\n";
@@ -145,7 +145,7 @@ int main() {
           ag->evolve(next);
 
           ///////////////Drawing circles//////
-          ag->get_matrix().inside_matrix(
+          ag->get_matrix().each_cell(
               [&window1, &circles](Person& cell, std::size_t r, std::size_t c) {
                 const float r_ = static_cast<float>(r);
                 const float c_ = static_cast<float>(c);
@@ -174,7 +174,7 @@ int main() {
           std::this_thread::sleep_for(std::chrono::milliseconds(2000));
         } else {
           ////////////////Shows the last Matrix registered/////////
-          ag->get_matrix().inside_matrix(
+          ag->get_matrix().each_cell(
               [&window1, &circles](Person& cell, std::size_t r, std::size_t c) {
                 const float r_ = static_cast<float>(r);
                 const float c_ = static_cast<float>(c);
@@ -193,7 +193,7 @@ int main() {
           simulationOn = false;
         }
         ///////////////Second Stop//////////////////
-        if (sum(ag->get_evolution().back().I_) == 0) {
+        if (total(ag->get_evolution().back().I_) == 0) {
           simulationOn = false;
         }
 
@@ -202,7 +202,7 @@ int main() {
         ////////////////////Closing window///////////////////////
       }
       //////////////////"Still Infected" people scope////////////////////
-      if (sum(ag->get_evolution().back().I_) > 0) {
+      if (total(ag->get_evolution().back().I_) > 0) {
         char finish;
         std::cout << " There are still infected people, do you want to finish "
                      "the simulation?[y/n]"
@@ -241,7 +241,7 @@ int main() {
     std::cout << "Situation of the last day : " << ag->get_evolution().back()
               << "\n\n";
     std::cout << "Critical threshold : "
-              << ag->calculate_R0(ag->get_Parameters()) << "\n\n";
+              << ag->calculate_R0() << "\n\n";
   } else {
     /////////////////////////Personalized simulation
     //////////////////////Limits////////////
@@ -283,11 +283,11 @@ int main() {
     }
 
     std::cout << "Probability to infect [0,1]" << '\n';
-    std::cin >> prob.beta[0];
+    std::cin >> prob.beta.no_vax;
     std::cout << "Probability of healing [0,1] " << '\n';
-    std::cin >> prob.gamma[0];
+    std::cin >> prob.gamma.no_vax;
     std::cout << "Probability of dying [0,1] " << '\n';
-    std::cin >> prob.omega[0];
+    std::cin >> prob.omega.no_vax;
     std::cout << " and the probability of getting vaccination, initially must "
                  "be null, later you'll have the chance to introduce it."
               << "\n\n";
@@ -320,11 +320,11 @@ int main() {
           std::cin >> N;
 
         } else {
-          std::cout << "R_0 : " << ag_->calculate_R0(prob) << "\n\n";
+          std::cout << "R_0 : " << ag_->calculate_R0() << "\n\n";
         }
 
         std::cout << "The probabilities, in the previous order" << '\n';
-        std::cin >> prob.beta[0] >> prob.gamma[0] >> prob.omega[0];
+        std::cin >> prob.beta.no_vax >> prob.gamma.no_vax >> prob.omega.no_vax;
       }
       ///////////////////////////////////////////////////////////////////
     }
@@ -447,7 +447,7 @@ int main() {
           ///////////////////Introducing vaccine//////////////////////
           if (event_.type == sf::Event::KeyPressed &&
               event_.key.code == sf::Keyboard::V) {
-            if (ag_->get_Parameters().vax != 0) {
+            if (ag_->get_Parameters().v != 0) {
               throw std::runtime_error{
                   "It has been already set the probability of getting "
                   "vaccinated"};
@@ -455,7 +455,7 @@ int main() {
                         << "\n\n";
             }
             //////////////////Impossible introducing vaccine///////
-            if (sum(ag_->get_evolution().back().S_) == 0) {
+            if (total(ag_->get_evolution().back().S_) == 0) {
               throw std::runtime_error{"There are no susceptible people left"};
               std::cout << " Press the Space bar to continue"
                         << "\n\n";
@@ -470,7 +470,7 @@ int main() {
             while (!input2) {
               try {
                 ag_->introduce_vacc(v);
-                ag_->change_after_vacc();
+                ag_->change_after_vacc(0.71, 0.65);
                 ag_->sorting();
 
                 input2 = 2;
@@ -494,11 +494,11 @@ int main() {
             std::cout
                 << "For the vaccinated people the probability have changed : "
                 << '\n';
-            std::cout << "Beta(Infection) :" << ag_->get_Parameters().beta[1]
+            std::cout << "Beta(Infection) :" << ag_->get_Parameters().beta.vax
                       << '\n'
-                      << "omega(Death):" << ag_->get_Parameters().omega[1]
+                      << "omega(Death):" << ag_->get_Parameters().omega.vax
                       << '\n'
-                      << "gamma (Healing) :" << ag_->get_Parameters().gamma[1]
+                      << "gamma (Healing) :" << ag_->get_Parameters().gamma.vax
                       << "\n\n";
             std::cout << "====================================================="
                          "======================"
@@ -517,7 +517,7 @@ int main() {
           ag_->evolve(next);
 
           ///////////////Changing colors//////
-          ag_->get_matrix().inside_matrix([&window_, &circles_](Person& cell,
+          ag_->get_matrix().each_cell([&window_, &circles_](Person& cell,
                                                                 std::size_t r,
                                                                 std::size_t c) {
             const float r_ = static_cast<float>(r);
@@ -542,7 +542,7 @@ int main() {
           std::this_thread::sleep_for(std::chrono::milliseconds(2000));
         } else {
           ////////////////Showing the last Matrix registered/////////
-          ag_->get_matrix().inside_matrix([&window_, &circles_](Person& cell,
+          ag_->get_matrix().each_cell([&window_, &circles_](Person& cell,
                                                                 std::size_t r,
                                                                 std::size_t c) {
             const float r_ = static_cast<float>(r);
@@ -558,7 +558,7 @@ int main() {
         }
 
         ///////////////Stop//////////////////
-        if (sum(ag_->get_evolution().back().I_) == 0) {
+        if (total(ag_->get_evolution().back().I_) == 0) {
           simulationOn = false;
         }
 
@@ -620,7 +620,7 @@ int main() {
             ag_->evolve(next);
 
             ///////////////Changing colors//////
-            ag_->get_matrix().inside_matrix(
+            ag_->get_matrix().each_cell(
                 [&window_, &circles_](Person& cell, std::size_t r,
                                       std::size_t c) {
                   const float r_ = static_cast<float>(r);
@@ -647,7 +647,7 @@ int main() {
             std::this_thread::sleep_for(std::chrono::milliseconds(2000));
           } else {
             ////////////////Shows the last Matrix registered/////////
-            ag_->get_matrix().inside_matrix(
+            ag_->get_matrix().each_cell(
                 [&window_, &circles_](Person& cell, std::size_t r,
                                       std::size_t c) {
                   const float r_ = static_cast<float>(r);
@@ -667,7 +667,7 @@ int main() {
             simulationOn = false;
           }
           ///////////////Second Stop//////////////////
-          if (sum(ag_->get_evolution().back().I_) == 0) {
+          if (total(ag_->get_evolution().back().I_) == 0) {
             simulationOn = false;
           }
 
@@ -678,7 +678,7 @@ int main() {
 
         //////////////////quando concludono i giorni si chiede se si vuole
         ///continuare ////////////////////
-        if (sum(ag_->get_evolution().back().I_) > 0) {
+        if (total(ag_->get_evolution().back().I_) > 0) {
           char finish;
           std::cout << " There are still infected people, do you want to "
                        "finish the simulation?[y/n]"
@@ -690,7 +690,7 @@ int main() {
           }
 
           if (finish == 'y') {
-            if (sum(ag_->get_evolution().back().S_) != 0) {
+            if (total(ag_->get_evolution().back().S_) != 0) {
               double vacc;
               std::cout << "Insert the probability of getting vaccinated(If "
                            "don't want it, just write 0)[0,1["
@@ -699,18 +699,18 @@ int main() {
 
               if (vacc == 0) {
                 ag_->introduce_vacc(vacc);
-                ag_->change_after_vacc();
+                ag_->change_after_vacc(0.71, 0.65);
                 ag_->sorting();
 
                 std::cout << "For the vaccinated people the probability have "
                              "changed : "
                           << '\n';
                 std::cout << "Beta(Infection) :"
-                          << ag_->get_Parameters().beta[1] << '\n'
-                          << "omega (Death):" << ag_->get_Parameters().omega[1]
+                          << ag_->get_Parameters().beta.vax << '\n'
+                          << "omega (Death):" << ag_->get_Parameters().omega.vax
                           << '\n'
                           << "gamma (Healing):"
-                          << ag_->get_Parameters().gamma[1] << "\n\n";
+                          << ag_->get_Parameters().gamma.vax << "\n\n";
                 std::cout << "================================================="
                              "=========================="
                           << "\n\n";
@@ -719,7 +719,7 @@ int main() {
             }  /////////////////"Still Susceptiple people" scope closed
                ////////////
 
-            std::cout << "Somma" << sum(ag_->get_evolution().back().S_)
+            std::cout << "Somma" << total(ag_->get_evolution().back().S_)
                       << "\n\n";
             std::cout << "Great! Press again the Space bar when the window is "
                          "opened, please"
@@ -745,7 +745,7 @@ int main() {
     std::cout << "Situation of the last day : " << ag_->get_evolution().back()
               << "\n\n";
     std::cout << "Critical threshold : "
-              << ag_->calculate_R0(ag_->get_Parameters()) << "\n\n";
+              << ag_->calculate_R0() << "\n\n";
 
   }  ///////////////closing of the "PERSONALIZED" scope/////////////////////////
 }

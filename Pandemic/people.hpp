@@ -1,21 +1,16 @@
-#include <array>
-#include <cassert>
-#include <functional>
-#include <iostream>
-#include <random>
-#include <stdexcept>
-#include <vector>
-
 #ifndef PEOPLE_HPP
 #define PEOPLE_HPP
+
+#include "vaccine.hpp"
+
 struct People {
-  std::array<int, 2> S_;
-  std::array<int, 2> I_;
+  vaccine<int> S_;
+  vaccine<int> I_;
   int H_;
   int D_;
   // Parametric Constructor
-  People(const std::array<int, 2>& s, const std::array<int, 2>& i, const int h,
-         const int& d);
+  People(const vaccine<int>& s, const vaccine<int>& i, int h,
+         int d);
   // Default Constructor
   People();
   // Copy Constructor
@@ -31,9 +26,7 @@ struct People {
   // Operator>>
   friend std::istream& operator>>(
       std::istream& is,
-      People& p_in);  // qua mettere p_in  con const è un errore perchè >>
-                      // prende in valora dato in input sall'utente e lo
-                      // utilizzerà per modificare p_in
+      People& p_in); 
                       // Destructor
   ~People();
 };

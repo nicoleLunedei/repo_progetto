@@ -1,6 +1,7 @@
+#include <cmath>
+#include <iostream>
+#include <vector>
 #include "agent.hpp"
-
-#include "matrix.hpp"
 
 ////////////////Checking if the number is a perfect square///////////////////
 bool is_perfect_square(int num) {
@@ -9,22 +10,22 @@ bool is_perfect_square(int num) {
 }
 
 /////////////////////////sum in Person contest/////////////////////////////
-int sum_person(std::vector<Person>& pers) {
+int sum_one_line(std::vector<Person>& pers) {
   std::vector<int> pers_n;
   for (Person& el : pers) {
     pers_n.push_back(static_cast<int>(el));
   }
-  return sum(pers_n);
+  return std::accumulate(pers_n.begin(), pers_n.end(), 0);
 }
 
 /////////////////////CLASS AGENT///////////////////////////////////////////
 ////////////////////////Constructors////////////////////////////
 
 ///////Parametric///////////
-Agent::Agent(const std::vector<People>& population, Parameters& par, const int N)
+Agent::Agent(const std::vector<People>& population, Parameters& par, int N)
     : Pandemic(population, par, N),
       M_(static_cast<std::size_t>(std::sqrt(N)), Susceptible) {
-  if (!is_perfect_square(this->get_number_population()))
+  if (!is_perfect_square(N))
     throw std::runtime_error{
         "The number of the population must a perfect square"};
 }
@@ -32,8 +33,8 @@ Agent::Agent(const std::vector<People>& population, Parameters& par, const int N
 Agent::Agent() : Pandemic(), M_() {
   //////////////////Setting initial situation////////////////
   People initial_data;
-  this->set_initial_condition(initial_data);
-  M_.inside_matrix([this](Person& cell, std::size_t r, std::size_t c) {
+  set_initial_condition(initial_data);
+  M_.each_cell([this](Person& cell, std::size_t r, std::size_t c) {
     if (r == M_.M.size() / 2 && c == M_.M.size() / 2) {
       cell = Person::Infected;
     } else {
@@ -46,57 +47,57 @@ Agent::Agent(Agent& copy) : Pandemic(copy), M_(copy.get_matrix()) {}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////Getters///////
 
-Matrix<Person>& Agent::get_matrix() { return this->M_; }
-std::size_t Agent::get_side() const { return this->M_.M.size(); }
+Matrix<Person>& Agent::get_matrix() { return M_; }
+std::size_t Agent::get_side() const { return M_.M.size(); }
 ///////////// Toroidal structure viewing/////////////////////
-Person& Agent::show_cell(std::size_t r, std::size_t c) {
-  if (this->get_matrix().M.empty())
+const Person& Agent::show_cell(std::size_t r, std::size_t c) const{
+  if (M_.M.empty())
     throw std::runtime_error{"The Matrix is empty!"};
   /////////////////////Manipulating indixes for the toroidal structure///////////////
   const std::size_t rr =
-      static_cast<std::size_t>((r + this->get_side()) % this->get_side());
+      static_cast<std::size_t>((r + get_side()) % get_side());
   const std::size_t cc =
-      static_cast<std::size_t>((c + this->get_side()) % this->get_side());
+      static_cast<std::size_t>((c + get_side()) % get_side());
 
-  if ((rr == this->get_side()) || (cc == this->get_side())) {
+  if ((rr == get_side()) || (cc == get_side())) {
     throw std::runtime_error{"Out of range!!!!!!!!!!!!!!!!!"};
   }
 
-  return this->get_matrix().M[rr][cc];
+  return M_.M[rr][cc];
 }
 /////////Setter///////
 /////////Setting the first situation and drawing it on the Matrix///////////
 
 void Agent::draw_matrix(People& begin) {
-  if (this->get_matrix().sum() != 0) {
+  if (M_.sum() != 0) {
     throw std::runtime_error{"You already set the initial condition"};
   }
-
-  this->set_initial_condition(begin);
+  
+  set_initial_condition(begin);
 
   int i = 0;
-  while (i < sum(this->get_situation_day(1).I_)) {
+  while (i < get_situation_day(1).I_.no_vax) {
     ////////////////Extraction of the random coordinates////////////////////////
     std::size_t r = static_cast<std::size_t>(
-        std::trunc(this->generate() * static_cast<double>(this->get_side())));
+        std::trunc(generate() * static_cast<double>(get_side())));
 
     std::size_t c = static_cast<std::size_t>(
-        std::trunc(this->generate() * static_cast<double>(this->get_side())));
-    if (this->show_cell(r, c) == Person::Infected) {
+        std::trunc(generate() * static_cast<double>(get_side())));
+    if (show_cell(r, c) == Person::Infected) {
       ////////////Checking wich line has sum == to the side of
       ///matrix////////////////
-      while (sum_person(this->get_matrix().M[r]) ==
-             static_cast<int>(this->get_side())) {
+      while (sum_one_line(M_.M[r]) ==
+             static_cast<int>(get_side())) {
         r++;
       }
       ////////////////Scrolling columns//////////////////
-      while (this->show_cell(r, c) == Person::Infected) {
+      while (show_cell(r, c) == Person::Infected) {
         c++;
       }
-      this->show_cell(r, c) = Person::Infected;
+      M_.modify(Person::Infected, r, c);
       i++;
     } else {
-      this->show_cell(r, c) = Person::Infected;
+      M_.modify(Person::Infected, r, c);
       i++;
     }
   }
@@ -106,7 +107,7 @@ void Agent::draw_matrix(People& begin) {
 ///functionalities//////////////////////////////////////////
 
 bool Agent::throwing_dices(double dice) const{
-  if (this->generate() <= dice) {
+  if (generate() <= dice) {
     // Change
     return true;
   } else {
@@ -116,11 +117,11 @@ bool Agent::throwing_dices(double dice) const{
 }
 
 //////////Counting the infected people around a specific cell of Matrix/////////
-int Agent::infected_neighbours(std::size_t r, std::size_t c) {
+int Agent::infected_neighbours(std::size_t r, std::size_t c) const {
   int contacts = 0;
   for (std::size_t r_ : {(r - 1), r, (r + 1)}) {
     for (std::size_t c_ : {(c - 1), c, (c + 1)}) {
-      if (this->Agent::show_cell(r_, c_) == Person::Infected) {
+      if (show_cell(r_, c_) == Person::Infected) {
         contacts++;
       }
     }
@@ -132,18 +133,19 @@ int Agent::infected_neighbours(std::size_t r, std::size_t c) {
 ////////////Data collection about the vaccine///////////////
 void Agent::sorting() {
   ////////////////Important for the assert////////////////
-  const int check = this->get_evolution().back().S_[0];
+  const int check = population_.back().S_.no_vax;
+  ////////////to prevent the unused variable warning/////////////
   (void)check;
-  this->get_matrix().each_cell([this](Person& cell) {
+  M_.each_cell([this](Person& cell) {
     if (cell == Person::Susceptible) {
-      if (this->is_vaccinated()) {
+      if (is_vaccinated()) {
         cell = Person::Susceptible_v;
-        (this->get_evolution().back().S_[1])++;
-        (this->get_evolution().back().S_[0])--;
+        (population_.back().S_.vax)++;
+        (population_.back().S_.no_vax)--;
       }
     }
   });
-  assert(sum(get_evolution().back().S_) == check);
+  assert(total(population_.back().S_) == check);
 }
 
 /////////////////////Evolving functionalities/////////////////
@@ -152,7 +154,7 @@ void Agent::sorting() {
 ///rules//////////////
 
 void Agent::change_state() {
-  this->get_matrix().inside_matrix(
+  M_.each_cell(
       [this](Person& cell, std::size_t r, std::size_t c) {
         {
           int inf = 0;
@@ -161,10 +163,10 @@ void Agent::change_state() {
           switch (cell) {
             case Person::Susceptible:
 
-              inf = this->infected_neighbours(r, c);
+              inf = infected_neighbours(r, c);
 
               for (; k <= inf; k++) {
-                if (this->throwing_dices(this->get_Parameters().beta[0])) {
+                if (throwing_dices(par_.beta.no_vax)) {
                   cell = Person::Infected;
                   break;
                 }
@@ -172,10 +174,10 @@ void Agent::change_state() {
               break;
             case Person::Susceptible_v:
 
-              inf = this->infected_neighbours(r, c);
+              inf = infected_neighbours(r, c);
 
               for (; k <= inf; k++) {
-                if (this->throwing_dices(this->get_Parameters().beta[0])) {
+                if (throwing_dices(par_.beta.no_vax)) {
                   cell = Person::Infected_v;
                   break;
                 }
@@ -184,10 +186,10 @@ void Agent::change_state() {
               break;
             case Person::Infected:
 
-              if (this->throwing_dices(this->get_Parameters().gamma[0])) {
+              if (throwing_dices(par_.gamma.no_vax)) {
                 cell = Person::Healed;
               } else {
-                if (this->throwing_dices(this->get_Parameters().omega[0])) {
+                if (throwing_dices(par_.omega.no_vax)) {
                   cell = Person::Dead;
                 } else {
                   // Still Infected
@@ -197,10 +199,10 @@ void Agent::change_state() {
               break;
             case Person::Infected_v:
 
-              if (this->throwing_dices(this->get_Parameters().gamma[1])) {
+              if (throwing_dices(par_.gamma.vax)) {
                 cell = Person::Healed;
               } else {
-                if (this->throwing_dices(this->get_Parameters().omega[1])) {
+                if (throwing_dices(par_.omega.vax)) {
                   cell = Person::Dead;
                 } else {
                   // Still Infected
@@ -219,20 +221,20 @@ void Agent::change_state() {
 }
 
 void Agent::data_collection(People& collection) {
-  this->get_matrix().each_cell([this, &collection](Person& cell) {
+  M_.each_cell([this, &collection](Person& cell) {
     switch (cell) {
       case Person::Susceptible:
 
-        collection.S_[0]++;
+        collection.S_.no_vax++;
         break;
       case Person::Susceptible_v:
-        collection.S_[1]++;
+        collection.S_.vax++;
         break;
       case Person::Infected:
-        collection.I_[0]++;
+        collection.I_.no_vax++;
         break;
       case Person::Infected_v:
-        collection.I_[1]++;
+        collection.I_.vax++;
         break;
       case Person::Healed:
         collection.H_++;
@@ -244,16 +246,16 @@ void Agent::data_collection(People& collection) {
   });
 
   assert(sum(transform_Array<int, 6>(collection)) ==
-         this->get_number_population());
+         get_number_population());
 
-  this->add_data(collection);
+  add_data(collection);
 }
 
 void Agent::evolve(People& follow) {
   ///////Changing///////////
-  this->change_state();
+  change_state();
   ///////////Collecting///////////////
-  this->data_collection(follow);
+  data_collection(follow);
 }
 
 //////////////Distructor//////////////

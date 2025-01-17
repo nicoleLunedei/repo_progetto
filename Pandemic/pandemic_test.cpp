@@ -11,9 +11,9 @@ TEST_CASE("Functions") {
   std::array<int, 6> b{0, 10, 20, 30, 40, 70};
   SUBCASE("sum()") {
     CHECK(sum(d) == 172.828);
-    std::vector<int> a{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    std::array<int,10> a{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     CHECK(sum(a) == 45);
-    std::vector<double> c{0.5, 0.78, 4.56, 9.67, 2.43, 0.47};
+    std::array<double,6> c{0.5, 0.78, 4.56, 9.67, 2.43, 0.47};
     CHECK(sum(c) == 18.41);
 
     CHECK(sum(b) == 170);
@@ -22,15 +22,15 @@ TEST_CASE("Functions") {
   std::array<double, 6> e{56.67, 8.34, 3.56, 0.45, 1.925, 7.234};
   std::array<int, 6> f{56, 8, 3, 0, 1, 7};
   SUBCASE("maximum_dec() & integer_part") {
-    CHECK(e[maximum_dec(e)] == 1.925);
+    CHECK(*maximum_dec(e) == 1.925);
     CHECK(integer_part(e) == f);
 
     e = {0.5, 0.78, 4.56, 9.67, 2.43, 0.47};
     f = {0, 0, 4, 9, 2, 0};
-    CHECK(e[maximum_dec(e)] == 0.78);
+    CHECK(*maximum_dec(e) == 0.78);
     CHECK(integer_part(e) == f);
     e = {0.9, 10.467, 20.698, 30.123, 40.0, 70.64};
-    CHECK(e[maximum_dec(e)] == 0.9);
+    CHECK(*maximum_dec(e) == 0.9);
     CHECK(integer_part(e) == b);
     CHECK(sum(integer_part(e)) == 170);
     CHECK(sum(e) - sum(integer_part(e)) ==
@@ -50,26 +50,26 @@ TEST_CASE("Functions") {
 }
 ////////////////////////////People struct/////////////////7
 TEST_CASE("People type") {
-  std::array<int, 2> s{57, 6};
-  std::array<int, 2> i{64, 93};
+  vaccine<int> s{57, 6};
+  vaccine<int> i{64, 93};
   int h = 39;
   int d = 87;
   People one(s, i, h, d);
   People two;
 
   SUBCASE("Parametric Constructor") {
-    CHECK(one.S_[0] == 57);
-    CHECK(one.S_[1] == 6);
-    CHECK(one.I_[0] == 64);
-    CHECK(one.I_[1] == 93);
+    CHECK(one.S_.no_vax == 57);
+    CHECK(one.S_.vax == 6);
+    CHECK(one.I_.no_vax == 64);
+    CHECK(one.I_.vax == 93);
     CHECK(one.H_ == 39);
     CHECK(one.D_ == 87);
   }
   SUBCASE("Default Constructor") {
-    CHECK(two.S_[0] == 2499);
-    CHECK(two.S_[1] == 0);
-    CHECK(two.I_[0] == 1);
-    CHECK(two.I_[1] == 0);
+    CHECK(two.S_.no_vax == 2499);
+    CHECK(two.S_.vax == 0);
+    CHECK(two.I_.no_vax == 1);
+    CHECK(two.I_.vax == 0);
     CHECK(two.H_ == 0);
     CHECK(two.D_ == 0);
   }
@@ -80,29 +80,29 @@ TEST_CASE("People type") {
 }
 ///////////////////////////Parameters struct//////////////////
 TEST_CASE("Parameters type") {
-  std::array<double, 2> b{0.6, 0.};
-  std::array<double, 2> g{0.4, 0.};
-  std::array<double, 2> o{0.5, 0.};
+  vaccine<double> b{0.6, 0.};
+  vaccine<double> g{0.4, 0.};
+  vaccine<double> o{0.5, 0.};
   double vax = 0.3;
   Parameters one(b, g, o, vax);
   Parameters two;
   SUBCASE("Parametric Constructor") {
-    CHECK(one.beta[0] == 0.6);
-    CHECK(one.beta[1] == 0.);
-    CHECK(one.gamma[0] == 0.4);
-    CHECK(one.gamma[1] == 0.);
-    CHECK(one.omega[0] == 0.5);
-    CHECK(one.omega[1] == 0.);
-    CHECK(one.vax == 0.3);
+    CHECK(one.beta.no_vax == 0.6);
+    CHECK(one.beta.vax == 0.);
+    CHECK(one.gamma.no_vax == 0.4);
+    CHECK(one.gamma.vax == 0.);
+    CHECK(one.omega.no_vax == 0.5);
+    CHECK(one.omega.vax == 0.);
+    CHECK(one.v == 0.3);
   }
   SUBCASE("Default Constructor") {
-    CHECK(two.beta[0] == 0.6);
-    CHECK(two.beta[1] == 0.);
-    CHECK(two.gamma[0] == 0.2);
-    CHECK(two.gamma[1] == 0.);
-    CHECK(two.omega[0] == 0.35);
-    CHECK(two.omega[1] == 0.);
-    CHECK(two.vax == 0.);
+    CHECK(two.beta.no_vax == 0.6);
+    CHECK(two.beta.vax == 0.);
+    CHECK(two.gamma.no_vax == 0.2);
+    CHECK(two.gamma.vax == 0.);
+    CHECK(two.omega.no_vax == 0.35);
+    CHECK(two.omega.vax == 0.);
+    CHECK(two.v == 0.);
   }
   SUBCASE("Copy Construttor") {}
   Parameters three(two);
@@ -115,30 +115,30 @@ TEST_CASE("Pandemic Class") {
   SUBCASE("Testing the default Constructor") {
     CHECK(global.get_number_population() == 2500);
 
-    CHECK(global.get_Parameters().beta[0] == 0.6);
-    CHECK(global.get_Parameters().beta[1] == 0.);
-    CHECK(global.get_Parameters().gamma[0] == 0.2);
-    CHECK(global.get_Parameters().gamma[1] == 0.);
-    CHECK(global.get_Parameters().omega[0] == 0.35);
-    CHECK(global.get_Parameters().omega[1] == 0.);
-    CHECK(global.get_Parameters().vax == 0.);
+    CHECK(global.get_Parameters().beta.no_vax == 0.6);
+    CHECK(global.get_Parameters().beta.vax == 0.);
+    CHECK(global.get_Parameters().gamma.no_vax == 0.2);
+    CHECK(global.get_Parameters().gamma.vax == 0.);
+    CHECK(global.get_Parameters().omega.no_vax == 0.35);
+    CHECK(global.get_Parameters().omega.vax == 0.);
+    CHECK(global.get_Parameters().v == 0.);
 
     global.set_initial_condition({{2499, 0}, {1, 0}, 0, 0});
 
-    CHECK(global.get_situation_day(1).S_[0] == 2499);
-    CHECK(global.get_situation_day(1).S_[1] == 0);
-    CHECK(global.get_situation_day(1).I_[0] == 1);
-    CHECK(global.get_situation_day(1).I_[1] == 0);
+    CHECK(global.get_situation_day(1).S_.no_vax == 2499);
+    CHECK(global.get_situation_day(1).S_.vax == 0);
+    CHECK(global.get_situation_day(1).I_.no_vax == 1);
+    CHECK(global.get_situation_day(1).I_.vax == 0);
     CHECK(global.get_situation_day(1).H_ == 0);
     CHECK(global.get_situation_day(1).D_ == 0);
 
     People subject({6395, 0}, {3, 0}, 1, 1);
     global.add_data(subject);
 
-    CHECK(global.get_situation_day(2).S_[0] == 6395);
-    CHECK(global.get_situation_day(2).S_[1] == 0);
-    CHECK(global.get_situation_day(2).I_[0] == 3);
-    CHECK(global.get_situation_day(2).I_[1] == 0);
+    CHECK(global.get_situation_day(2).S_.no_vax == 6395);
+    CHECK(global.get_situation_day(2).S_.vax == 0);
+    CHECK(global.get_situation_day(2).I_.no_vax == 3);
+    CHECK(global.get_situation_day(2).I_.vax == 0);
     CHECK(global.get_situation_day(2).H_ == 1);
     CHECK(global.get_situation_day(2).D_ == 1);
 
@@ -172,38 +172,52 @@ TEST_CASE("Pandemic Class") {
     Pandemic global_p(days, p_r, N);
     CHECK(global_p.get_days() == 0);
 
-    CHECK(global_p.get_Parameters().beta[0] == 0.7);
-    CHECK(global_p.get_Parameters().beta[1] == 0.);
-    CHECK(global_p.get_Parameters().gamma[0] == 0.156);
-    CHECK(global_p.get_Parameters().gamma[1] == 0.);
-    CHECK(global_p.get_Parameters().omega[0] == 0.3);
-    CHECK(global_p.get_Parameters().omega[1] == 0.);
-    CHECK(global_p.get_Parameters().vax == 0.);
+    CHECK(global_p.get_Parameters().beta.no_vax == 0.7);
+    CHECK(global_p.get_Parameters().beta.vax == 0.);
+    CHECK(global_p.get_Parameters().gamma.no_vax == 0.156);
+    CHECK(global_p.get_Parameters().gamma.vax == 0.);
+    CHECK(global_p.get_Parameters().omega.no_vax == 0.3);
+    CHECK(global_p.get_Parameters().omega.vax == 0.);
+    CHECK(global_p.get_Parameters().v == 0.);
 
     global_p.set_initial_condition(sub_r);
     CHECK(global_p.get_days() == 1);
-    // N_ = 4000000
+
     CHECK(global_p.get_number_population() == 4000000);
 
-    CHECK(global_p.get_situation_day(1).S_[0] == 3500000);
-    CHECK(global_p.get_situation_day(1).S_[1] == 0);
-    CHECK(global_p.get_situation_day(1).I_[0] == 500000);
-    CHECK(global_p.get_situation_day(1).I_[1] == 0);
+    CHECK(global_p.get_situation_day(1).S_.no_vax == 3500000);
+    CHECK(global_p.get_situation_day(1).S_.vax == 0);
+    CHECK(global_p.get_situation_day(1).I_.no_vax == 500000);
+    CHECK(global_p.get_situation_day(1).I_.vax == 0);
     CHECK(global_p.get_situation_day(1).H_ == 0);
     CHECK(global_p.get_situation_day(1).D_ == 0);
 
     SUBCASE("Checking errors by throw") {
       /////////////////////Ecception in parameters///////////////////
       std::vector<People> days_e;
+      ////////////Interval [0,1[/////////////
       CHECK_THROWS_AS(Pandemic(days_e, p_w1, N), std::runtime_error);
       CHECK_THROWS_WITH(
           Pandemic(days_e, p_w1, N),
-          "The values of the parameters must be inside the interval [0,1] !");
-
+          "The values of the parameters must be inside the interval [0,1[ !");
+      //////////////Normalization property////////////
+       CHECK_THROWS_AS(Pandemic(days_e,{{0.4,0.},{0.6, 0.},{0.7, 0.},0.}, N), std::runtime_error);
+      CHECK_THROWS_WITH(Pandemic(days_e,{{0.4,0.},{0.6, 0.},{0.7, 0.},0.}, N),"The sum of the healing and the dying probabilities must be minor than or equal to one!");
+      ///////////Number of the population is positive///////////// 
+      CHECK_THROWS_AS(Pandemic(days_e, p_r, -1234), std::runtime_error);
+      CHECK_THROWS_WITH(
+          Pandemic(days_e, p_r, -1234),
+          "The number of the population must be a positve integer number");
+      ////////////////Vaccination not active //////////////////
       CHECK_THROWS_AS(Pandemic(days_e, p_w2, N), std::runtime_error);
       CHECK_THROWS_WITH(
           Pandemic(days_e, p_w2, N),
           "The value of the parameters in case of vaccination must be 0 !");
+         ///////////////////Check_R0////////////////
+       CHECK_THROWS_AS(Pandemic(days_e,p_w3, N), std::runtime_error);
+      CHECK_THROWS_WITH(Pandemic(days_e,p_w3, N),
+                        "The simulation can't start if the critical threshold "
+                        "is minor than or equal to one! ");
       //////////////////////////Ecception in people//////////////////////
       std::vector<People> days1;
       Pandemic global_w1(days1, p_r, N);
@@ -247,44 +261,8 @@ TEST_CASE("Pandemic Class") {
       CHECK_THROWS_AS(global_p.get_situation_day(0), std::runtime_error);
       CHECK_THROWS_WITH(global_p.get_situation_day(0),
                         "The simulation starts from day one!");
-      ///////////////////Check_R0////////////////
-      CHECK_THROWS_AS(global_p.set_Parameters(p_w3), std::runtime_error);
-      CHECK_THROWS_WITH(global_p.set_Parameters(p_w3),
-                        "The simulation can't start if the critical threshold "
-                        "is minor than or equal to one! ");
-    }
-
-    SUBCASE("Checking the output messages") {
-      std::cout << "Checking the output messages"
-                << "\n\n";
-      ////////////////////Constructor/////////////////////////////////
-      Parameters c{{0.7, 0.}, {0.4, 0.}, {0.2, 0.}, 0.};
-
-      global_p.check_normalization(c);
-      std::cout << "First check : ok!"
-                << "\n\n";
-
-      std::cout << "Second check :" << '\n';
-      Parameters e({0.7, 0.}, {0.5, 0.}, {0.9, 0.}, 0.);
-
-      global_p.check_normalization(e);
-
-      CHECK(e.omega[0] == doctest::Approx(0.1).epsilon(0.01));
-      CHECK(e.beta[0] == doctest::Approx(0.7).epsilon(0.01));
-      CHECK(e.gamma[0] == doctest::Approx(0.5).epsilon(0.01));
-
-      std::cout << "Third check : " << '\n';
-      Parameters d({0.7, 0.}, {0.4, 0.}, {0.7, 0.}, 0.);
-      global_p.set_Parameters(d);
-
-      CHECK(global_p.get_Parameters().omega[0] ==
-            doctest::Approx(0.2).epsilon(0.01));
-
-      std::vector<People> days5;
-      Pandemic norm(days5, d, 100);
-
-      CHECK(norm.get_Parameters().omega[0] ==
-            doctest::Approx(0.2).epsilon(0.01));
+   
+     
     }
 
     SUBCASE("Checking members of the Pandemic class") {
@@ -295,15 +273,15 @@ TEST_CASE("Pandemic Class") {
       Pandemic members(days3, p_, 3000000);
       members.introduce_vacc(0.15);
 
-      CHECK(members.get_Parameters().vax == 0.15);
+      CHECK(members.get_Parameters().v == 0.15);
 
-      members.change_after_vacc();
+      members.change_after_vacc(0.71, 0.65);
 
-      CHECK(members.get_Parameters().beta[1] ==
+      CHECK(members.get_Parameters().beta.vax ==
             doctest::Approx(0.2175).epsilon(0.000001));
-      CHECK(members.get_Parameters().gamma[1] ==
+      CHECK(members.get_Parameters().gamma.vax ==
             doctest::Approx(0.56).epsilon(0.000001));
-      CHECK(members.get_Parameters().omega[1] ==
+      CHECK(members.get_Parameters().omega.vax ==
             doctest::Approx(0.14).epsilon(0.000001));
       //////////////////////the vaccine must be introduced just one
       ///time///////////////////////
@@ -313,16 +291,9 @@ TEST_CASE("Pandemic Class") {
 
       ///////////calculate_R0///////////////////
 
-      CHECK(members.calculate_R0(members.get_Parameters()) ==
+      CHECK(members.calculate_R0() ==
             doctest::Approx(1.071428).epsilon(0.000001));
 
-      Parameters p({0.85, 0.}, {0.25, 0.}, {0.5, 0.}, 0.);
-      CHECK(members.calculate_R0(p) ==
-            doctest::Approx(1.13333333333333).epsilon(0.000001));
-
-      Parameters pp({0.65, 0.}, {0.2, 0.}, {0.35, 0.}, 0.);
-      CHECK(members.calculate_R0(pp) ==
-            doctest::Approx(1.181818).epsilon(0.000001));
     }
 
     SUBCASE("Copy Constructor") {

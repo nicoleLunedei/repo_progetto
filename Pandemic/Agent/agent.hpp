@@ -1,12 +1,10 @@
+#ifndef AGENT_HPP
+#define AGENT_HPP
 
-#include <cmath>
-#include <iostream>
-#include <vector>
 
 #include "matrix.hpp"
 #include "pandemic.hpp"
-#ifndef AGENT_HPP
-#define AGENT_HPP
+
 //////////////enumeration/////////////////////
 enum Person {
   Susceptible = 0,
@@ -21,43 +19,49 @@ enum Person {
 bool is_perfect_square(int num);
 
 /////////////////////////sum in Person contest/////////////////////////////
-int sum_person(std::vector<Person>& pers);
+int sum_one_line(std::vector<Person>& pers);
 
 class Agent : public Pandemic {
  private:
   ///////////////Matrix object rappresenting the population/////////////////////
   Matrix<Person> M_;
+  /////////Recognizing the state of a cell and than change it according on the
+  ///rules//////////////
+  void change_state();
+ 
+ 
+
+  bool throwing_dices(double dice) const;
+ 
 
  public:
   ////////////////////////Constructors////////////////////////////
 
   ///////Parametric///////////
-  Agent(const std::vector<People>& population, Parameters& par, const int N);
+  Agent(const std::vector<People>& population, Parameters& par, int N);
   ////////////Default/////////
   Agent();
   //////////Copy////////////
   Agent(Agent& copy);
   //////////Getters///////
   Matrix<Person>& get_matrix();
-  Person& show_cell(std::size_t r, std::size_t c);
+ 
   std::size_t get_side() const;
   /////////Setter///////
   /////////Setting the first situation and drawing it on the Matrix///////////
   void draw_matrix(People& begin);
 
   ///////////////General functionalities///////////////
-
-  bool throwing_dices(double dice) const;
+   //////////////Member functions/////////////////
+ const Person& show_cell(std::size_t r, std::size_t c)const;
+ 
+  void data_collection(People& collection);
   //////////Counting the infected people around a specific cell of
   ///Matrix/////////
-  int infected_neighbours(std::size_t r, std::size_t c);
+  int infected_neighbours(std::size_t r, std::size_t c) const;
   ////////////Data collection about the vaccine///////////////
   void sorting();
-  /////////////////////Evolving functionalities/////////////////
-  /////////Recognizing the state of a cell and than change it according on the
-  ///rules//////////////
-  void change_state();
-  void data_collection(People& collection);
+  /////////////////////Evolving function/////////////////
   void evolve(People& follow);
   ////////////Distructor////////////
   ~Agent();
