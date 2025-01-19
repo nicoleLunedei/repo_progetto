@@ -27,15 +27,13 @@ struct Matrix {
   friend std::ostream& operator<<(std::ostream& os, const Matrix<U>& matrix);
   ////////////////////////////Interaction with each element///////////////
   template <typename Func>
-  void inside_matrix(Func action);
+  void each_cell(Func action);
 
   template <typename F>
-  void each_cell(F operation);
+  void each_object(F operation);
   /////////General functionalities//////////////
   ////////////Adding an element at the end of current the last line ////////////
   void add(T& plus);
-  //////////Sum of all the elements/////////
-  int sum();
   /////////////////Modify a specific element of the matrix////
   void modify(const T& value, std::size_t r, std::size_t c);
   /////////////////Reading a specific element of the matrix/////////
@@ -83,7 +81,7 @@ Matrix<T>& Matrix<T>::operator=(const Matrix<T>& other) {
       throw std::runtime_error{"They don't have the same number of lines"};
     }
 
-    inside_matrix([&other](T& cell, std::size_t r, std::size_t c) {
+    each_cell([&other](T& cell, std::size_t r, std::size_t c) {
       cell = other.M[r][c];
     });
     return *this;
@@ -134,7 +132,7 @@ bool operator!=(const Matrix<T>& left, const Matrix<T>& right) {
 ////////////////////////////Interaction with each element///////////////
 template <typename T>
 template <typename Func>
-void Matrix<T>::inside_matrix(Func action) {
+void Matrix<T>::each_cell(Func action) {
   for (std::size_t r = 0; r < M.size(); r++) {
     for (std::size_t c = 0; c < M[r].size(); c++) {
       action(M[r][c], r, c);
@@ -144,7 +142,7 @@ void Matrix<T>::inside_matrix(Func action) {
 
 template <typename T>
 template <typename F>
-void Matrix<T>::each_cell(F operation) {
+void Matrix<T>::each_object(F operation) {
   for (std::size_t r = 0; r < M.size(); r++) {
     for (std::size_t c = 0; c < M[r].size(); c++) {
       operation(M[r][c]);
@@ -156,12 +154,7 @@ template <typename T>
 void Matrix<T>::add(T& plus) {
   M.back().push_back(plus);
 }
-template <typename T>
-int Matrix<T>::sum() {
-  int tot = 0;
-  each_cell([this, &tot](T& cell) { tot += static_cast<int>(cell); });
-  return tot;
-}
+
 
 template <typename T>
 void Matrix<T>::modify(const T& value, std::size_t r, std::size_t c) {

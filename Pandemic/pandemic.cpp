@@ -7,9 +7,6 @@
 #include <stdexcept>
 #include <vector>
 
-
-//std::mt19937 Pandemic::gen(std::random_device{}());
-//std::uniform_real_distribution<> Pandemic::dis(0.0, 1.0);
 int total(const vaccine<int>& v){
 
 return (v.no_vax + v.vax);

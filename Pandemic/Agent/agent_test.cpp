@@ -1,9 +1,9 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+
+#include "doctest.h"
 #include "agent.hpp"
 
 #include <memory>
-
-#include "doctest.h"
 void check_state(Agent& a) {
   //////////Saving the previous situation of the matrix////////////
   Matrix<Person> previous(a.get_matrix());
@@ -55,6 +55,14 @@ TEST_CASE("Function"){
 
   std::vector<Person> line3{Person::Susceptible_v, Person::Infected_v, Person::Healed};
   CHECK(sum_one_line(line3) == 11);
+
+  std::vector<std::vector<Person>> two_vector0(7,line1);
+  Matrix<Person> matrix0(two_vector0);
+  CHECK(sum_Matrix(matrix0) == 49);
+
+  std::vector<std::vector<Person>> two_vector1(3,line3);
+  Matrix<Person> matrix1(two_vector1);
+   CHECK(sum_Matrix(matrix1) == 33);
 }
 
 TEST_CASE("Agent Class") {
@@ -109,7 +117,7 @@ TEST_CASE("Agent Class") {
       CHECK(ag1->get_Parameters().omega.vax == 0.);
       CHECK(ag1->get_Parameters().v == 0.);
 
-      ag1->get_matrix().each_cell([&ag1](Person& cell) {
+      ag1->get_matrix().each_object([&ag1](Person& cell) {
         CHECK(cell == Person::Susceptible);
       });
       SUBCASE("Member Functions") {

@@ -108,7 +108,7 @@ TEST_CASE("Matrix Struct") {
     CHECK(member.read(9, 5) == 45);
     /////////////each_cell////////////////
     int max = 0;
-    member.each_cell([&max](int& cell) {
+    member.each_object([&max](int& cell) {
       if (cell > max) {
         max = cell;
       }
@@ -178,7 +178,5 @@ TEST_CASE("Matrix Struct") {
     CHECK_THROWS_WITH(assign2 = line,
                       "They don't have the same number of lines");
 
-    /////////////sum////////////////
-    CHECK(m.sum() == 450);
   }
 }

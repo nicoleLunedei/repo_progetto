@@ -21,6 +21,8 @@ bool is_perfect_square(int num);
 /////////////////////////sum in Person contest/////////////////////////////
 int sum_one_line(std::vector<Person>& pers);
 
+int sum_Matrix(Matrix<Person>& total);
+
 class Agent : public Pandemic {
  private:
   ///////////////Matrix object rappresenting the population/////////////////////

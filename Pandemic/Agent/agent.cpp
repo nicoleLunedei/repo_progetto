@@ -1,6 +1,7 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
+#include <numeric>
 #include "agent.hpp"
 
 ////////////////Checking if the number is a perfect square///////////////////
@@ -9,15 +10,24 @@ bool is_perfect_square(int num) {
   return (root * root == num);
 }
 
-/////////////////////////sum in Person contest/////////////////////////////
+/////////////////////////Sum in Person contest/////////////////////////////
 int sum_one_line(std::vector<Person>& pers) {
   std::vector<int> pers_n;
   for (Person& el : pers) {
     pers_n.push_back(static_cast<int>(el));
   }
-  return std::accumulate(pers_n.begin(), pers_n.end(), 0);
+ return std::accumulate(pers_n.begin(), pers_n.end(), 0);
 }
+////////////////////Sum of an object Matrix<Person>////////////
+int sum_Matrix(Matrix<Person>& total){
 
+ int tot = 0;
+ 
+std::for_each(total.M.begin(), total.M.end(),[&tot]( std::vector<Person>& current){
+     tot+=sum_one_line(current);
+  }) ;
+  return tot ;
+}
 /////////////////////CLASS AGENT///////////////////////////////////////////
 ////////////////////////Constructors////////////////////////////
 
@@ -69,7 +79,7 @@ const Person& Agent::show_cell(std::size_t r, std::size_t c) const{
 /////////Setting the first situation and drawing it on the Matrix///////////
 
 void Agent::draw_matrix(People& begin) {
-  if (M_.sum() != 0) {
+  if (sum_Matrix(M_) != 0) {
     throw std::runtime_error{"You already set the initial condition"};
   }
   
@@ -136,7 +146,7 @@ void Agent::sorting() {
   const int check = population_.back().S_.no_vax;
   ////////////to prevent the unused variable warning/////////////
   (void)check;
-  M_.each_cell([this](Person& cell) {
+  M_.each_object([this](Person& cell) {
     if (cell == Person::Susceptible) {
       if (is_vaccinated()) {
         cell = Person::Susceptible_v;
@@ -221,7 +231,7 @@ void Agent::change_state() {
 }
 
 void Agent::data_collection(People& collection) {
-  M_.each_cell([this, &collection](Person& cell) {
+  M_.each_object([this, &collection](Person& cell) {
     switch (cell) {
       case Person::Susceptible:
 
