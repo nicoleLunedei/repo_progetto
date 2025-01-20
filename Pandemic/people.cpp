@@ -22,7 +22,7 @@ People::People() {
   D_ = 0;
 }
 // Copy Constructor
-People::People(const People& other)
+/*People::People(const People& other)
     : S_{other.S_}, I_{other.I_}, H_{other.H_}, D_{other.D_} {}
 
 ////////////////////// Over loading /////////////////////
@@ -37,7 +37,7 @@ People& People::operator=(const People& value) {
     D_ = value.D_;
   }
   return *this;
-}
+}*/
 bool operator==(const People& left, const People& right) {
   return (left.S_.no_vax == right.S_.no_vax && left.S_.vax == right.S_.vax &&
           left.I_.no_vax == right.I_.no_vax && left.I_.vax == right.I_.vax &&

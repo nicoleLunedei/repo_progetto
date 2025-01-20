@@ -14,10 +14,10 @@ struct People {
   // Default Constructor
   People();
   // Copy Constructor
-  People(const People& other);
+  //People(const People& other);
 
   ////////////////////// Over loading /////////////////////
-  People& operator=(const People& value);
+  //People& operator=(const People& value);
 
   friend bool operator==(const People& left, const People& right);
 

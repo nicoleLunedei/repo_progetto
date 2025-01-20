@@ -142,6 +142,7 @@ int Agent::infected_neighbours(std::size_t r, std::size_t c) const {
 
 ////////////Data collection about the vaccine///////////////
 void Agent::sorting() {
+
   ////////////////Important for the assert////////////////
   const int check = population_.back().S_.no_vax;
   ////////////to prevent the unused variable warning/////////////

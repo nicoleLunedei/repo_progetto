@@ -218,19 +218,19 @@ int main() {
                   << "\n\n";
         eq_v.Print(tt);
       } else {
-        std::cout << "Alright, thank you for your time! Below here there are "
+        std::cout << "Alright, thank you for your time! Here below there are "
                      "the results of your simulation"
                   << '\n';
       }
 
       std::cout << "| Simulation without vaccine |"
                 << "\n\n";
-      std::cout << "The critical threshold is equal to "
-                << eq->calculate_R0() << '\n';
       std::cout << " Numbers of days :" << eq->get_days() << '\n';
       std::cout << "Total counting :"
                 << "\n\n";
       eq->Print(t);
+      std::cout << "The critical threshold is equal to "
+                << eq->calculate_R0() << '\n';
 
     } else {
       std::cout << "Alright! See you next time!" << '\n';
@@ -398,9 +398,6 @@ int main() {
         std::cout << "Day N° :" << t << "\n\n";
         std::cout << "====================="
                   << "\n\n";
-        //std::cout << eq_->get_situation_day(t) << '\n';
-        //std::cout << "====================="
-                  //<< "\n\n";
         std::cout << "Total Counting :" << '\n';
         eq_->Print(t);
 
@@ -492,7 +489,6 @@ int main() {
                   << "\n\n";
 
         eq_vp->sorting();
-        std::cout << eq_vp->get_situation_day(1);
         MAX_IT = 1;
         int tt = 1;
         it = 0;
@@ -629,7 +625,7 @@ int main() {
               std::cout << "Day N° :" << t << "\n\n";
               std::cout << "====================="
                         << "\n\n";
-              std::cout << eq_->get_situation_day(t);
+              std::cout << eq_->get_situation_day(t)<< '\n';
               std::cout << "====================="
                         << "\n\n";
               std::cout << " Total Countig :" << '\n';
@@ -658,7 +654,7 @@ int main() {
               std::cout << "Day N° :" << t << "\n\n";
               std::cout << "====================="
                         << "\n\n";
-              std::cout << eq_->get_situation_day(t);
+              std::cout << eq_->get_situation_day(t)<<'\n';
               std::cout << "====================="
                         << "\n\n";
               eq_->Print(t);
@@ -685,7 +681,7 @@ int main() {
         }
         std::cout << "| Simulation Data|" << '\n';
         std::cout << " ____________________________" << '\n';
-        std::cout << " Numbers of days :" << eq_->get_days();
+        std::cout << " Numbers of days :" << eq_->get_days()<<'\n';
         std::cout << "====================="
                   << "\n\n";
         std::cout << "Total Counting :" << '\n';

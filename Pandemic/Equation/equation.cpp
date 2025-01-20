@@ -42,6 +42,7 @@ void Equation::sorting() {
 
 std::array<double, 6> Equation::update_situation(const int index,
                                                  People const& next) {
+  //////0 = no vaccine, 1 = with vaccine////////////
   assert(index == 1 || index == 0);
   ////////////////Controlling that the vector isn't
   ///empty////////////////////////

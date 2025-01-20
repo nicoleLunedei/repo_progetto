@@ -41,14 +41,14 @@ sf::Color paint(Person& element) {
   }
   return color;
 }
-void writing_Circles(Matrix<sf::CircleShape> circ, std::size_t r,
+/*void writing_Circles(Matrix<sf::CircleShape> circ, std::size_t r,
                      std::size_t c) {
   const float r_ = static_cast<float>(r);
   const float c_ = static_cast<float>(c);
 
   circ[r][c].setPosition(120.f + (c_ * 8.f) + 0.1f, 100.f + (r_ * 8.f) + 0.1f);
   circ[r][c].setRadius(4);
-}
+}*/
 
 int main() {
   int T;
@@ -153,10 +153,8 @@ int main() {
                 circles[r][c].setPosition(120.f + (c_ * 8.f) + 0.1f,
                                           100.f + (r_ * 8.f) + 0.1f);
                 circles[r][c].setRadius(4);
-                // circles[r][c].setRadius(4);
-                // circles[r][c].setPosition(120.f + (c * 8.f)+ 0.1f , 100.f +
-                // (r * 8.f )+ 0.1f);
-                // writing_Circles(circles,r,c);
+    
+               //writing_Circles(circles,r,c);
                 circles[r][c].setFillColor(paint(cell));
                 window1.draw(circles[r][c]);
               });
@@ -417,7 +415,7 @@ int main() {
       std::cout << " 'V' -> to pause  the simulation and introduce the vaccine"
                 << "\n\n";
       std::cout
-          << " When the window appears you click you can launch the simulation"
+          << " When the window appears click one of the keys "
           << "\n\n";
 
       bool simulationOn = false;
@@ -448,20 +446,20 @@ int main() {
           if (event_.type == sf::Event::KeyPressed &&
               event_.key.code == sf::Keyboard::V) {
             if (ag_->get_Parameters().v != 0) {
-              throw std::runtime_error{
-                  "It has been already set the probability of getting "
-                  "vaccinated"};
+                simulationOn = false;
+            std::cout<< "It has been already set the probability of getting "
+                  "vaccinated"<<'\n';
               std::cout << " Press the Space bar to continue"
                         << "\n\n";
-            }
-            //////////////////Impossible introducing vaccine///////
+            } else {
+                simulationOn = false;
+               //////////////////Impossible introducing vaccine///////
             if (total(ag_->get_evolution().back().S_) == 0) {
-              throw std::runtime_error{"There are no susceptible people left"};
+              std::cout<<"There are no susceptible people left"<<'\n';
               std::cout << " Press the Space bar to continue"
                         << "\n\n";
-            }
-
-            simulationOn = false;
+            } else {
+            
             double v;
             std::cout << "Insert the probability of getting vaccinated"
                       << "\n\n";
@@ -473,13 +471,14 @@ int main() {
                 ag_->change_after_vacc(0.71, 0.65);
                 ag_->sorting();
 
-                input2 = 2;
+                input2 = true;
               } catch (std::runtime_error& e) {
                 std::cout << "Error: " << e.what() << "\n\n";
-                ///////////////////Cleaning the in stream/////////////////
+                   ///////////////////Cleaning the in stream/////////////////
                 std::cin.clear();  // Remove the errore state
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
                                 '\n');
+                std::cout<< "Please, insert again the probabilities of getting vaccinated"<<'\n';
                 std::cin >> v;
                 it++;
                 if (it == MAX_IT) {
@@ -489,10 +488,11 @@ int main() {
                   v = 0.74;
                   break;
                 }
+                
+               
               }
             }
-            std::cout
-                << "For the vaccinated people the probability have changed : "
+        std::cout<< "For the vaccinated people the probability have changed : "
                 << '\n';
             std::cout << "Beta(Infection) :" << ag_->get_Parameters().beta.vax
                       << '\n'
@@ -503,6 +503,14 @@ int main() {
             std::cout << "====================================================="
                          "======================"
                       << "\n\n";
+
+            }
+
+            }
+           
+          
+        
+           
           }
         }
 
@@ -634,8 +642,8 @@ int main() {
                   window_.draw(circles_[r][c]);
                 });
 
-            ////////////////////Stampa su terminale della matrice e dei
-            ///numeri////////////
+            ////////////////////Printing numeric matrix///////////
+        
             std::cout << "Day Giorno N° " << t << '\n';
             std::cout << ag_->get_matrix();
             std::cout << "Ecco i numeri : " << '\n';

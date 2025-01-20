@@ -1,7 +1,6 @@
 #include "pandemic.hpp"
 
 #include <array>
-#include <iostream>
 #include <random>
 #include <cassert>
 #include <stdexcept>
@@ -67,14 +66,12 @@ Pandemic::Pandemic(Pandemic& copy)
   par_ = p;
 }*/
 void Pandemic::introduce_vacc(double vv) {
-  if (par_.v != 0.)
-    throw std::runtime_error{"You can't introduce the vaccine more than once"};
 
   if ((vv < 0. || vv > 1.))
-    throw std::runtime_error{
-        "The values of the parameters must be inside the interval [0,1] !"};
+    throw std::runtime_error{"The values of the parameters must be inside the interval [0,1] !"};
   par_.v = vv;
 }
+
 
 void Pandemic::set_initial_condition(const People& start) {
   if (population_.empty()) {

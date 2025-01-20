@@ -20,7 +20,7 @@ Parameters::Parameters(const vaccine<double>& b,
 Parameters::Parameters()
     : beta{0.6, 0.}, gamma{0.2, 0.}, omega{0.35, 0.}, v{0.} {}
 // Copy Constructor
-Parameters::Parameters(
+/*Parameters::Parameters(
     const Parameters&
         other) { 
   beta.no_vax = other.beta.no_vax;
@@ -44,7 +44,7 @@ Parameters& Parameters::operator=(const Parameters& other) {
     v = other.v;
   }
   return *this;
-}
+}*/
 
 // Operator ==
 bool operator==(const Parameters& left, const Parameters& right) {
