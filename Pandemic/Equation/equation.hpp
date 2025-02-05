@@ -16,7 +16,7 @@ class Equation : public Pandemic {
   ///////Default////////////
   Equation();
 
-  ////////////Data collection about the vaccine///////////////
+ //Does a data collection about who decides to get vaccinated, according the probability to get vaccinated
   void sorting();
   ////////////////////////////////////Evolving
   ///functionalities////////////////////////////
@@ -30,7 +30,7 @@ class Equation : public Pandemic {
   ////////////////////////Summing data////////////////////
   std::array<int, 4> calculate( int t);
   ////////////////////Printing on terminal///////////////
-  void Print( int d);
+  void print( int d);
   ////////////Distructor////////////
   ~Equation();
 };

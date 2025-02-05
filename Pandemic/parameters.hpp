@@ -4,16 +4,16 @@
 #include "vaccine.hpp"
 
 struct Parameters {  /////////Infection////////
-  vaccine<double> beta;
+  Vaccine<double> beta;
   /////////Healing/////////////
-   vaccine<double> gamma;
+   Vaccine<double> gamma;
   //////////Dying//////////
-   vaccine<double> omega;
+   Vaccine<double> omega;
   /////////getting vaccinated//////////////
    double v;
   // Parametric Constructor
-  Parameters(const vaccine<double>& b, const vaccine<double>& g,
-             const vaccine<double>& o, double v);
+  Parameters(const Vaccine<double>& b, const Vaccine<double>& g,
+             const Vaccine<double>& o, double v);
   // Default Constructor
   Parameters();
   // Copy Constructor

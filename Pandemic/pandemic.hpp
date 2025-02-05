@@ -52,7 +52,7 @@ const People transform_People(const std::array<T, N>& t) {
   return {{t[0], t[1]}, {t[2], t[3]}, t[4], t[5]};
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////
-int total(const vaccine<int>& v);
+int total(const Vaccine<int>& v);
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Pandemic {
@@ -69,10 +69,6 @@ class Pandemic {
   bool check_R0();
   void check_normalization() const;
 
-
-
-  /////////////Does a data collection about who decides to get vaccinated,
-  /// according the probability to get vaccinated
   bool is_vaccinated();
 
  public:

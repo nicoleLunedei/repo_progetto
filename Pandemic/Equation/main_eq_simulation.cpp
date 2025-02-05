@@ -44,7 +44,7 @@ int main() {
     std::cout << " The population corrisponds to "
               << eq->get_number_population() << " people" << '\n';
     std::cout << "Situation of the first day :" << '\n';
-    eq->Print(1);
+    eq->print(1);
     std::cout << " Note the following probabilities are refering to what "
                  "happends in one day  "
               << "\n\n";
@@ -83,7 +83,7 @@ int main() {
       ///////////////Automatic evoluation////////////////////
       while (!eq->terminate()) {
         std::cout << "Day N° :" << t << "\n\n";
-        eq->Print(t);
+        eq->print(t);
 
         if (total(eq->get_evolution().back().I_) == 0) {
           it++;
@@ -190,7 +190,7 @@ int main() {
 
           std::cout << "Total counting :"
                     << "\n\n";
-          eq_v.Print(tt);
+          eq_v.print(tt);
 
           if (total(eq_v.get_evolution().back().I_) == 0) {
             it++;
@@ -216,7 +216,7 @@ int main() {
         std::cout << " Numbers of days :" << eq_v.get_days() << '\n';
         std::cout << "Total counting :"
                   << "\n\n";
-        eq_v.Print(tt);
+        eq_v.print(tt);
       } else {
         std::cout << "Alright, thank you for your time! Here below there are "
                      "the results of your simulation"
@@ -228,7 +228,7 @@ int main() {
       std::cout << " Numbers of days :" << eq->get_days() << '\n';
       std::cout << "Total counting :"
                 << "\n\n";
-      eq->Print(t);
+      eq->print(t);
       std::cout << "The critical threshold is equal to "
                 << eq->calculate_R0() << '\n';
 
@@ -399,7 +399,7 @@ int main() {
         std::cout << "====================="
                   << "\n\n";
         std::cout << "Total Counting :" << '\n';
-        eq_->Print(t);
+        eq_->print(t);
 
         if (total(eq_->get_evolution().back().I_) == 0) {
           it++;
@@ -496,7 +496,7 @@ int main() {
           std::cout << "Day N° :" << tt << "\n\n";
           std::cout << eq_vp->get_situation_day(tt) << '\n';
           std::cout << "Total Counting : " << '\n';
-          eq_vp->Print(tt);
+          eq_vp->print(tt);
 
           if (total(eq_vp->get_evolution().back().I_) == 0) {
             it++;
@@ -517,7 +517,7 @@ int main() {
         std::cout << "| Simulation with vaccine |"
                   << "\n\n";
         std::cout << " Numbers of days :" << eq_vp->get_days() << '\n';
-        eq_vp->Print(tt);
+        eq_vp->print(tt);
 
       } else {
         std::cout << "Alright, thank you for your time! Below here there are "
@@ -528,7 +528,7 @@ int main() {
       std::cout << "| Simulation without vaccine |"
                 << "\n\n";
       std::cout << " Numbers of days :" << eq_->get_days() << '\n';
-      eq_->Print(t);
+      eq_->print(t);
     }  ////////////////////Automatic scope closed//////////////////////
     else {
       /////////////////Evolution with a choosen number of days///////////////
@@ -546,7 +546,7 @@ int main() {
         std::cout << "====================="
                   << "\n\n";
         std::cout << "Total Counting : " << '\n';
-        eq_->Print(t);
+        eq_->print(t);
 
         eq_->evolve();
         /////////////////Imposing a delay///////////////
@@ -629,7 +629,7 @@ int main() {
               std::cout << "====================="
                         << "\n\n";
               std::cout << " Total Countig :" << '\n';
-              eq_->Print(t);
+              eq_->print(t);
               //////////////////Stop///////////////
               if (total(eq_->get_evolution().back().I_) == 0) {
                 it++;
@@ -657,7 +657,7 @@ int main() {
               std::cout << eq_->get_situation_day(t)<<'\n';
               std::cout << "====================="
                         << "\n\n";
-              eq_->Print(t);
+              eq_->print(t);
 
               if (total(eq_->get_evolution().back().I_) == 0) {
                 it++;
@@ -685,7 +685,7 @@ int main() {
         std::cout << "====================="
                   << "\n\n";
         std::cout << "Total Counting :" << '\n';
-        eq_->Print(t);
+        eq_->print(t);
       }
     }
     /////////////////////Chosen scope closed//////////////////

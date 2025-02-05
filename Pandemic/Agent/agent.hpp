@@ -30,8 +30,6 @@ class Agent : public Pandemic {
   /////////Recognizing the state of a cell and than change it according on the
   ///rules//////////////
   void change_state();
- 
- 
 
   bool throwing_dices(double dice) const;
  

@@ -6,11 +6,16 @@
 #include <stdexcept>
 #include <vector>
 
-int total(const vaccine<int>& v){
+int total(const Vaccine<int>& v){
 
 return (v.no_vax + v.vax);
 
 }
+/////////////Generates a casual number
+double generate() { 
+ std::mt19937 gen(std::random_device{}());
+ std::uniform_real_distribution<> dis(0.0, 1.0);
+  return dis(gen); }
 ///////////////////////////////////////Pandemic
 /// Class///////////////////////////////////
 ////////////////////////Constructors////////////////////////////
@@ -66,7 +71,7 @@ Pandemic::Pandemic(Pandemic& copy)
   par_ = p;
 }*/
 void Pandemic::introduce_vacc(double vv) {
-
+  
   if ((vv < 0. || vv > 1.))
     throw std::runtime_error{"The values of the parameters must be inside the interval [0,1] !"};
   par_.v = vv;
@@ -99,7 +104,7 @@ void Pandemic::set_initial_condition(const People& start) {
     /////////////////// Coherency between number population and the sum of the
     ///Infected and Susceptible people///////////////
     const int tot = sum(transform_Array<int, 6>(start));
-    if (tot <= get_number_population()) {
+    if (tot == get_number_population()) {
       add_data(start);
       population_.back().S_.no_vax +=
           (N_ - tot);
@@ -181,11 +186,6 @@ void Pandemic::add_data(const People& add) {
          (N_));
   population_.push_back(add);
 }
-/////////////Generates a casual number
-double generate() { 
- std::mt19937 gen(std::random_device{}());
- std::uniform_real_distribution<> dis(0.0, 1.0);
-  return dis(gen); }
 
 /////////////Does a data collection about who decides to get vaccinated,
 /// according the probability to get vaccinated

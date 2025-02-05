@@ -4,12 +4,12 @@
 #include "vaccine.hpp"
 
 struct People {
-  vaccine<int> S_;
-  vaccine<int> I_;
+  Vaccine<int> S_;
+  Vaccine<int> I_;
   int H_;
   int D_;
   // Parametric Constructor
-  People(const vaccine<int>& s, const vaccine<int>& i, int h,
+  People(const Vaccine<int>& s, const Vaccine<int>& i, int h,
          int d);
   // Default Constructor
   People();

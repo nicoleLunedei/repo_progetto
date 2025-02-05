@@ -122,10 +122,11 @@ const People Equation::fix( std::array<double, 6>&& next) {
   assert(diff >= 0);
   /////////////////////Searching for the double number with the greatest decimal
   ///part/////////////////////////////
+  double& max_el = *maximum_dec(next);
   if (0 < diff && diff < 2) {
-    *maximum_dec(next) += 1;
+    max_el += 1;
   } else {
-    *maximum_dec(next) += diff;
+    max_el+= std::floor(diff);
   }
   return transform_People(integer_part(next));
 }
@@ -164,7 +165,7 @@ std::array<int, 4> Equation::calculate(const int t) {
   return calc;
 }
 ////////////////////Printing on terminal////////////////////
-void Equation::Print( int d) {
+void Equation::print( int d) {
   std::cout << "S = " << calculate(d)[0] << " || ";
   std::cout << "I = " << calculate(d)[1] << " || ";
   std::cout << "H = " << calculate(d)[2] << " || ";

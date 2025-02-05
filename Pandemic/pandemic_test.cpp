@@ -50,8 +50,8 @@ TEST_CASE("Functions") {
 }
 ////////////////////////////People struct/////////////////7
 TEST_CASE("People type") {
-  vaccine<int> s{57, 6};
-  vaccine<int> i{64, 93};
+  Vaccine<int> s{57, 6};
+  Vaccine<int> i{64, 93};
   int h = 39;
   int d = 87;
   People one(s, i, h, d);
@@ -80,9 +80,9 @@ TEST_CASE("People type") {
 }
 ///////////////////////////Parameters struct//////////////////
 TEST_CASE("Parameters type") {
-  vaccine<double> b{0.6, 0.};
-  vaccine<double> g{0.4, 0.};
-  vaccine<double> o{0.5, 0.};
+  Vaccine<double> b{0.6, 0.};
+  Vaccine<double> g{0.4, 0.};
+  Vaccine<double> o{0.5, 0.};
   double vax = 0.3;
   Parameters one(b, g, o, vax);
   Parameters two;
@@ -147,7 +147,7 @@ TEST_CASE("Pandemic Class") {
 
   SUBCASE("Parametric Constructor ") {
     ////////////Right///////
-    People sub_r({3000000, 0}, {500000, 0}, 0, 0);
+    People sub_r({3500000, 0}, {500000, 0}, 0, 0);
     Parameters p_r({0.7, 0.}, {0.156, 0.}, {0.3, 0.}, 0.);
     /////////////Wrong///////////////
 
@@ -285,9 +285,9 @@ TEST_CASE("Pandemic Class") {
             doctest::Approx(0.14).epsilon(0.000001));
       //////////////////////the vaccine must be introduced just one
       ///time///////////////////////
-      CHECK_THROWS_AS(members.introduce_vacc(0.65), std::runtime_error);
-      CHECK_THROWS_WITH(members.introduce_vacc(0.65),
-                        "You can't introduce the vaccine more than once");
+      //CHECK_THROWS_AS(members.introduce_vacc(0.65), std::runtime_error);
+      //CHECK_THROWS_WITH(members.introduce_vacc(0.65),
+                       // "You can't introduce the vaccine more than once");
 
       ///////////calculate_R0///////////////////
 

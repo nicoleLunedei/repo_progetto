@@ -9,7 +9,7 @@
 
 //////////////////// People Struct///////////////////
 // Parametric Constructor
-People::People(const vaccine<int>& s, const  vaccine<int>& i,
+People::People(const Vaccine<int>& s, const  Vaccine<int>& i,
                 int h, int d)
     : S_{s}, I_{i}, H_{h}, D_{d} {}
 // Default Constructor

@@ -8,9 +8,9 @@
 #include "parameters.hpp"
 // Struct Parameters
 // Parametric Constructor
-Parameters::Parameters(const vaccine<double>& b,
-                       const vaccine<double>& g,
-                       const vaccine<double>& o, double vv)
+Parameters::Parameters(const Vaccine<double>& b,
+                       const Vaccine<double>& g,
+                       const Vaccine<double>& o, double vv)
     : beta{b},
       gamma{g},
       omega{o},
